@@ -10,7 +10,8 @@ module.exports = React.createClass({
 	displayName: 'items',
 	getInitialState: function(){
 		return {
-			active: null
+			active: null,
+			toggle: true
 		};
 	},
 	doMouseOver: function(index){
@@ -77,9 +78,17 @@ module.exports = React.createClass({
 
 		this.doClick(index);
 	},
+	doToggle: function(){
+		document.getElementById('feeds').style.display = this.state.toggle ? 'none' : 'block';
+		document.getElementById('items').style.paddingLeft = this.state.toggle ? '20px' : '260px';
+		this.setState({
+			toggle: !this.state.toggle
+		});
+	},
 	render: function(){
 		mousetrap.bind('a', this.doPrev);
 		mousetrap.bind('s', this.doNext);
+		mousetrap.bind('z', this.doToggle);
 
 		return (
 			<ul>{this.props.feeds.map(function(item, index){
