@@ -1,72 +1,91 @@
 var _ = require('lodash'),
-	remote = require('remote'),
-	request = require('request'),
+	mousetrap = require('mousetrap'),
 	React = require('react'),
-	Feeds = require('./feeds'),
-	Token = remote.getCurrentWindow().token;
+	Modal = require('react-modal');
+
+var style = {
+	title: {
+		marginBottom: '10px',
+		fontWeight: 'bold',
+		cursor: 'pointer'
+	},
+	close: {
+		float: 'right'
+	},
+	browser: {
+		width: '100%',
+		height: '90%',
+	}
+};
+
+Modal.setAppElement(document.getElementById('modal'));
+Modal.injectCSS();
 
 module.exports = React.createClass({
-	displayName: 'items',
-	getInitialState: function(){
+	displayName: 'feeds',
+	getInitialState: function() {
 		return {
-			active: null
+			modalIsOpen: false,
+			active: null,
+			url: ''
 		};
 	},
-	doMouseOver: function(index){
-		if (index !== this.state.active) {
-			React.findDOMNode(this).childNodes[index].style.backgroundColor = '#fafafa';
-		}
-	},
-	doMouseOut: function(index){
-		if (index !== this.state.active) {
-			React.findDOMNode(this).childNodes[index].style.backgroundColor = '#ffffff';
-		}
-	},
-	doClick: function(index){
-		this.state.active = index;
-
-		_.each(React.findDOMNode(this).childNodes, function(child, i){
-			if (index === i) {
-				child.style.backgroundColor = '#fffafa';
-			} else {
-				child.style.backgroundColor = '#ffffff';
-			}
+	doOpen: function(index){
+		this.setState({
+			modalIsOpen: true,
+			url: this.props.items[index].link
 		});
-
-		var url = 'http://reader.livedoor.com/api/unread';
-		if (this.props.items[index].unread_count === 0) {
-			url = 'http://reader.livedoor.com/api/all';
+	},
+	doClose: function(){
+		this.setState({
+			modalIsOpen: false
+		});
+	},
+	doPrev: function(){
+		var index = _.isNull(this.state.active) ? 0 : this.state.active - 1;
+		if (index < 0) {
+			index = 0;
 		}
 
-		request.post(url, {
-			headers: {
-				'Authorization': 'Bearer ' + Token
-			},
-			form: {
-				subscribe_id: this.props.items[index].subscribe_id
-			}
-		}, function(error, response, body){
-			if (error) {
-				return;
-			}
-
-			React.render(React.createElement(Feeds, {
-				feeds: JSON.parse(body).items,
-			}), document.querySelector('#feeds'));
+		document.getElementById(this.props.items[index].id).scrollIntoView();
+		this.setState({
+			active: index
 		});
+	},
+	doNext: function(){
+		var index = _.isNull(this.state.active) ? 0 : this.state.active + 1;
+		if (index >= this.props.items.length) {
+			index = this.props.items.length - 1;
+		}
+
+		document.getElementById(this.props.items[index].id).scrollIntoView();
+		this.setState({
+			active: index
+		});
+	},
+	doBrower: function(){
+		this.doOpen(_.isNull(this.state.active) ? 0 : this.state.active);
 	},
 	render: function(){
+		mousetrap.bind('k', this.doPrev);
+		mousetrap.bind('j', this.doNext);
+		mousetrap.bind('v', this.doBrower);
+		mousetrap.bind('n', this.doClose);
+
 		return (
 			<ul>{this.props.items.map(function(item, index){
-				return (
-					<li key={item.subscribe_id}
-						onMouseOver={this.doMouseOver.bind(this, index)}
-						onMouseOut={this.doMouseOut.bind(this, index)}
-						onClick={this.doClick.bind(this, index)}>
-						<img src={item.icon}/> {item.title} ({item.unread_count})
-					</li>
-				);
-			}, this)}</ul>
+					return (
+						<li id={item.id} key={item.id}>
+							<p style={style.title} onClick={this.doOpen.bind(this, index)}>{item.title}</p>
+							<div dangerouslySetInnerHTML={{__html: item.body}}/>
+						</li>
+					);
+				}, this)}
+				<Modal isOpen={this.state.modalIsOpen}>
+					<div style={style.close}><button onClick={this.doClose}>閉じる</button></div>
+					<webview src={this.state.url} style={style.browser}></webview>
+				</Modal>
+			</ul>
 		);
 	}
 });
