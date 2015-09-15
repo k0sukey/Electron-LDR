@@ -1,13 +1,31 @@
 var _ = require('lodash'),
+	moment = require('moment'),
 	mousetrap = require('mousetrap'),
 	React = require('react'),
 	Modal = require('react-modal');
 
+moment.locale('ja');
+
 var style = {
 	title: {
-		marginBottom: '10px',
+		marginBottom: '4px',
+		fontSize: '20px',
 		fontWeight: 'bold',
 		cursor: 'pointer'
+	},
+	description: {
+		marginBottom: '20px',
+		fontSize: '14px',
+		color: '#aaaaaa'
+	},
+	created: {
+		marginRight: '6px'
+	},
+	author: {
+		marginRight: '6px'
+	},
+	category: {
+		marginRight: '6px'
 	},
 	close: {
 		float: 'right'
@@ -63,20 +81,28 @@ module.exports = React.createClass({
 			active: index
 		});
 	},
-	doBrower: function(){
-		this.doOpen(_.isNull(this.state.active) ? 0 : this.state.active);
+	doToggle: function(){
+		if (this.state.modalIsOpen) {
+			this.doClose();
+		} else {
+			this.doOpen(_.isNull(this.state.active) ? 0 : this.state.active);
+		}
 	},
 	render: function(){
 		mousetrap.bind('k', this.doPrev);
 		mousetrap.bind('j', this.doNext);
-		mousetrap.bind('v', this.doBrower);
-		mousetrap.bind('n', this.doClose);
+		mousetrap.bind('v', this.doToggle);
 
 		return (
 			<ul>{this.props.items.map(function(item, index){
 					return (
 						<li id={item.id} key={item.id}>
 							<p style={style.title} onClick={this.doOpen.bind(this, index)}>{item.title}</p>
+							<p style={style.description}>
+								<span style={style.created}>{(moment(item.created_on * 1000).fromNow())}</span>
+								<span style={style.author}>by {item.author}</span>
+								<span style={style.category}>{item.category}</span>
+							</p>
 							<div dangerouslySetInnerHTML={{__html: item.body}}/>
 						</li>
 					);
