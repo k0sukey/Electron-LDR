@@ -15,20 +15,22 @@ body {
 	left: 0;
 	bottom: 0;
 	width: 240px;
-	border-right: 1px solid #dddddd;
+	background-color: #268fc7;
 	overflow-x: hidden;
 	overflow-y: auto;
 	-webkit-overflow-scrolling: touch;
 }
 #feeds ul {
+	margin: 20px 0;
 	list-style-type: none;
 }
 #feeds ul li {
+	margin: 0 10px 0 0;
 	padding: 6px 4px;
-	border-bottom: 1px solid #dddddd;
-	background-color: #ffffff;
-	font-size: 14px;
+	color: #ffffff;
+	font-size: 12px;
 	cursor: pointer;
+	-webkit-border-radius: 0 4px 4px 0;
 }
 #feeds ul li img {
 	padding-right: 4px;
@@ -45,5 +47,6 @@ body {
 	margin: 6px 0;
 	padding: 6px 4px;
 	border-bottom: 1px solid #dddddd;
+	color: #3d3c40;
 	font-size: 14px;
 }

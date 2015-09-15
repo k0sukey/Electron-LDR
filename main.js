@@ -10,8 +10,8 @@ var window = null;
 app.on('ready', function(){
 	window = new BrowserWindow({
 		title: 'Electron-LDR',
-		width: 800,
-		height: 600
+		width: 1024,
+		height: 768
 	});
 
 	window.token = token;

@@ -18,12 +18,14 @@ module.exports = React.createClass({
 	},
 	doMouseOver: function doMouseOver(index) {
 		if (index !== this.state.active) {
-			React.findDOMNode(this).childNodes[index].style.backgroundColor = '#fafafa';
+			React.findDOMNode(this).childNodes[index].style.color = '#7fdbff';
+			React.findDOMNode(this).childNodes[index].style.backgroundColor = '#001f3f';
 		}
 	},
 	doMouseOut: function doMouseOut(index) {
 		if (index !== this.state.active) {
-			React.findDOMNode(this).childNodes[index].style.backgroundColor = '#ffffff';
+			React.findDOMNode(this).childNodes[index].style.color = '#ffffff';
+			React.findDOMNode(this).childNodes[index].style.backgroundColor = 'transparent';
 		}
 	},
 	doClick: function doClick(index) {
@@ -33,9 +35,11 @@ module.exports = React.createClass({
 
 		_.each(React.findDOMNode(this).childNodes, function (child, i) {
 			if (index === i) {
-				child.style.backgroundColor = '#fffafa';
+				child.style.color = '#7fdbff';
+				child.style.backgroundColor = '#001f3f';
 			} else {
-				child.style.backgroundColor = '#ffffff';
+				child.style.color = '#ffffff';
+				child.style.backgroundColor = 'transparent';
 			}
 		});
 
