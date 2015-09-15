@@ -57,16 +57,22 @@ module.exports = React.createClass({
 			url = 'http://reader.livedoor.com/api/all';
 		}
 
+		var that = this;
+
 		request.post(url, options, function (error, response, body) {
 			if (error) {
 				return;
 			}
+
+			React.unmountComponentAtNode(document.querySelector('#items'));
 
 			var json;
 			try {
 				React.render(React.createElement(Items, {
 					items: JSON.parse(body).items
 				}), document.querySelector('#items'));
+
+				that.props.feeds[index].unread_count = 0;
 			} catch (e) {}
 
 			request.post('http://reader.livedoor.com/api/touch_all', options);
@@ -95,11 +101,17 @@ module.exports = React.createClass({
 			toggle: !this.state.toggle
 		});
 	},
-	render: function render() {
+	componentDidMount: function componentDidMount() {
 		mousetrap.bind('a', this.doPrev);
 		mousetrap.bind('s', this.doNext);
 		mousetrap.bind('z', this.doToggle);
-
+	},
+	componentWillUnmount: function componentWillUnmount() {
+		mousetrap.unbind('a');
+		mousetrap.unbind('s');
+		mousetrap.unbind('z');
+	},
+	render: function render() {
 		return React.createElement(
 			'ul',
 			null,

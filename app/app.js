@@ -30,6 +30,8 @@ var render = function(){
 				return b.unread_count - a.unread_count;
 			});
 
+			React.unmountComponentAtNode(document.querySelector('#feeds'));
+
 			React.render(React.createElement(Feeds, {
 				feeds: json,
 			}), document.querySelector('#feeds'));

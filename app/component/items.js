@@ -90,11 +90,24 @@ module.exports = React.createClass({
 			this.doOpen(_.isNull(this.state.active) ? 0 : this.state.active);
 		}
 	},
-	render: function render() {
+	componentDidMount: function componentDidMount() {
 		mousetrap.bind('k', this.doPrev);
 		mousetrap.bind('j', this.doNext);
 		mousetrap.bind('v', this.doToggle);
 
+		if (this.props.items[0]) {
+			document.getElementById(this.props.items[0].id).scrollIntoView();
+			this.setState({
+				active: 0
+			});
+		}
+	},
+	componentWillUnmount: function componentWillUnmount() {
+		mousetrap.unbind('k');
+		mousetrap.unbind('j');
+		mousetrap.unbind('v');
+	},
+	render: function render() {
 		return React.createElement(
 			'ul',
 			null,
