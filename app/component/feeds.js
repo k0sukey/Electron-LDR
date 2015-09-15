@@ -39,19 +39,21 @@ module.exports = React.createClass({
 			}
 		});
 
-		var url = 'http://reader.livedoor.com/api/unread';
-		if (this.props.feeds[index].unread_count === 0) {
-			url = 'http://reader.livedoor.com/api/all';
-		}
-
-		request.post(url, {
+		var url = 'http://reader.livedoor.com/api/unread',
+		    options = {
 			headers: {
 				'Authorization': 'Bearer ' + Token
 			},
 			form: {
 				subscribe_id: this.props.feeds[index].subscribe_id
 			}
-		}, function (error, response, body) {
+		};
+
+		if (this.props.feeds[index].unread_count === 0) {
+			url = 'http://reader.livedoor.com/api/all';
+		}
+
+		request.post(url, options, function (error, response, body) {
 			if (error) {
 				return;
 			}
@@ -62,6 +64,8 @@ module.exports = React.createClass({
 					items: JSON.parse(body).items
 				}), document.querySelector('#items'));
 			} catch (e) {}
+
+			request.post('http://reader.livedoor.com/api/touch_all', options);
 		});
 	},
 	doPrev: function doPrev() {
