@@ -1,5 +1,4 @@
 var _ = require('lodash'),
-	cheerio = require('cheerio'),
 	fs = require('fs'),
 	path = require('path'),
 	remote = require('remote'),
@@ -14,27 +13,18 @@ function doAuthorize() {
 		return;
 	}
 
-	request.post('https://member.livedoor.com/login/index', function(error, response, body){
-		if (error) {
+	request.post('https://member.livedoor.com/login/index', {
+		form: {
+			livedoor_id: livedoorid,
+			password: password,
+			auto_login: 1
+		}
+	}, function(error, response, body){
+		if (error || body !== '') {
 			return;
 		}
 
-		var $ = cheerio.load(body);
-
-		request.post('https://member.livedoor.com/login/index', {
-			form: {
-				livedoor_id: livedoorid,
-				password: password,
-				_token: $('input[name=_token]').val(),
-				auto_login: 1
-			}
-		}, function(error, response, body){
-			if (error || body !== '') {
-				return;
-			}
-
-			Cookie.set(response.headers['set-cookie']);
-			remote.getCurrentWindow().emit('authorize');
-		});
+		Cookie.set(response.headers['set-cookie']);
+		remote.getCurrentWindow().emit('authorize');
 	});
 }
