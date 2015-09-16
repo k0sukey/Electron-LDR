@@ -51,9 +51,9 @@ $ npm install
 $ npm start
 ```
 
-##　LDR API のつなぎ込み状況
+## LDR API のつなぎ込み状況
 
-[http://zuzu.hateblo.jp/entry/20091011/1255337739](http://zuzu.hateblo.jp/entry/20091011/1255337739)
+**参考** [http://zuzu.hateblo.jp/entry/20091011/1255337739](http://zuzu.hateblo.jp/entry/20091011/1255337739)
 
 - [ ] **/api/feed/discover** POST ```{ feedlink: String }```
 - [ ] **/api/feed/unsubscribe** POST ```{ subscribe_id: String }```
