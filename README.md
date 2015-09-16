@@ -9,6 +9,7 @@ Live Dwango Reader（旧 Live Door Reader）を Electron でデスクトップ�
 
 ## できること
 
+* 認証
 * 登録されているフィードの一覧を読み込む
 * 選択されたフィードを読み込む
 * 選択されたウェブページを読み込む
@@ -25,7 +26,6 @@ Live Dwango Reader（旧 Live Door Reader）を Electron でデスクトップ�
 
 ## まだできていないこと
 
-* 認証
 * すべてのキーボードショートカット
 
 その他いっぱい。
@@ -45,38 +45,28 @@ $ cd Electron-LDR
 $ npm install
 ```
 
-認証ができていないので、[http://api.ma.la/reader.html](http://api.ma.la/reader.html) からアクセストークンをもらってきます。
-authorize して、インスペクタ等でローカルストレージにあるアクセストークンを package.json にコピペしてください。
-有効期限が切れたらもう一度 authorize すれば OK です。
-
-```json
-{
-  "access_token": "****************************************",
-  "token_type": "Bearer",
-  "expires_in": 7200,
-  "created_at": 1442133518
-}
-```
-
-↑の access_token を、
-
-```json
-{
-  "name": "Electron-LDR",
-  // 略
-  "devDependencies": {
-    "electron-packager": "^5.0.2",
-    "electron-prebuilt": "^0.31.0",
-    "gulp": "^3.9.0",
-    "gulp-babel": "^5.2.1",
-    "gulp-load-plugins": "^0.10.0"
-  },
-  "token": "ここにコピペしてください"
-}
-```
-
 コマンドラインで起動します。
 
 ```sh
 $ npm start
 ```
+
+##　LDR API のつなぎ込み状況
+
+[http://zuzu.hateblo.jp/entry/20091011/1255337739](http://zuzu.hateblo.jp/entry/20091011/1255337739)
+
+- [ ] **/api/feed/discover** POST ```{ feedlink: String }```
+- [ ] **/api/feed/unsubscribe** POST ```{ subscribe_id: String }```
+- [x] **/api/subs** GET/POST ```{ unread: 0/1 }```
+- [x] **/api/all** GET/POST ```{ subscribe_id: String, offset:Number, limit: Number}```
+- [x] **/api/unread** GET/POST ```{ subscribe_id: String }```
+- [x] **/api/touch_all** GET/POST ```{ subscribe_id: String }``` クッキーに ```reader_sid``` も必要
+- [ ] **/api/feed/set_rate** POST ```{ subscribe_id: String, rate: [0-5] }```
+- [ ] **/api/folders** GET/POST
+- [ ] **/api/folder/create** POST ```{ name: String }```
+- [ ] **/api/folder/delete** ???
+- [ ] **/api/feed/move** POST ```{ subscribe_id: String, to: String }```
+- [ ] **/api/pin/all** POST
+- [ ] **/api/pin/add** POST ```{ link: String, title: String }```
+- [ ] **/api/pin/remove** POST ```{ ApiKey: String, link: String }```
+- [ ] **/api/pin/clear** POST
