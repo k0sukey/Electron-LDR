@@ -25,6 +25,6 @@ function doAuthorize() {
 		}
 
 		Cookie.set(response.headers['set-cookie']);
-		remote.getCurrentWindow().emit('authorize');
+		remote.getCurrentWindow().emit('authorized');
 	});
 }

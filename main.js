@@ -23,7 +23,7 @@ app.on('ready', function(){
 		splash = null;
 	});
 
-	splash.on('authorize', function(){
+	splash.on('authorized', function(){
 		window = new BrowserWindow({
 			title: 'Electron-LDR',
 			width: 1024,
@@ -51,7 +51,7 @@ app.on('ready', function(){
 					return;					
 				}
 
-				splash.emit('authorize');
+				splash.emit('authorized');
 			} else {
 				splash.loadUrl('file://' + path.join(__dirname, 'app', 'html', 'authorize.html'));
 			}
