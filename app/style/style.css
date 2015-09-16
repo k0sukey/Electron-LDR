@@ -33,7 +33,7 @@ body {
 	-webkit-border-radius: 0 4px 4px 0;
 }
 #feeds ul li img {
-	padding-right: 4px;
+	padding: 0 4px 0 0;
 }
 #items {
 	padding: 20px 20px 20px 260px;

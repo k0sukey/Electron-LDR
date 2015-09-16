@@ -1,19 +1,18 @@
 var _ = require('lodash'),
 	mousetrap = require('mousetrap'),
-	moment = require('moment'),
-	path = require('path'),
 	remote = require('remote'),
 	request = require('request'),
 	React = require('react'),
-	Feeds = require('../component/feeds'),
-	Token = remote.getCurrentWindow().token;
+	Cookie = require('../cookie'),
+	Feeds = require('../component/feeds');
 
 var sidebar;
 
 var render = function(){
 	request.post('http://reader.livedoor.com/api/subs', {
 		headers: {
-			'Authorization': 'Bearer ' + Token
+			'User-Agent': remote.getCurrentWindow().useragent,
+			Cookie: Cookie.get()
 		},
 		form: {
 			unread: 0
@@ -35,7 +34,10 @@ var render = function(){
 			React.render(React.createElement(Feeds, {
 				feeds: json,
 			}), document.querySelector('#feeds'));
-		} catch (e) {}
+		} catch (e) {
+			Cookie.set('');
+			remote.getCurrentWindow().close();
+		}
 	});
 };
 render();

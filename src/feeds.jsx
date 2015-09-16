@@ -3,8 +3,8 @@ var _ = require('lodash'),
 	remote = require('remote'),
 	request = require('request'),
 	React = require('react'),
-	Items = require('./items'),
-	Token = remote.getCurrentWindow().token;
+	Cookie = require('../cookie'),
+	Items = require('./items');
 
 module.exports = React.createClass({
 	displayName: 'items',
@@ -42,22 +42,21 @@ module.exports = React.createClass({
 		});
 
 		var url = 'http://reader.livedoor.com/api/unread',
-			options = {
-				headers: {
-					'Authorization': 'Bearer ' + Token
-				},
-				form: {
-					subscribe_id: this.props.feeds[index].subscribe_id
-				}
-			};
+			that = this;
 
 		if (this.props.feeds[index].unread_count === 0) {
 			url = 'http://reader.livedoor.com/api/all';
 		}
 
-		var that = this;
-
-		request.post(url, options, function(error, response, body){
+		request.post(url, {
+			headers: {
+				'User-Agent': remote.getCurrentWindow().useragent,
+				Cookie: Cookie.get()
+			},
+			form: {
+				subscribe_id: this.props.feeds[index].subscribe_id
+			}
+		}, function(error, response, body){
 			if (error) {
 				return;
 			}
@@ -71,9 +70,19 @@ module.exports = React.createClass({
 				}), document.querySelector('#items'));
 
 				that.props.feeds[index].unread_count = 0;
-			} catch (e) {}
 
-			request.post('http://reader.livedoor.com/api/touch_all', options);
+				request.post('http://reader.livedoor.com/api/touch_all', {
+					headers: {
+						'User-Agent': remote.getCurrentWindow().useragent,
+						Cookie: Cookie.get() + '; reader_sid=' + Cookie.parseApiKey(response.headers['set-cookie'])
+					},
+					form: {
+						subscribe_id: that.props.feeds[index].subscribe_id
+					}
+				}, function(error, response, body){
+					console.error(body);
+				});
+			} catch (e) {}
 		});
 	},
 	doPrev: function(){
