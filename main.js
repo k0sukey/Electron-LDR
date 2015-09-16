@@ -11,27 +11,6 @@ require('crash-reporter').start();
 var window = null,
 	splash = null;
 
-function stringify(cookies) {
-	var result = [];
-
-	_.each(cookies, function(cookie){
-		var pairs = cookie.split(';');
-
-		_.each(pairs, function(pair){
-			var keyvalue = pair.split('='),
-				key = keyvalue[0].trim();
-
-			if (key !== 'expires' && key !== 'path' &&
-				key !== 'domain' && key !== 'secure' &&
-				key !== 'HttpOnly') {
-				result.push(key + '=' + keyvalue[1]);
-			}
-		});
-	});
-
-	return result.join('; ');
-}
-
 app.on('ready', function(){
 	splash = new BrowserWindow({
 		width: 640,
