@@ -3,8 +3,7 @@ var _ = require('lodash'),
 	fs = require('fs'),
 	path = require('path'),
 	BrowserWindow = require('browser-window'),
-	Cookie = require('./app/cookie'),
-	packagejson = require('./package.json');
+	Cookie = require('./app/cookie');
 
 require('crash-reporter').start();
 
@@ -35,7 +34,7 @@ app.on('ready', function(){
 			height: 768
 		});
 
-		window.useragent = packagejson.name + '@' + packagejson.version;
+		window.useragent = app.getName() + '@' + app.getVersion();
 
 		window.on('closed', function(){
 			window = null;
