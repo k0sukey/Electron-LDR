@@ -1,6 +1,7 @@
 var _ = require('lodash'),
 	moment = require('moment'),
 	mousetrap = require('mousetrap'),
+	remote = require('remote'),
 	React = require('react'),
 	Modal = require('react-modal');
 
@@ -31,8 +32,9 @@ var style = {
 		float: 'right'
 	},
 	browser: {
+		display: 'inline-block',
 		width: '100%',
-		height: '90%',
+		height: '100%'
 	}
 };
 
@@ -53,8 +55,12 @@ module.exports = React.createClass({
 			modalIsOpen: true,
 			url: this.props.items[index].link
 		});
+
+		remote.getCurrentWindow().focusOnWebView();
 	},
 	doClose: function(){
+		remote.getCurrentWindow().blurWebView();
+
 		this.setState({
 			modalIsOpen: false
 		});
@@ -121,8 +127,7 @@ module.exports = React.createClass({
 					);
 				}, this)}
 				<Modal isOpen={this.state.modalIsOpen}>
-					<div style={style.close}><button onClick={this.doClose}>閉じる</button></div>
-					<webview src={this.state.url} style={style.browser}></webview>
+					<webview src={this.state.url} style={style.browser} autosize="on"></webview>
 				</Modal>
 			</ul>
 		);
