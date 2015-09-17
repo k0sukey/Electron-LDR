@@ -6,11 +6,11 @@
   "scripts": {
     "start": "gulp compile && ./node_modules/.bin/electron .",
     "compile": "gulp compile",
-    "package": "electron-packager . LDR --arch=x64 --out=packages/v0.0.1 --platform=darwin,linux,win32 --version=0.31.0 --ignore=packages/*",
+    "package": "electron-packager . Electron-LDR --arch=x64 --out=packages/v0.0.1 --platform=darwin,linux,win32 --version=0.31.0 --ignore=packages/*",
     "zip": "npm run zip-darwin && npm run zip-linux && npm run zip-win32",
-    "zip-darwin": "cd packages/v0.0.1 && zip -r LDR-darwin-x64.zip LDR-darwin-x64",
-    "zip-linux": "cd packages/v0.0.1 && zip -r LDR-linux-x64.zip LDR-linux-x64",
-    "zip-win32": "cd packages/v0.0.1 && zip -r LDR-win32-x64.zip LDR-win32-x64"
+    "zip-darwin": "cd packages/v0.0.1 && zip -r Electron-LDR-darwin-x64.zip Electron-LDR-darwin-x64",
+    "zip-linux": "cd packages/v0.0.1 && zip -r Electron-LDR-linux-x64.zip Electron-LDR-linux-x64",
+    "zip-win32": "cd packages/v0.0.1 && zip -r Electron-LDR-win32-x64.zip Electron-LDR-win32-x64"
   },
   "author": "",
   "license": "MIT",
@@ -23,8 +23,8 @@
     "request": "^2.61.0"
   },
   "devDependencies": {
-    "electron-packager": "^5.0.2",
-    "electron-prebuilt": "^0.31.0",
+    "electron-packager": "^5.1.0",
+    "electron-prebuilt": "^0.32.3",
     "gulp": "^3.9.0",
     "gulp-babel": "^5.2.1",
     "gulp-load-plugins": "^0.10.0"
