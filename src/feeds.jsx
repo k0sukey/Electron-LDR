@@ -31,8 +31,12 @@ module.exports = React.createClass({
 			active: index
 		});
 
+		var me;
+
 		_.each(React.findDOMNode(this).childNodes, function(child, i){
 			if (index === i) {
+				me = child;
+
 				child.style.color = '#7fdbff';
 				child.style.backgroundColor = '#001f3f';
 			} else {
@@ -42,10 +46,9 @@ module.exports = React.createClass({
 		});
 
 		var url = 'http://reader.livedoor.com/api/unread',
-			that = this,
-			unread = React.findDOMNode(this.refs['unread_' + this.props.feeds[index].subscribe_id]);
+			that = this;
 
-		if (parseInt(unread.textContent, 10) === 0) {
+		if (parseInt(me.children[3].textContent, 10) === 0) {
 			url = 'http://reader.livedoor.com/api/all';
 		}
 
@@ -70,7 +73,7 @@ module.exports = React.createClass({
 					items: JSON.parse(body).items,
 				}), document.querySelector('#items'));
 
-				unread.textContent = 0;
+				me.children[3].textContent = 0;
 
 				request.post('http://reader.livedoor.com/api/touch_all', {
 					headers: {
@@ -125,7 +128,7 @@ module.exports = React.createClass({
 							onMouseOver={this.doMouseOver.bind(this, index)}
 							onMouseOut={this.doMouseOut.bind(this, index)}
 							onClick={this.doClick.bind(this, index)}>
-							<img src={item.icon}/> {item.title} (<span ref={'unread_' + item.subscribe_id}>{item.unread_count}</span>)
+							<img src={item.icon}/>{item.title}（<span>{item.unread_count}</span>）
 						</li>
 					);
 				}, this)}
