@@ -3,16 +3,19 @@
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
+  "engines": {
+    "node": ">=0.12.0"
+  },
   "scripts": {
     "start": "gulp compile && ./node_modules/.bin/electron .",
     "compile": "gulp compile",
-    "package": "electron-packager . Electron-LDR --arch=x64 --out=packages/v0.0.1 --platform=darwin,linux,win32 --version=0.31.0 --ignore=packages/*",
+    "package": "gulp compile && electron-packager . Electron-LDR --arch=x64 --out=packages/v0.0.1 --platform=darwin,linux,win32 --version=0.32.3 --ignore=packages/* --prune --overwrite",
     "zip": "npm run zip-darwin && npm run zip-linux && npm run zip-win32",
     "zip-darwin": "cd packages/v0.0.1 && zip -r Electron-LDR-darwin-x64.zip Electron-LDR-darwin-x64",
     "zip-linux": "cd packages/v0.0.1 && zip -r Electron-LDR-linux-x64.zip Electron-LDR-linux-x64",
     "zip-win32": "cd packages/v0.0.1 && zip -r Electron-LDR-win32-x64.zip Electron-LDR-win32-x64"
   },
-  "author": "",
+  "author": "Kosuke Isobe",
   "license": "MIT",
   "dependencies": {
     "lodash": "^3.10.1",

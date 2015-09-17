@@ -20,7 +20,8 @@ app.on('ready', function(){
 		width: 640,
 		height: 480,
 		frame: false,
-		transparent: true
+		transparent: true,
+		resizable: false
 	});
 
 	splash.on('closed', function(){
