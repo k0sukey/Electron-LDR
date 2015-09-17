@@ -44,9 +44,10 @@ module.exports = React.createClass({
 		});
 
 		var url = 'http://reader.livedoor.com/api/unread',
-		    that = this;
+		    that = this,
+		    unread = React.findDOMNode(this.refs['unread_' + this.props.feeds[index].subscribe_id]);
 
-		if (this.props.feeds[index].unread_count === 0) {
+		if (parseInt(unread.textContent, 10) === 0) {
 			url = 'http://reader.livedoor.com/api/all';
 		}
 
@@ -71,7 +72,7 @@ module.exports = React.createClass({
 					items: JSON.parse(body).items
 				}), document.querySelector('#items'));
 
-				that.props.feeds[index].unread_count = 0;
+				unread.textContent = 0;
 
 				request.post('http://reader.livedoor.com/api/touch_all', {
 					headers: {
@@ -81,9 +82,7 @@ module.exports = React.createClass({
 					form: {
 						subscribe_id: that.props.feeds[index].subscribe_id
 					}
-				}, function (error, response, body) {
-					console.error(body);
-				});
+				}, function (error, response, body) {});
 			} catch (e) {}
 		});
 	},
@@ -135,7 +134,11 @@ module.exports = React.createClass({
 					' ',
 					item.title,
 					' (',
-					item.unread_count,
+					React.createElement(
+						'span',
+						{ ref: 'unread_' + item.subscribe_id },
+						item.unread_count
+					),
 					')'
 				);
 			}, this)

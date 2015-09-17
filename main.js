@@ -11,6 +11,10 @@ require('crash-reporter').start();
 var window = null,
 	splash = null;
 
+app.on('window-all-closed', function(){
+	app.quit();
+});
+
 app.on('ready', function(){
 	splash = new BrowserWindow({
 		width: 640,
