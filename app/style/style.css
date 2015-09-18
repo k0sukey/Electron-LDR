@@ -8,6 +8,36 @@ body {
 	height: 100%;
 	font-family: "Noto Sans Japanese", sans-serif;
 	color: #111111;
+	overflow: hidden;
+}
+#tools {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 230px;
+	height: 100px;
+	background-color: #268fc7;
+	z-index: 100;
+}
+#order {
+	position: absolute;
+	top: 10px;	
+	left: 20px;
+	width: 200px;
+	border: 1px solid #268fc7;
+	font-size: 16px;
+}
+#filter {
+	position: absolute;
+	bottom: 20px;
+	left: 20px;
+	width: 200px;
+	height: 30px;
+	padding: 4px 10px;
+	border: 1px solid #268fc7;
+	font-size: 16px;
+	-webkit-border-radius: 4px;
+	-webkit-box-sizing: border-box;
 }
 #feeds {
 	position: fixed;
@@ -15,13 +45,15 @@ body {
 	left: 0;
 	bottom: 0;
 	width: 240px;
+	height: 100%;
 	background-color: #268fc7;
 	overflow-x: hidden;
 	overflow-y: auto;
+	z-index: 90;
 	-webkit-overflow-scrolling: touch;
 }
 #feeds ul {
-	margin: 20px 0;
+	margin: 100px 0 20px;
 	list-style-type: none;
 }
 #feeds ul li {
@@ -37,8 +69,10 @@ body {
 }
 #items {
 	padding: 20px 20px 20px 260px;
+	height: 100%;
 	overflow-x: hidden;
 	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
 }
 #items ul {
 	list-style-type: none;
