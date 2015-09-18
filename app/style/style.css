@@ -50,3 +50,6 @@ body {
 	color: #3d3c40;
 	font-size: 14px;
 }
+#items ul li.haspin {
+	background: url("../image/pin.png") no-repeat right top 20px;
+}

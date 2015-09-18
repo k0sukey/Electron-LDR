@@ -48,7 +48,8 @@ module.exports = React.createClass({
 		});
 
 		var url = 'http://reader.livedoor.com/api/unread',
-		    that = this;
+		    feed = this.props.feeds[index],
+		    pins = [];
 
 		if (parseInt(me.children[3].textContent, 10) === 0) {
 			url = 'http://reader.livedoor.com/api/all';
@@ -60,7 +61,7 @@ module.exports = React.createClass({
 				Cookie: Cookie.get()
 			},
 			form: {
-				subscribe_id: this.props.feeds[index].subscribe_id
+				subscribe_id: feed.subscribe_id
 			}
 		}, function (error, response, body) {
 			if (error) {
@@ -70,23 +71,42 @@ module.exports = React.createClass({
 			React.unmountComponentAtNode(document.querySelector('#items'));
 
 			var json;
+
 			try {
+				json = JSON.parse(body);
+			} catch (e) {
+				return;
+			}
+
+			request.post('http://reader.livedoor.com/api/pin/all', {
+				headers: {
+					'User-Agent': remote.getCurrentWindow().useragent,
+					Cookie: Cookie.get()
+				}
+			}, function (error, response, body) {
+				if (!error) {
+					try {
+						pins = JSON.parse(body);
+					} catch (e) {}
+				}
+
 				React.render(React.createElement(Items, {
-					items: JSON.parse(body).items
+					items: json.items,
+					pins: pins
 				}), document.querySelector('#items'));
+			});
 
-				me.children[3].textContent = 0;
+			me.children[3].textContent = 0;
 
-				request.post('http://reader.livedoor.com/api/touch_all', {
-					headers: {
-						'User-Agent': remote.getCurrentWindow().useragent,
-						Cookie: Cookie.get() + '; reader_sid=' + Cookie.parseApiKey(response.headers['set-cookie'])
-					},
-					form: {
-						subscribe_id: that.props.feeds[index].subscribe_id
-					}
-				}, function (error, response, body) {});
-			} catch (e) {}
+			request.post('http://reader.livedoor.com/api/touch_all', {
+				headers: {
+					'User-Agent': remote.getCurrentWindow().useragent,
+					Cookie: Cookie.get() + '; reader_sid=' + Cookie.parseApiKey(response.headers['set-cookie'])
+				},
+				form: {
+					subscribe_id: feed.subscribe_id
+				}
+			}, function (error, response, body) {});
 		});
 	},
 	doPrev: function doPrev() {

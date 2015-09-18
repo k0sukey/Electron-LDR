@@ -4,8 +4,10 @@ var _ = require('lodash'),
     moment = require('moment'),
     mousetrap = require('mousetrap'),
     remote = require('remote'),
+    request = require('request'),
     React = require('react'),
-    Modal = require('react-modal');
+    Modal = require('react-modal'),
+    Cookie = require('../cookie');
 
 moment.locale('ja');
 
@@ -96,10 +98,79 @@ module.exports = React.createClass({
 			this.doOpen(_.isNull(this.state.active) ? 0 : this.state.active);
 		}
 	},
+	doPinning: function doPinning() {
+		var index = _.isNull(this.state.active) ? 0 : this.state.active,
+		    item = this.props.items[index];
+
+		request.post('http://reader.livedoor.com/api/pin/all', {
+			headers: {
+				'User-Agent': remote.getCurrentWindow().useragent,
+				Cookie: Cookie.get()
+			}
+		}, function (error, response, body) {
+			if (error) {
+				return;
+			}
+
+			var json;
+
+			try {
+				json = JSON.parse(body);
+			} catch (e) {
+				return;
+			}
+
+			var url = 'http://reader.livedoor.com/api/pin/',
+			    form = {},
+			    haspin = _.where(json, { link: item.link }).length > 0;
+
+			if (haspin) {
+				url += 'remove';
+				form = {
+					link: item.link
+				};
+			} else {
+				url += 'add';
+				form = {
+					link: item.link,
+					title: item.title
+				};
+			}
+
+			request.post(url, {
+				headers: {
+					'User-Agent': remote.getCurrentWindow().useragent,
+					Cookie: Cookie.get() + '; reader_sid=' + Cookie.parseApiKey(response.headers['set-cookie'])
+				},
+				form: form
+			}, function (error, response, body) {
+				if (error) {
+					return;
+				}
+
+				var json;
+
+				try {
+					json = JSON.parse(body);
+				} catch (e) {
+					return;
+				}
+
+				if (json.isSuccess) {
+					if (haspin) {
+						document.getElementById(item.id).classList.remove('haspin');
+					} else {
+						document.getElementById(item.id).classList.add('haspin');
+					}
+				}
+			});
+		});
+	},
 	componentDidMount: function componentDidMount() {
 		mousetrap.bind('k', this.doPrev);
 		mousetrap.bind('j', this.doNext);
 		mousetrap.bind('v', this.doToggle);
+		mousetrap.bind('p', this.doPinning);
 
 		if (this.props.items[0]) {
 			document.getElementById(this.props.items[0].id).scrollIntoView();
@@ -112,15 +183,22 @@ module.exports = React.createClass({
 		mousetrap.unbind('k');
 		mousetrap.unbind('j');
 		mousetrap.unbind('v');
+		mousetrap.unbind('p');
 	},
 	render: function render() {
 		return React.createElement(
 			'ul',
 			null,
 			this.props.items.map(function (item, index) {
+				var haspin = '';
+
+				if (_.where(this.props.pins, { link: item.link }).length > 0) {
+					haspin = ' haspin';
+				}
+
 				return React.createElement(
 					'li',
-					{ id: item.id, key: item.id },
+					{ id: item.id, className: haspin, key: item.id },
 					React.createElement(
 						'p',
 						{ style: style.title, onClick: this.doOpen.bind(this, index) },

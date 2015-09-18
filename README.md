@@ -23,6 +23,7 @@ Live Dwango Reader（旧 Live Door Reader）を Electron でデスクトップ�
 * k：前のアイテムへ
 * v：元記事の開閉
 * z：フィード一覧の開閉
+* p：ピンの付け外し
 
 ## まだできていないこと
 
@@ -56,7 +57,8 @@ $ npm start
 **参考** [http://zuzu.hateblo.jp/entry/20091011/1255337739](http://zuzu.hateblo.jp/entry/20091011/1255337739)
 
 - [ ] **/api/feed/discover** POST ```{ feedlink: String }```
-- [ ] **/api/feed/unsubscribe** POST ```{ subscribe_id: String }```
+- [ ] **/api/feed/subscribe** POST ```{ feedlink: String }``` たぶんやらない
+- [ ] **/api/feed/unsubscribe** POST ```{ subscribe_id: String }``` たぶんやらない
 - [x] **/api/subs** GET/POST ```{ unread: 0/1 }```
 - [x] **/api/all** GET/POST ```{ subscribe_id: String, offset:Number, limit: Number}```
 - [x] **/api/unread** GET/POST ```{ subscribe_id: String }```
@@ -66,7 +68,7 @@ $ npm start
 - [ ] **/api/folder/create** POST ```{ name: String }```
 - [ ] **/api/folder/delete** ???
 - [ ] **/api/feed/move** POST ```{ subscribe_id: String, to: String }```
-- [ ] **/api/pin/all** POST
-- [ ] **/api/pin/add** POST ```{ link: String, title: String }```
-- [ ] **/api/pin/remove** POST ```{ ApiKey: String, link: String }```
-- [ ] **/api/pin/clear** POST
+- [x] **/api/pin/all** POST ピンの付け外しに。たぶん一覧表示はやらないと思う
+- [x] **/api/pin/add** POST ```{ link: String, title: String }``` クッキーに ```reader_sid``` も必要
+- [x] **/api/pin/remove** POST ```{ link: String }``` クッキーに ```reader_sid``` も必要
+- [ ] **/api/pin/clear** POST 一覧表示をやらないならこれもやらないと思う
