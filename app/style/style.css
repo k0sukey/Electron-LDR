@@ -65,6 +65,8 @@ body {
 	-webkit-border-radius: 0 4px 4px 0;
 }
 #feeds ul li img {
+	width: 16px;
+	height: 16px;
 	padding: 0 4px 0 0;
 }
 #items {
