@@ -89,3 +89,6 @@ body {
 #items ul li.haspin {
 	background: url("../image/pin.png") no-repeat right top 20px;
 }
+.ReactModal__Overlay {
+	z-index: 999;
+}

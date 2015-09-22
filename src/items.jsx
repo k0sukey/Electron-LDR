@@ -30,9 +30,6 @@ var style = {
 	category: {
 		marginRight: '6px'
 	},
-	close: {
-		float: 'right'
-	},
 	browser: {
 		display: 'inline-block',
 		width: '100%',
