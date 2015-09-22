@@ -44,6 +44,7 @@ module.exports = React.createClass({
 	displayName: 'feeds',
 	getInitialState: function() {
 		return {
+			collapse: false,
 			modalIsOpen: false,
 			active: null,
 			url: ''
@@ -86,7 +87,16 @@ module.exports = React.createClass({
 			active: index
 		});
 	},
-	doToggle: function(){
+	doCollapse: function(){
+		this.props.items.map(function(item, index){
+			document.getElementById(item.id).children[2].style.display = !this.state.collapse ? 'none' : 'block'
+		}, this);
+
+		this.setState({
+			collapse: !this.state.collapse
+		});
+	},
+	doModal: function(){
 		if (this.state.modalIsOpen) {
 			this.doClose();
 		} else {
@@ -164,7 +174,8 @@ module.exports = React.createClass({
 	componentDidMount: function(){
 		mousetrap.bind('k', this.doPrev);
 		mousetrap.bind('j', this.doNext);
-		mousetrap.bind('v', this.doToggle);
+		mousetrap.bind('c', this.doCollapse);
+		mousetrap.bind('v', this.doModal);
 		mousetrap.bind('p', this.doPinning);
 
 		if (this.props.items[0]) {
@@ -177,6 +188,7 @@ module.exports = React.createClass({
 	componentWillUnmount: function(){
 		mousetrap.unbind('k');
 		mousetrap.unbind('j');
+		mousetrap.unbind('c',);
 		mousetrap.unbind('v');
 		mousetrap.unbind('p');
 	},

@@ -26,6 +26,7 @@ Live Dwango Reader（旧 Live Door Reader）を Electron でデスクトップ�
 * v：元記事の開閉
 * z：フィード一覧の開閉
 * p：ピンの付け外し
+* c：本文の表示・非表示
 
 ## まだできていないこと
 
