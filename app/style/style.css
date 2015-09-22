@@ -58,7 +58,7 @@ body {
 }
 #feeds ul li {
 	margin: 0 10px 0 0;
-	padding: 6px 4px;
+	padding: 6px 4px 6px 10px;
 	color: #ffffff;
 	font-size: 12px;
 	cursor: pointer;
