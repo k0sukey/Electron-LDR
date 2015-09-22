@@ -1,4 +1,4 @@
-![splashscreen](app/image/splash.png)
+![banner](banner.png)
 
 Live Dwango Reader（旧 Live Door Reader）を Electron でデスクトップアプリ化するプロジェクト。
 
