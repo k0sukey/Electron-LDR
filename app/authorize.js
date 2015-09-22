@@ -6,7 +6,23 @@ var _ = require('lodash'),
 	Cookie = require('../cookie');
 
 function doLoad() {
-	document.getElementById('livedoorid').focus();
+	setTimeout(function(){
+		if (Cookie.exists()) {
+			var cookies = Cookie.get();
+
+			if (cookies === '') {
+				document.getElementById('login').style.visibility = 'visible';
+				document.getElementById('livedoorid').focus();
+
+				return;					
+			}
+
+			remote.getCurrentWindow().emit('authorized');
+		} else {
+			document.getElementById('login').style.visibility = 'visible';
+			document.getElementById('livedoorid').focus();
+		}
+	}, 1000);
 }
 
 function doAuthorize() {

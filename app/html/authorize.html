@@ -15,11 +15,12 @@ body {
 	background-image: url("../image/splash.png");
 	-webkit-app-region: drag;
 }
-form {
+#login {
 	position: absolute;
 	bottom: 100px;
 	left: 130px;
 	margin: 0 auto;
+	visibility: hidden;
 }
 #livedoorid,
 #password {
@@ -49,7 +50,7 @@ form {
 		</style>
 	</head>
 	<body onload="doLoad();">
-		<form action="#" onsubmit="doAuthorize(); return false;">
+		<form id="login" action="#" onsubmit="doAuthorize(); return false;">
 			<input id="livedoorid" type="text" placeholder="livedoor ID"/>
 			<input id="password" type="password" placeholder="Password"/>
 			<input id="submit" type="submit" value="ログイン"/>
