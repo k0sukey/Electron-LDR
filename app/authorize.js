@@ -5,6 +5,10 @@ var _ = require('lodash'),
 	request = require('request'),
 	Cookie = require('../cookie');
 
+function doLoad() {
+	document.getElementById('livedoorid').focus();
+}
+
 function doAuthorize() {
 	var livedoorid = document.getElementById('livedoorid').value,
 		password = document.getElementById('password').value;
