@@ -3,19 +3,66 @@ var _ = require('lodash'),
 	fs = require('fs'),
 	path = require('path'),
 	BrowserWindow = require('browser-window'),
+	Menu = require('menu'),
 	Cookie = require('./app/cookie');
 
 require('crash-reporter').start();
 
 var window = null,
-	splash = null;
+	splash = null,
+	about = null,
+	template = [
+			{
+				label: app.getName(),
+				submenu: [
+					{
+						label: app.getName() + ' について',
+						click: function(){
+							about = new BrowserWindow({
+								title: app.getName() + '　について',
+								width: 640,
+								height: 480,
+								resizable: false
+							});
+
+							about.on('closed', function(){
+								about = null;
+							});
+
+							about.loadUrl('file://' + path.join(__dirname, 'app', 'html', 'about.html'));
+						}
+					},
+					{
+						label: 'ログアウト',
+						click: function(){
+							Cookie.clear();
+							app.emit('ready');
+						}
+					},
+					{
+						type: 'separator'
+					},
+					{
+						label: app.getName() + ' を終了',
+						accelerator: 'Cmd+Q',
+						click: function(){
+							app.quit();
+						}
+					}
+				]
+			}
+		],
+	menu = Menu.buildFromTemplate(template);
 
 app.on('window-all-closed', function(){
 	app.quit();
 });
 
 app.on('ready', function(){
+	Menu.setApplicationMenu(menu);
+
 	splash = new BrowserWindow({
+		title: app.getName(),
 		width: 640,
 		height: 480,
 		frame: false,
@@ -29,7 +76,7 @@ app.on('ready', function(){
 
 	splash.on('authorized', function(){
 		window = new BrowserWindow({
-			title: 'Electron-LDR',
+			title: app.getName(),
 			width: 1024,
 			height: 768
 		});
@@ -46,6 +93,10 @@ app.on('ready', function(){
 	});
 
 	splash.webContents.once('did-finish-load', function(){
+		if (window) {
+			window.close();
+		}
+
 		setTimeout(function(){
 			if (Cookie.exists()) {
 				var cookies = Cookie.get();

@@ -38,6 +38,10 @@ exports.exists = function(){
 	return fs.existsSync(path.join(__dirname, 'data', 'cookies'));
 };
 
+exports.clear = function(){
+	fs.unlinkSync(path.join(__dirname, 'data', 'cookies'));
+};
+
 exports.parseApiKey = function(cookies){
 	var result = '';
 
