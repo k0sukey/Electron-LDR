@@ -3,7 +3,7 @@ var _ = require('lodash'),
 	path = require('path');
 
 exports.set = function(cookies){
-	fs.writeFileSync(path.join(__dirname, 'cookies'), JSON.stringify(cookies));
+	fs.writeFileSync(path.join(__dirname, 'data', 'cookies'), JSON.stringify(cookies));
 };
 
 exports.get = function(){
@@ -11,7 +11,7 @@ exports.get = function(){
 		return '';
 	}
 
-	var cookies = fs.readFileSync(path.join(__dirname, 'cookies')),
+	var cookies = fs.readFileSync(path.join(__dirname, 'data', 'cookies')),
 		result = [];
 
 	try {
@@ -35,7 +35,7 @@ exports.get = function(){
 };
 
 exports.exists = function(){
-	return fs.existsSync(path.join(__dirname, 'cookies'));
+	return fs.existsSync(path.join(__dirname, 'data', 'cookies'));
 };
 
 exports.parseApiKey = function(cookies){

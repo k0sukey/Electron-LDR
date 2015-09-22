@@ -1,5 +1,7 @@
 var _ = require('lodash'),
+	fs = require('fs'),
 	mousetrap = require('mousetrap'),
+	path = require('path'),
 	remote = require('remote'),
 	request = require('request'),
 	React = require('react'),
@@ -10,13 +12,26 @@ var feeds = [],
 	order = 'modified_on',
 	filter = '';
 
+if (fs.existsSync(path.join(__dirname, '..', 'data', 'order.dat'))) {
+	order = fs.readFileSync(path.join(__dirname, '..', 'data', 'order.dat'), {
+		encoding: 'utf8'
+	});
+
+	_.each(document.getElementById('order').options, function(item, index){
+		if (item.value === order) {
+			item.selected = 'selected';
+		}
+	});
+}
+
 function doOrder() {
 	var element = document.getElementById('order'),
 		index = element.selectedIndex;
 
 	order = element.options[index].value;
+	fs.writeFileSync(path.join(__dirname, '..', 'data', 'order.dat'), order);
 
-	render(false);
+	render();
 }
 
 function doFilter() {
@@ -24,7 +39,7 @@ function doFilter() {
 
 	filter = element.value;
 
-	render(false);
+	render();
 }
 
 function render() {
