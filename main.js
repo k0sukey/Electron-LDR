@@ -2,6 +2,7 @@ var _ = require('lodash'),
 	app = require('app'),
 	fs = require('fs'),
 	path = require('path'),
+	request = require('request'),
 	BrowserWindow = require('browser-window'),
 	Menu = require('menu'),
 	Cookie = require('./app/cookie');
@@ -30,6 +31,35 @@ var window = null,
 							});
 
 							about.loadUrl('file://' + path.join(__dirname, 'app', 'html', 'about.html'));
+						}
+					},
+					{
+						type: 'separator'
+					},
+					{
+						label: 'ピンをすべて削除する',
+						click: function(){
+							if (!window || !Cookie.exists) {
+								return;
+							}
+
+							request.post('http://reader.livedoor.com/api/pin/all', {
+								headers: {
+									'User-Agent': window.useragent,
+									Cookie: Cookie.get()
+								}
+							}, function(error, response, body){
+								if (error) {
+									return;
+								}
+
+								request.post('http://reader.livedoor.com/api/pin/clear', {
+									headers: {
+										'User-Agent': window.useragent,
+										Cookie: Cookie.get() + '; reader_sid=' + Cookie.parseApiKey(response.headers['set-cookie'])
+									}
+								}, function(error, response, body){});
+							});
 						}
 					},
 					{
@@ -96,22 +126,7 @@ app.on('ready', function(){
 		if (window) {
 			window.close();
 		}
-
-		setTimeout(function(){
-			if (Cookie.exists()) {
-				var cookies = Cookie.get();
-
-				if (cookies === '') {
-					splash.loadUrl('file://' + path.join(__dirname, 'app', 'html', 'authorize.html'));
-					return;					
-				}
-
-				splash.emit('authorized');
-			} else {
-				splash.loadUrl('file://' + path.join(__dirname, 'app', 'html', 'authorize.html'));
-			}
-		}, 1000);
 	});
 
-	splash.loadUrl('file://' + path.join(__dirname, 'app', 'html', 'boot.html'));
+	splash.loadUrl('file://' + path.join(__dirname, 'app', 'html', 'authorize.html'));
 });
