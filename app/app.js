@@ -109,3 +109,9 @@ fetch(true);
 mousetrap.bind('r', function(){
 	fetch(true);
 });
+
+mousetrap.bind('f', function(){
+	_.defer(function(){
+		document.getElementById('filter').focus()
+	});
+});
