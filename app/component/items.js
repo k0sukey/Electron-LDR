@@ -3,6 +3,7 @@
 var _ = require('lodash'),
     moment = require('moment'),
     mousetrap = require('mousetrap'),
+    opener = require('opener'),
     remote = require('remote'),
     request = require('request'),
     React = require('react'),
@@ -173,12 +174,18 @@ module.exports = React.createClass({
 			});
 		});
 	},
+	doBrowser: function doBrowser() {
+		var index = _.isNull(this.state.active) ? 0 : this.state.active;
+
+		opener(this.props.items[index].link);
+	},
 	componentDidMount: function componentDidMount() {
 		mousetrap.bind('k', this.doPrev);
 		mousetrap.bind('j', this.doNext);
 		mousetrap.bind('c', this.doCollapse);
 		mousetrap.bind('v', this.doModal);
 		mousetrap.bind('p', this.doPinning);
+		mousetrap.bind('b', this.doBrowser);
 
 		if (this.props.items[0]) {
 			document.getElementById(this.props.items[0].id).scrollIntoView();
@@ -193,6 +200,7 @@ module.exports = React.createClass({
 		mousetrap.unbind('c');
 		mousetrap.unbind('v');
 		mousetrap.unbind('p');
+		mousetrap.unbind('b');
 	},
 	render: function render() {
 		return React.createElement(
