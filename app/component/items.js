@@ -104,6 +104,8 @@ module.exports = React.createClass({
 			this.doClose();
 		} else {
 			this.doOpen(_.isNull(this.state.active) ? 0 : this.state.active);
+			document.getElementById('feeds').style.overflowY = 'hidden';
+			document.getElementById('items').style.overflowY = 'hidden';
 		}
 	},
 	doPinning: function doPinning() {

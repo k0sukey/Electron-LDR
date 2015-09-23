@@ -100,8 +100,12 @@ module.exports = React.createClass({
 	doModal: function(){
 		if (this.state.modalIsOpen) {
 			this.doClose();
+			document.getElementById('feeds').style.overflowY = 'auto';
+			document.getElementById('items').style.overflowY = 'auto';
 		} else {
 			this.doOpen(_.isNull(this.state.active) ? 0 : this.state.active);
+			document.getElementById('feeds').style.overflowY = 'hidden';
+			document.getElementById('items').style.overflowY = 'hidden';
 		}
 	},
 	doPinning: function(){
