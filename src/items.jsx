@@ -4,8 +4,10 @@ var _ = require('lodash'),
 	opener = require('opener'),
 	remote = require('remote'),
 	request = require('request'),
+	watchr = require('watchr'),
 	React = require('react'),
 	Modal = require('react-modal'),
+	Setting = require('../setting'),
 	Cookie = require('../cookie');
 
 moment.locale('ja');
@@ -89,7 +91,7 @@ module.exports = React.createClass({
 		});
 	},
 	doCollapse: function(){
-		this.props.items.map(function(item, index){
+		this.props.items.map(function(item){
 			document.getElementById(item.id).children[2].style.display = !this.state.collapse ? 'none' : 'block'
 		}, this);
 
@@ -182,6 +184,8 @@ module.exports = React.createClass({
 		opener(this.props.items[index].link);
 	},
 	componentDidMount: function(){
+		var that = this;
+
 		mousetrap.bind('k', this.doPrev);
 		mousetrap.bind('j', this.doNext);
 		mousetrap.bind('c', this.doCollapse);
@@ -195,6 +199,18 @@ module.exports = React.createClass({
 				active: 0
 			});
 		}
+
+		watchr.watch({
+			path: path.join(__dirname, '..', 'data', 'setting.json'),
+			listener: function(){
+				var setting = Setting.get();
+
+				that.props.items.map(function(item){
+					document.getElementById(item.id).children[2].style.fontFamily = setting.fontfamily;
+					document.getElementById(item.id).children[2].style.fontSize = setting.fontsize;
+				}, that);
+			}
+		});
 	},
 	componentWillUnmount: function(){
 		mousetrap.unbind('k');
@@ -205,6 +221,12 @@ module.exports = React.createClass({
 		mousetrap.unbind('b');
 	},
 	render: function(){
+		var setting = Setting.get(),
+			font = {
+				fontFamily: setting.fontfamily,
+				fontSize: setting.fontsize
+			};
+
 		return (
 			<ul>{this.props.items.map(function(item, index){
 					var haspin = '';
@@ -221,7 +243,7 @@ module.exports = React.createClass({
 								<span style={style.author}>by {item.author}</span>
 								<span style={style.category}>{item.category}</span>
 							</p>
-							<div dangerouslySetInnerHTML={{__html: item.body}}/>
+							<div style={font} dangerouslySetInnerHTML={{__html: item.body}}/>
 						</li>
 					);
 				}, this)}

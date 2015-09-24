@@ -4,8 +4,10 @@ var _ = require('lodash'),
     mousetrap = require('mousetrap'),
     remote = require('remote'),
     request = require('request'),
+    watchr = require('watchr'),
     React = require('react'),
     Cookie = require('../cookie'),
+    Setting = require('../setting'),
     Items = require('./items');
 
 module.exports = React.createClass({
@@ -134,9 +136,22 @@ module.exports = React.createClass({
 		});
 	},
 	componentDidMount: function componentDidMount() {
+		var that = this;
+
 		mousetrap.bind('a', this.doPrev);
 		mousetrap.bind('s', this.doNext);
 		mousetrap.bind('z', this.doToggle);
+
+		watchr.watch({
+			path: path.join(__dirname, '..', 'data', 'setting.json'),
+			listener: function listener() {
+				var setting = Setting.get();
+
+				_.each(React.findDOMNode(that).childNodes, function (item) {
+					item.children[0].style.display = setting.favicon ? 'inline' : 'none';
+				});
+			}
+		});
 	},
 	componentWillUnmount: function componentWillUnmount() {
 		mousetrap.unbind('a');
@@ -144,6 +159,11 @@ module.exports = React.createClass({
 		mousetrap.unbind('z');
 	},
 	render: function render() {
+		var setting = Setting.get(),
+		    favicon = {
+			display: setting.favicon ? 'inline' : 'none'
+		};
+
 		return React.createElement(
 			'ul',
 			null,
@@ -154,7 +174,7 @@ module.exports = React.createClass({
 						onMouseOver: this.doMouseOver.bind(this, index),
 						onMouseOut: this.doMouseOut.bind(this, index),
 						onClick: this.doClick.bind(this, index) },
-					React.createElement('img', { src: item.icon }),
+					React.createElement('img', { src: item.icon, style: favicon }),
 					item.title,
 					'（',
 					React.createElement(

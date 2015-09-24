@@ -6,8 +6,10 @@ var _ = require('lodash'),
     opener = require('opener'),
     remote = require('remote'),
     request = require('request'),
+    watchr = require('watchr'),
     React = require('react'),
     Modal = require('react-modal'),
+    Setting = require('../setting'),
     Cookie = require('../cookie');
 
 moment.locale('ja');
@@ -91,7 +93,7 @@ module.exports = React.createClass({
 		});
 	},
 	doCollapse: function doCollapse() {
-		this.props.items.map(function (item, index) {
+		this.props.items.map(function (item) {
 			document.getElementById(item.id).children[2].style.display = !this.state.collapse ? 'none' : 'block';
 		}, this);
 
@@ -102,6 +104,8 @@ module.exports = React.createClass({
 	doModal: function doModal() {
 		if (this.state.modalIsOpen) {
 			this.doClose();
+			document.getElementById('feeds').style.overflowY = 'auto';
+			document.getElementById('items').style.overflowY = 'auto';
 		} else {
 			this.doOpen(_.isNull(this.state.active) ? 0 : this.state.active);
 			document.getElementById('feeds').style.overflowY = 'hidden';
@@ -182,6 +186,8 @@ module.exports = React.createClass({
 		opener(this.props.items[index].link);
 	},
 	componentDidMount: function componentDidMount() {
+		var that = this;
+
 		mousetrap.bind('k', this.doPrev);
 		mousetrap.bind('j', this.doNext);
 		mousetrap.bind('c', this.doCollapse);
@@ -195,6 +201,18 @@ module.exports = React.createClass({
 				active: 0
 			});
 		}
+
+		watchr.watch({
+			path: path.join(__dirname, '..', 'data', 'setting.json'),
+			listener: function listener() {
+				var setting = Setting.get();
+
+				that.props.items.map(function (item) {
+					document.getElementById(item.id).children[2].style.fontFamily = setting.fontfamily;
+					document.getElementById(item.id).children[2].style.fontSize = setting.fontsize;
+				}, that);
+			}
+		});
 	},
 	componentWillUnmount: function componentWillUnmount() {
 		mousetrap.unbind('k');
@@ -205,6 +223,12 @@ module.exports = React.createClass({
 		mousetrap.unbind('b');
 	},
 	render: function render() {
+		var setting = Setting.get(),
+		    font = {
+			fontFamily: setting.fontfamily,
+			fontSize: setting.fontsize
+		};
+
 		return React.createElement(
 			'ul',
 			null,
@@ -243,7 +267,7 @@ module.exports = React.createClass({
 							item.category
 						)
 					),
-					React.createElement('div', { dangerouslySetInnerHTML: { __html: item.body } })
+					React.createElement('div', { style: font, dangerouslySetInnerHTML: { __html: item.body } })
 				);
 			}, this),
 			React.createElement(

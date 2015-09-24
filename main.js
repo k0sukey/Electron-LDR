@@ -9,9 +9,12 @@ var _ = require('lodash'),
 
 require('crash-reporter').start();
 
+require('./app/setting').initialize();
+
 var window = null,
 	splash = null,
 	about = null,
+	setting = null,
 	template = [
 			{
 				label: app.getName(),
@@ -19,8 +22,12 @@ var window = null,
 					{
 						label: app.getName() + ' について',
 						click: function(){
+							if (!_.isNull(about)) {
+								return;
+							}
+
 							about = new BrowserWindow({
-								title: app.getName() + '　について',
+								title: app.getName() + ' について',
 								width: 640,
 								height: 480,
 								resizable: false
@@ -31,6 +38,31 @@ var window = null,
 							});
 
 							about.loadUrl('file://' + path.join(__dirname, 'app', 'html', 'about.html'));
+						}
+					},
+					{
+						type: 'separator'
+					},
+					{
+						label: '環境設定...',
+						accelerator: 'Cmd+,',
+						click: function(){
+							if (!_.isNull(setting)) {
+								return;
+							}
+
+							setting = new BrowserWindow({
+								title: '設定',
+								width: 640,
+								height: 480,
+								resizable: false
+							});
+
+							setting.on('closed', function(){
+								setting = null;
+							});
+
+							setting.loadUrl('file://' + path.join(__dirname, 'app', 'html', 'setting.html'));
 						}
 					},
 					{
@@ -118,6 +150,10 @@ app.on('ready', function(){
 		});
 
 		window.loadUrl('file://' + path.join(__dirname, 'app', 'html', 'index.html'));
+
+		window.openDevTools({
+			detach: true
+		});
 
 		splash.close();
 	});

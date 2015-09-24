@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link href="https://fonts.googleapis.com/earlyaccess/notosansjapanese.css" rel="stylesheet">
+		<style type="text/css">
+* {
+	margin: 0;
+	padding: 0;
+}
+html,
+body {
+	width: 100%;
+	height: 100%;
+	background-color: #ececec;
+	font-family: "Noto Sans Japanese", sans-serif;
+	color: #111111;
+	overflow: hidden;
+}
+.category {
+	margin: 0 20px 0 40px;
+}
+.wrapper {
+	margin: 6px 20px 20px 20px;
+	padding: 10px;
+	background-color: #e2e2e2;
+	-webkit-border-radius: 4px;
+}
+.row {
+	margin: 0 0 10px 0;
+}
+.label {
+	display: inline-block;
+	width: 270px;
+	font-size: 16px;
+	text-align: right;
+}
+input[type=radio] {
+	width: 16px;
+	height: 16px;
+}
+select {
+	width: 200px;
+	margin: 0 100px 0 0;
+	font-size: 16px;
+}
+.toggle {
+	width: 200px;
+	margin: 0 100px 0 0;
+	font-size: 16px;
+}
+		</style>
+		<script type="text/javascript">
+var _ = require('lodash'),
+	remote = require('remote'),
+	request = require('request'),
+	Setting = require('../setting');
+
+function doLoad() {
+	var setting = Setting.get();
+
+	if (setting.favicon) {
+		document.getElementById('favicon_true').checked = 'checked';
+	} else {
+		document.getElementById('favicon_false').checked = 'checked';
+	}
+
+	_.each(document.getElementById('fontfamily').options, function(item, index){
+		if (item.value === setting.fontfamily) {
+			item.selected = 'selected';
+		}
+	});
+
+	_.each(document.getElementById('fontsize').options, function(item, index){
+		if (item.value === setting.fontsize) {
+			item.selected = 'selected';
+		}
+	});
+}
+
+function doFavicon(param) {
+	Setting.set('favicon', param);
+}
+
+function doFontfamily() {
+	var element = document.getElementById('fontfamily'),
+		index = element.selectedIndex;
+
+	Setting.set('fontfamily', element.options[index].value);
+}
+
+function doFontsize() {
+	var element = document.getElementById('fontsize'),
+		index = element.selectedIndex;
+
+	Setting.set('fontsize', element.options[index].value);
+}
+		</script>
+	</head>
+	<body onload="doLoad();">
+		<p class="category" style="margin-top: 20px;">表示の設定</p>
+		<div class="wrapper">
+			<div class="row">
+				<label class="label" for="favicon">フィードのアイコン：</label>
+				<input type="radio" id="favicon_true" name="favicon" onchange="doFavicon(true);"/>
+				<label for="favicon_true" style="margin-right: 10px;">表示する</label>
+				<input type="radio" id="favicon_false" name="favicon" onchange="doFavicon(false);"/>
+				<label for="favicon_false">表示しない</label>
+			</div>
+			<div class="row">
+				<label class="label" for="fontfamily">フォント：</label>
+				<select id="fontfamily" onchange="doFontfamily();">
+					<option value="Noto Sans Japanese">Noto Sans Japanese</option>
+					<option value="Hiragino Kaku Gothic Pro">Hiragino Kaku Gothic Pro</option>
+					<option value="Meiryo">Meiryo</option>
+					<option value="MS PGothic">MS PGothic</option>
+				</select>
+			</div>
+			<div>
+				<label class="label" for="fontsize">本文の文字サイズ：</label>
+				<select id="fontsize" onchange="doFontsize();">
+					<option value="10px">10px</option>
+					<option value="11px">11px</option>
+					<option value="12px">12px</option>
+					<option value="13px">13px</option>
+					<option value="14px">14px</option>
+					<option value="15px">15px</option>
+					<option value="16px">16px</option>
+					<option value="17px">17px</option>
+					<option value="18px">18px</option>
+					<option value="19px">19px</option>
+					<option value="20px">20px</option>
+					<option value="21px">21px</option>
+					<option value="22px">22px</option>
+				</select>
+			</div>
+		</div>
+	</body>
+</html>

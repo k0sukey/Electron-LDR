@@ -4,3 +4,4 @@ node_modules
 packages
 app/data/cookies
 app/data/order.dat
+app/data/setting.json
