@@ -145,6 +145,8 @@ module.exports = React.createClass({
 			listener: function(){
 				var setting = Setting.get();
 
+				document.getElementsByTagName('body')[0].style.fontFamily = setting.fontfamily;
+
 				_.each(React.findDOMNode(that).childNodes, function(item){
 					item.children[0].style.display = setting.favicon ? 'inline' : 'none';
 				});

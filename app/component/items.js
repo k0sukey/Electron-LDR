@@ -225,7 +225,6 @@ module.exports = React.createClass({
 	render: function render() {
 		var setting = Setting.get(),
 		    font = {
-			fontFamily: setting.fontfamily,
 			fontSize: setting.fontsize
 		};
 
