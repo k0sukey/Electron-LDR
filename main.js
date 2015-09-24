@@ -151,10 +151,6 @@ app.on('ready', function(){
 
 		window.loadUrl('file://' + path.join(__dirname, 'app', 'html', 'index.html'));
 
-		window.openDevTools({
-			detach: true
-		});
-
 		splash.close();
 	});
 
