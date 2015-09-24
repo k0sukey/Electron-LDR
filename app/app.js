@@ -116,6 +116,6 @@ mousetrap.bind('r', function(){
 
 mousetrap.bind('f', function(){
 	_.defer(function(){
-		document.getElementById('filter').focus()
+		document.getElementById('filter').focus();
 	});
 });
