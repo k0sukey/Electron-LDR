@@ -6,11 +6,15 @@ var _ = require('lodash'),
 	request = require('request'),
 	React = require('react'),
 	Cookie = require('../cookie'),
+	Setting = require('../setting'),
 	Feeds = require('../component/feeds');
 
 var feeds = [],
 	order = 'modified_on',
-	filter = '';
+	filter = '',
+	setting = Setting.get();
+
+document.getElementsByTagName('body')[0].style.fontFamily = setting.fontfamily;
 
 if (fs.existsSync(path.join(__dirname, '..', 'data', 'order.dat'))) {
 	order = fs.readFileSync(path.join(__dirname, '..', 'data', 'order.dat'), {
