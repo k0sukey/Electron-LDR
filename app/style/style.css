@@ -89,6 +89,48 @@ body {
 #items ul li.haspin {
 	background: url("../image/pin.png") no-repeat right top 20px;
 }
+#help {
+	display: none;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 200px;
+	background-color: rgba(0, 30, 64, 0.9);
+	color: #ffffff;
+	z-index: 1000;
+}
+#help table {
+	width: 100%;
+	height: 100%;
+}
+#help td {
+	width: 25%;
+	height: 33%;
+}
+#help .description {
+	display: inline-block;
+	width: 75%;
+	font-size: 14px;
+	text-align: right;
+}
+#help .shortcut {
+	display: inline-block;
+	width: 20%;
+	text-align: left;
+}
+#help .shortcut .keybord {
+	display: inline-block;
+	padding: 3px 5px;
+	background-color: #fcfcfc;
+	border: solid 1px #cccccc;
+	border-bottom-color: #bbbbbb;
+	border-radius: 3px;
+	vertical-align: middle;
+	font-size: 16px;
+	color: #555555;
+	box-shadow: inset 0 -1px 0 #bbbbbb;
+}
 .ReactModal__Overlay {
 	z-index: 999;
 }

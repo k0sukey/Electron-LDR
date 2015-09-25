@@ -114,6 +114,17 @@ mousetrap.bind('r', function(){
 	fetch(true);
 });
 
+mousetrap.bind('?', function(){
+	var element = document.getElementById('help');
+
+	if (element.style.display === '' ||
+		element.style.display === 'none') {
+		element.style.display = 'block';
+	} else {
+		element.style.display = 'none';
+	}
+});
+
 mousetrap.bind('f', function(){
 	_.defer(function(){
 		document.getElementById('filter').focus();
