@@ -131,6 +131,20 @@ body {
 	color: #555555;
 	box-shadow: inset 0 -1px 0 #bbbbbb;
 }
+#progressbar {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	max-width: 100%;
+	height: 2px;
+	background-color: #0074d9;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+	transition-delay: 0s, 0s;
+	transition-duration: 0.4s, 0.4s;
+	transition-property: width, background-color;
+	transition-timing-function: ease, ease;
+	z-index: 1001
+}
 .ReactModal__Overlay {
 	z-index: 999;
 }

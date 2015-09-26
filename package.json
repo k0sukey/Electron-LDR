@@ -25,6 +25,7 @@
     "react": "^0.13.3",
     "react-modal": "^0.3.0",
     "request": "^2.61.0",
+    "request-progress": "^0.3.1",
     "watchr": "^2.4.13"
   },
   "devDependencies": {

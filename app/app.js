@@ -2,6 +2,7 @@ var _ = require('lodash'),
 	fs = require('fs'),
 	mousetrap = require('mousetrap'),
 	path = require('path'),
+	progress = require('request-progress'),
 	remote = require('remote'),
 	request = require('request'),
 	React = require('react'),
@@ -78,15 +79,17 @@ function render() {
 		}
 	});
 
-	React.unmountComponentAtNode(document.querySelector('#feeds'));
+	React.unmountComponentAtNode(document.getElementById('feeds'));
 
 	React.render(React.createElement(Feeds, {
 		feeds: _feeds,
-	}), document.querySelector('#feeds'));
+	}), document.getElementById('feeds'));
 }
 
 function fetch(reload) {
-	request.post('http://reader.livedoor.com/api/subs', {
+	document.getElementById('progressbar').style.width = '0%';
+
+	progress(request.post('http://reader.livedoor.com/api/subs', {
 		headers: {
 			'User-Agent': remote.getCurrentWindow().useragent,
 			Cookie: Cookie.get()
@@ -106,6 +109,15 @@ function fetch(reload) {
 			Cookie.set('');
 			remote.getCurrentWindow().close();
 		}
+
+		document.getElementById('progressbar').style.width = '100%';
+		_.delay(function(){
+			document.getElementById('progressbar').style.width = '0%';
+		}, 500);
+	}), {
+		throttle: 100
+	}).on('progress', function(state){
+		document.getElementById('progressbar').style.width = state.percent + '%';
 	});
 }
 fetch(true);

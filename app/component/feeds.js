@@ -2,6 +2,7 @@
 
 var _ = require('lodash'),
     mousetrap = require('mousetrap'),
+    progress = require('request-progress'),
     remote = require('remote'),
     request = require('request'),
     watchr = require('watchr'),
@@ -57,7 +58,9 @@ module.exports = React.createClass({
 			url = 'http://reader.livedoor.com/api/all';
 		}
 
-		request.post(url, {
+		document.getElementById('progressbar').style.width = '0%';
+
+		progress(request.post(url, {
 			headers: {
 				'User-Agent': remote.getCurrentWindow().useragent,
 				Cookie: Cookie.get()
@@ -65,12 +68,12 @@ module.exports = React.createClass({
 			form: {
 				subscribe_id: feed.subscribe_id
 			}
-		}, function (error, response, body) {
+		}, (function (error, response, body) {
 			if (error) {
 				return;
 			}
 
-			React.unmountComponentAtNode(document.querySelector('#items'));
+			React.unmountComponentAtNode(document.getElementById('items'));
 
 			var json;
 
@@ -95,7 +98,7 @@ module.exports = React.createClass({
 				React.render(React.createElement(Items, {
 					items: json.items,
 					pins: pins
-				}), document.querySelector('#items'));
+				}), document.getElementById('items'));
 			});
 
 			me.children[3].textContent = 0;
@@ -109,6 +112,15 @@ module.exports = React.createClass({
 					subscribe_id: feed.subscribe_id
 				}
 			}, function (error, response, body) {});
+
+			document.getElementById('progressbar').style.width = '100%';
+			_.delay(function () {
+				document.getElementById('progressbar').style.width = '0%';
+			}, 500);
+		}).bind(this)), {
+			throttle: 100
+		}).on('progress', function (state) {
+			document.getElementById('progressbar').style.width = state.percent + '%';
 		});
 	},
 	doPrev: function doPrev() {
@@ -136,23 +148,21 @@ module.exports = React.createClass({
 		});
 	},
 	componentDidMount: function componentDidMount() {
-		var that = this;
-
 		mousetrap.bind('a', this.doPrev);
 		mousetrap.bind('s', this.doNext);
 		mousetrap.bind('z', this.doToggle);
 
 		watchr.watch({
 			path: path.join(__dirname, '..', 'data', 'setting.json'),
-			listener: function listener() {
+			listener: (function () {
 				var setting = Setting.get();
 
 				document.getElementsByTagName('body')[0].style.fontFamily = setting.fontfamily;
 
-				_.each(React.findDOMNode(that).childNodes, function (item) {
+				_.each(React.findDOMNode(this).childNodes, function (item) {
 					item.children[0].style.display = setting.favicon ? 'inline' : 'none';
 				});
-			}
+			}).bind(this)
 		});
 	},
 	componentWillUnmount: function componentWillUnmount() {

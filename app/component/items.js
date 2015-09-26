@@ -186,8 +186,6 @@ module.exports = React.createClass({
 		opener(this.props.items[index].link);
 	},
 	componentDidMount: function componentDidMount() {
-		var that = this;
-
 		mousetrap.bind('k', this.doPrev);
 		mousetrap.bind('j', this.doNext);
 		mousetrap.bind('c', this.doCollapse);
@@ -204,14 +202,14 @@ module.exports = React.createClass({
 
 		watchr.watch({
 			path: path.join(__dirname, '..', 'data', 'setting.json'),
-			listener: function listener() {
+			listener: (function () {
 				var setting = Setting.get();
 
-				that.props.items.map(function (item) {
+				this.props.items.map(function (item) {
 					document.getElementById(item.id).children[2].style.fontFamily = setting.fontfamily;
 					document.getElementById(item.id).children[2].style.fontSize = setting.fontsize;
-				}, that);
-			}
+				});
+			}).bind(this)
 		});
 	},
 	componentWillUnmount: function componentWillUnmount() {
