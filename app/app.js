@@ -57,7 +57,7 @@ function render() {
 		});
 	}
 
-	feeds = feeds.sort(function(a, b){
+	_feeds = _feeds.sort(function(a, b){
 		switch (order) {
 			case 'modified_on':
 				return b.modified_on - a.modified_on;
