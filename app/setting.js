@@ -7,7 +7,8 @@ exports.initialize = function(){
 		fs.writeFileSync(path.join(__dirname, 'data', 'setting.json'), JSON.stringify({
 			favicon: true,
 			fontfamily: 'Noto Sans Japanese',
-			fontsize: '14px'
+			fontsize: '14px',
+			order: 'modified_on'
 		}));
 	}
 };

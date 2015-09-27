@@ -9,11 +9,11 @@
   "scripts": {
     "start": "gulp compile && ./node_modules/.bin/electron .",
     "compile": "gulp compile",
-    "package": "gulp compile && electron-packager . Electron-LDR --arch=x64 --out=packages/v0.0.1 --platform=darwin,linux,win32 --version=0.33.0 --ignore=packages/* --prune --overwrite",
+    "package": "gulp compile && electron-packager . Electron-LDR --arch=x64 --out=packages/v1.0.0 --platform=darwin,linux,win32 --version=0.33.0 --ignore=packages/* --ignore=src/* --ignore=app/data/cookies --overwrite",
     "zip": "npm run zip-darwin && npm run zip-linux && npm run zip-win32",
-    "zip-darwin": "cd packages/v0.0.1 && zip -r Electron-LDR-darwin-x64.zip Electron-LDR-darwin-x64",
-    "zip-linux": "cd packages/v0.0.1 && zip -r Electron-LDR-linux-x64.zip Electron-LDR-linux-x64",
-    "zip-win32": "cd packages/v0.0.1 && zip -r Electron-LDR-win32-x64.zip Electron-LDR-win32-x64"
+    "zip-darwin": "cd packages/v1.0.0 && zip -r Electron-LDR-darwin-x64.zip Electron-LDR-darwin-x64",
+    "zip-linux": "cd packages/v1.0.0 && zip -r Electron-LDR-linux-x64.zip Electron-LDR-linux-x64",
+    "zip-win32": "cd packages/v1.0.0 && zip -r Electron-LDR-win32-x64.zip Electron-LDR-win32-x64"
   },
   "author": "Kosuke Isobe",
   "license": "MIT",

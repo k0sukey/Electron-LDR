@@ -17,24 +17,18 @@ var feeds = [],
 
 document.getElementsByTagName('body')[0].style.fontFamily = setting.fontfamily;
 
-if (fs.existsSync(path.join(__dirname, '..', 'data', 'order.dat'))) {
-	order = fs.readFileSync(path.join(__dirname, '..', 'data', 'order.dat'), {
-		encoding: 'utf8'
-	});
-
-	_.each(document.getElementById('order').options, function(item, index){
-		if (item.value === order) {
-			item.selected = 'selected';
-		}
-	});
-}
+_.each(document.getElementById('order').options, function(item, index){
+	if (item.value === setting.order) {
+		item.selected = 'selected';
+	}
+});
 
 function doOrder() {
 	var element = document.getElementById('order'),
 		index = element.selectedIndex;
 
 	order = element.options[index].value;
-	fs.writeFileSync(path.join(__dirname, '..', 'data', 'order.dat'), order);
+	Setting.set('order', order);
 
 	render();
 }

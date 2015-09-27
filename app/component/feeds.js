@@ -21,14 +21,16 @@ module.exports = React.createClass({
 	},
 	doMouseOver: function doMouseOver(index) {
 		if (index !== this.state.active) {
-			React.findDOMNode(this).childNodes[index].style.color = '#7fdbff';
-			React.findDOMNode(this).childNodes[index].style.backgroundColor = '#001f3f';
+			var ul = document.getElementById('feeds').children[0];
+			React.findDOMNode(ul).childNodes[index].style.color = '#7fdbff';
+			React.findDOMNode(ul).childNodes[index].style.backgroundColor = '#001f3f';
 		}
 	},
 	doMouseOut: function doMouseOut(index) {
 		if (index !== this.state.active) {
-			React.findDOMNode(this).childNodes[index].style.color = '#ffffff';
-			React.findDOMNode(this).childNodes[index].style.backgroundColor = 'transparent';
+			var ul = document.getElementById('feeds').children[0];
+			React.findDOMNode(ul).childNodes[index].style.color = '#ffffff';
+			React.findDOMNode(ul).childNodes[index].style.backgroundColor = 'transparent';
 		}
 	},
 	doClick: function doClick(index) {
@@ -36,9 +38,10 @@ module.exports = React.createClass({
 			active: index
 		});
 
-		var me;
+		var me,
+		    ul = document.getElementById('feeds').children[0];
 
-		_.each(React.findDOMNode(this).childNodes, function (child, i) {
+		_.each(React.findDOMNode(ul).childNodes, function (child, i) {
 			if (index === i) {
 				me = child;
 
@@ -155,11 +158,12 @@ module.exports = React.createClass({
 		watchr.watch({
 			path: path.join(__dirname, '..', 'data', 'setting.json'),
 			listener: (function () {
-				var setting = Setting.get();
+				var setting = Setting.get(),
+				    ul = document.getElementById('feeds').children[0];
 
 				document.getElementsByTagName('body')[0].style.fontFamily = setting.fontfamily;
 
-				_.each(React.findDOMNode(this).childNodes, function (item) {
+				_.each(React.findDOMNode(ul).childNodes, function (item) {
 					item.children[0].style.display = setting.favicon ? 'inline' : 'none';
 				});
 			}).bind(this)
