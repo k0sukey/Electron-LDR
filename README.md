@@ -1,7 +1,7 @@
 ![banner](banner.png)
 
 Live Dwango Reader（旧 Live Door Reader）を Electron でデスクトップアプリ化するプロジェクト。
-バイナリのダウンロードは [releases](releases) からどうぞ。
+バイナリのダウンロードは [releases](https://github.com/k0sukey/Electron-LDR/releases) からどうぞ。
 
 ![capture1](capture1.png)
 
