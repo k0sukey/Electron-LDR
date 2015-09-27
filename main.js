@@ -145,13 +145,15 @@ app.on('ready', function(){
 
 		window.useragent = app.getName() + '@' + app.getVersion();
 
+		window.webContents.once('did-finish-load', function(){
+			splash.close();
+		});
+
 		window.on('closed', function(){
 			window = null;
 		});
 
 		window.loadUrl('file://' + path.join(__dirname, 'app', 'html', 'index.html'));
-
-		splash.close();
 	});
 
 	splash.webContents.once('did-finish-load', function(){
