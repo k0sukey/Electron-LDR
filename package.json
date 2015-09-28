@@ -1,6 +1,6 @@
 {
   "name": "Electron-LDR",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "main.js",
   "engines": {
@@ -9,11 +9,14 @@
   "scripts": {
     "start": "gulp compile && ./node_modules/.bin/electron .",
     "compile": "gulp compile",
-    "package": "gulp compile && electron-packager . Electron-LDR --arch=x64 --out=packages/v1.0.0 --platform=darwin,linux,win32 --version=0.33.0 --ignore=packages/* --ignore=src/* --ignore=app/data/cookies --overwrite",
+    "package": "package-darwin && npm run package-linux && npm run package-win32",
+    "package-darwin": "gulp compile && electron-packager . Electron-LDR --icon app/image/Electron-LDR.icns --arch=x64 --out=packages/v1.0.1 --platform=darwin --version=0.33.0 --ignore=packages/* --ignore=src/* --ignore=app/data/cookies --overwrite",
+    "package-linux": "gulp compile && electron-packager . Electron-LDR --arch=x64 --out=packages/v1.0.1 --platform=linux --version=0.33.0 --ignore=packages/* --ignore=src/* --ignore=app/data/cookies --overwrite",
+    "package-win32": "gulp compile && electron-packager . Electron-LDR --icon app/image/Electron-LDR.icns --arch=x64 --out=packages/v1.0.1 --platform=win32 --version=0.33.0 --ignore=packages/* --ignore=src/* --ignore=app/data/cookies --overwrite",
     "zip": "npm run zip-darwin && npm run zip-linux && npm run zip-win32",
-    "zip-darwin": "cd packages/v1.0.0 && zip -r Electron-LDR-darwin-x64.zip Electron-LDR-darwin-x64",
-    "zip-linux": "cd packages/v1.0.0 && zip -r Electron-LDR-linux-x64.zip Electron-LDR-linux-x64",
-    "zip-win32": "cd packages/v1.0.0 && zip -r Electron-LDR-win32-x64.zip Electron-LDR-win32-x64"
+    "zip-darwin": "cd packages/v1.0.1 && zip -r Electron-LDR-darwin-x64.zip Electron-LDR-darwin-x64",
+    "zip-linux": "cd packages/v1.0.1 && zip -r Electron-LDR-linux-x64.zip Electron-LDR-linux-x64",
+    "zip-win32": "cd packages/v1.0.1 && zip -r Electron-LDR-win32-x64.zip Electron-LDR-win32-x64"
   },
   "author": "Kosuke Isobe",
   "license": "MIT",
