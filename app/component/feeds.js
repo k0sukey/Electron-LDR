@@ -99,6 +99,8 @@ module.exports = React.createClass({
 				}
 
 				React.render(React.createElement(Items, {
+					subscribe_id: feed.subscribe_id,
+					title: feed.title,
 					items: json.items,
 					pins: pins
 				}), document.getElementById('items'));

@@ -7,6 +7,7 @@ var _ = require('lodash'),
     remote = require('remote'),
     request = require('request'),
     watchr = require('watchr'),
+    dialog = remote.require('dialog'),
     React = require('react'),
     Modal = require('react-modal'),
     Setting = require('../setting'),
@@ -185,6 +186,44 @@ module.exports = React.createClass({
 
 		opener(this.props.items[index].link);
 	},
+	doUnsubscribe: function doUnsubscribe() {
+		dialog.showMessageBox(remote.getCurrentWindow(), {
+			type: 'question',
+			buttons: ['キャンセル', '削除する'],
+			message: '「' + this.props.title + '」の登録を解除しますか？',
+			cancelId: 0
+		}, (function (e) {
+			if (e === 0) {
+				return;
+			}
+
+			request.post('http://reader.livedoor.com/api/all', {
+				headers: {
+					'User-Agent': remote.getCurrentWindow().useragent,
+					Cookie: Cookie.get()
+				},
+				form: {
+					subscribe_id: this.props.subscribe_id,
+					offset: 0,
+					limit: 1
+				}
+			}, (function (error, response, body) {
+				if (error) {
+					return;
+				}
+
+				request.post('http://reader.livedoor.com/api/feed/unsubscribe', {
+					headers: {
+						'User-Agent': remote.getCurrentWindow().useragent,
+						Cookie: Cookie.get() + '; reader_sid=' + Cookie.parseApiKey(response.headers['set-cookie'])
+					},
+					form: {
+						subscribe_id: this.props.subscribe_id
+					}
+				}, function (error, response, body) {});
+			}).bind(this));
+		}).bind(this));
+	},
 	componentDidMount: function componentDidMount() {
 		mousetrap.bind('k', this.doPrev);
 		mousetrap.bind('j', this.doNext);
@@ -192,6 +231,7 @@ module.exports = React.createClass({
 		mousetrap.bind('v', this.doModal);
 		mousetrap.bind('p', this.doPinning);
 		mousetrap.bind('b', this.doBrowser);
+		mousetrap.bind('del', this.doUnsubscribe);
 
 		if (this.props.items[0]) {
 			document.getElementById(this.props.items[0].id).scrollIntoView();
@@ -219,6 +259,7 @@ module.exports = React.createClass({
 		mousetrap.unbind('v');
 		mousetrap.unbind('p');
 		mousetrap.unbind('b');
+		mousetrap.unbind('del');
 	},
 	render: function render() {
 		var setting = Setting.get(),

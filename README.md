@@ -34,7 +34,7 @@ $ npm start
 
 - [ ] **/api/feed/discover** POST ```{ feedlink: String }``` たぶんやらない
 - [ ] **/api/feed/subscribe** POST ```{ feedlink: String }``` たぶんやらない
-- [ ] **/api/feed/unsubscribe** POST ```{ subscribe_id: String }``` たぶんやらない
+- [x] **/api/feed/unsubscribe** POST ```{ subscribe_id: String }``` クッキーに ```reader_sid``` も必要
 - [x] **/api/subs** GET/POST ```{ unread: 0/1 }```
 - [x] **/api/all** GET/POST ```{ subscribe_id: String, offset:Number, limit: Number}```
 - [x] **/api/unread** GET/POST ```{ subscribe_id: String }```
@@ -61,7 +61,7 @@ $ npm start
 - [x] <kbd>p</kbd> ピンを付ける / 外す
 - [ ] <kbd>o</kbd> ピンを開く → メニュー内で実装した
 - [x] <kbd>c</kbd> 本文の表示 / 非表示
-- [ ] <kbd>delete</kbd> 購読停止 たぶんやらない
+- [x] <kbd>delete</kbd> 購読停止
 - [x] <kbd>r</kbd> フィード一覧の更新
 - [x] <kbd>z</kbd> マイフィードを畳む / 戻す
 - [x] <kbd>f</kbd> 検索ボックスに移動
@@ -74,6 +74,7 @@ $ npm start
 **独自のキーボードショートカット**
 - [x] <kbd>b</kbd> 元記事をブラウザで開く
 - [x] <kbd>command + ,</kbd> 設定を開く
+- [x] <kbd>command + q</kbd> アプリを終了
 
 ## 設定
 
