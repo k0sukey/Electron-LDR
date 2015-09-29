@@ -145,3 +145,6 @@ body {
 	transition-timing-function: ease, ease;
 	z-index: 1001
 }
+.ReactModal__Overlay {
+	z-index: 999;
+}

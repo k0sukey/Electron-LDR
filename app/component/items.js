@@ -64,6 +64,10 @@ module.exports = React.createClass({
 			url: this.props.items[index].link
 		});
 
+		document.getElementById('browser').addEventListener('dom-ready', function () {
+			document.getElementById('browser').focus();
+		});
+
 		remote.getCurrentWindow().focusOnWebView();
 	},
 	doClose: function doClose() {
@@ -312,8 +316,8 @@ module.exports = React.createClass({
 			}, this),
 			React.createElement(
 				Modal,
-				{ isOpen: this.state.modalIsOpen, style: style.modal },
-				React.createElement('webview', { src: this.state.url, style: style.browser, autosize: 'on' })
+				{ isOpen: this.state.modalIsOpen, onRequestClose: this.doClose, style: style.modal },
+				React.createElement('webview', { id: 'browser', src: this.state.url, style: style.browser, autosize: 'on' })
 			)
 		);
 	}
