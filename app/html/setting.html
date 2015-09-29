@@ -98,7 +98,7 @@ function doLoad() {
 	});
 }
 
-function doNext() {
+function doSubscribe() {
 	request.post('http://reader.livedoor.com/api/feed/discover', {
 		headers: {
 			'User-Agent': remote.getCurrentWindow().useragent,
@@ -188,7 +188,7 @@ function doFontsize() {
 			<div class="row">
 				<label class="label" for="url">URL：</label>
 				<input type="text" id="url" style="margin-right: 10px;"/>
-				<input type="button" id="next" value="次へ" onclick="doNext();"/>
+				<input type="button" id="next" value="次へ" onclick="doSubscribe();"/>
 			</div>
 		</div>
 		<p class="category">表示の設定</p>
