@@ -32,8 +32,8 @@ $ npm start
 
 **参考** [http://zuzu.hateblo.jp/entry/20091011/1255337739](http://zuzu.hateblo.jp/entry/20091011/1255337739)
 
-- [ ] **/api/feed/discover** POST ```{ feedlink: String }``` たぶんやらない
-- [ ] **/api/feed/subscribe** POST ```{ feedlink: String }``` たぶんやらない
+- [x] **/api/feed/discover** POST ```{ feedlink: String }``` たぶんやらない → 設定に入れた
+- [x] **/api/feed/subscribe** POST ```{ feedlink: String }``` たぶんやらない → 設定に入れた
 - [x] **/api/feed/unsubscribe** POST ```{ subscribe_id: String }``` クッキーに ```reader_sid``` も必要
 - [x] **/api/subs** GET/POST ```{ unread: 0/1 }```
 - [x] **/api/all** GET/POST ```{ subscribe_id: String, offset:Number, limit: Number}```

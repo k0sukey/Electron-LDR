@@ -35,6 +35,24 @@ body {
 	font-size: 16px;
 	text-align: right;
 }
+input[type=text] {
+	width: 200px;
+	height: 30px;
+	padding: 4px 10px;
+	border: 1px solid #e2e2e2;
+	font-size: 16px;
+	-webkit-border-radius: 4px;
+	-webkit-box-sizing: border-box;
+}
+input[type=button] {
+	height: 30px;
+	padding: 4px 10px;
+	background-color: #c0c0c0;
+	border: 1px solid #e2e2e2;
+	font-size: 16px;
+	-webkit-border-radius: 4px;
+	-webkit-box-sizing: border-box;
+}
 input[type=radio] {
 	width: 16px;
 	height: 16px;
@@ -54,6 +72,8 @@ select {
 var _ = require('lodash'),
 	remote = require('remote'),
 	request = require('request'),
+	dialog = remote.require('dialog'),
+	Cookie = require('../cookie'),
 	Setting = require('../setting');
 
 function doLoad() {
@@ -78,6 +98,71 @@ function doLoad() {
 	});
 }
 
+function doNext() {
+	request.post('http://reader.livedoor.com/api/feed/discover', {
+		headers: {
+			'User-Agent': remote.getCurrentWindow().useragent,
+			Cookie: Cookie.get()
+		},
+		form: {
+			url: document.getElementById('url').value
+		}
+	}, function(error, response, body){
+		if (error) {
+			return;
+		}
+
+		var json,
+			feed;
+
+		try {
+			json = JSON.parse(body);
+
+			if (json.length === 0) {
+				dialog.showErrorBox('エラー', 'フィードを探すことができませんでした');
+				return;
+			}
+
+			feed = json[0];
+
+			dialog.showMessageBox(remote.getCurrentWindow(), {
+				type: 'question',
+				buttons: [ 'キャンセル', '登録する' ],
+				message: '「' + feed.title + '」を登録しますか？',
+				cancelId: 0
+			}, function(e){
+				if (e === 0) {
+					return;
+				}
+
+				request.post('http://reader.livedoor.com/api/feed/subscribe', {
+					headers: {
+						'User-Agent': remote.getCurrentWindow().useragent,
+						Cookie: Cookie.get() + '; reader_sid=' + Cookie.parseApiKey(response.headers['set-cookie'])
+					},
+					form: {
+						feedlink: feed.feedlink
+					}
+				}, function(error, response, body){
+					if (error) {
+						return;
+					}
+
+					try {
+						json = JSON.parse(body);
+
+						if (json.isSuccess) {
+							document.getElementById('url').value = '';
+						} else {
+							dialog.showErrorBox('エラー', 'すでに登録されているか登録することができませんでした');
+						}
+					} catch (e) {}
+				});
+			});
+		} catch (e){}
+	});
+}
+
 function doFavicon(param) {
 	Setting.set('favicon', param);
 }
@@ -98,7 +183,15 @@ function doFontsize() {
 		</script>
 	</head>
 	<body onload="doLoad();">
-		<p class="category" style="margin-top: 20px;">表示の設定</p>
+		<p class="category" style="margin-top: 20px;">フィードの追加</p>
+		<div class="wrapper">
+			<div class="row">
+				<label class="label" for="url">URL：</label>
+				<input type="text" id="url" style="margin-right: 10px;"/>
+				<input type="button" id="next" value="次へ" onclick="doNext();"/>
+			</div>
+		</div>
+		<p class="category">表示の設定</p>
 		<div class="wrapper">
 			<div class="row">
 				<label class="label" for="favicon">フィードのアイコン：</label>

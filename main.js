@@ -112,6 +112,44 @@ var window = null,
 						}
 					}
 				]
+			},
+			{
+				label: '編集',
+				submenu: [
+					{
+					label: '取り消す',
+						accelerator: 'CmdOrCtrl+Z',
+						role: 'undo'
+					},
+					{
+						label: 'やり直す',
+						accelerator: 'Shift+CmdOrCtrl+Z',
+						role: 'redo'
+					},
+					{
+						type: 'separator'
+					},
+					{
+						label: '切り取り',
+						accelerator: 'CmdOrCtrl+X',
+						role: 'cut'
+					},
+					{
+						label: 'コピー',
+						accelerator: 'CmdOrCtrl+C',
+						role: 'copy'
+					},
+					{
+						label: '貼り付け',
+						accelerator: 'CmdOrCtrl+V',
+						role: 'paste'
+					},
+					{
+						label: 'すべてを選択',
+						accelerator: 'CmdOrCtrl+A',
+						role: 'selectall'
+					},
+				]
 			}
 		],
 	menu = Menu.buildFromTemplate(template);
