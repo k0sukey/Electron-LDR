@@ -36,15 +36,17 @@ var style = {
 	category: {
 		marginRight: '6px'
 	},
+	modal: {
+		content: {
+			padding: 0
+		}
+	},
 	browser: {
 		display: 'inline-block',
 		width: '100%',
 		height: '100%'
 	}
 };
-
-Modal.setAppElement(document.getElementById('modal'));
-Modal.injectCSS();
 
 module.exports = React.createClass({
 	displayName: 'feeds',
@@ -310,7 +312,7 @@ module.exports = React.createClass({
 			}, this),
 			React.createElement(
 				Modal,
-				{ isOpen: this.state.modalIsOpen },
+				{ isOpen: this.state.modalIsOpen, style: style.modal },
 				React.createElement('webview', { src: this.state.url, style: style.browser, autosize: 'on' })
 			)
 		);
