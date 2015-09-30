@@ -52,10 +52,11 @@ var window = null,
 							}
 
 							setting = new BrowserWindow({
-								title: '設定',
+								title: '環境設定',
 								width: 640,
 								height: 480,
-								resizable: false
+								resizable: false,
+								'always-on-top': true
 							});
 
 							setting.on('closed', function(){
@@ -178,7 +179,8 @@ app.on('ready', function(){
 		window = new BrowserWindow({
 			title: app.getName(),
 			width: 1024,
-			height: 768
+			height: 768,
+			'title-bar-style': 'hidden-inset'
 		});
 
 		window.useragent = app.getName() + '@' + app.getVersion();

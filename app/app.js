@@ -15,6 +15,10 @@ var feeds = [],
 	filter = '',
 	setting = Setting.get();
 
+if (process.platform === 'darwin') {
+	document.getElementById('tools').style.paddingTop = '30px';
+}
+
 document.getElementsByTagName('body')[0].style.fontFamily = setting.fontfamily;
 
 _.each(document.getElementById('order').options, function(item, index){

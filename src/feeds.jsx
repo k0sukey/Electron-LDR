@@ -55,7 +55,7 @@ module.exports = React.createClass({
 			feed = this.props.feeds[index],
 			pins = [];
 
-		if (parseInt(me.children[3].textContent, 10) === 0) {
+		if (parseInt(me.children[2].textContent, 10) === 0) {
 			url = 'http://reader.livedoor.com/api/all';
 		}
 
@@ -104,7 +104,15 @@ module.exports = React.createClass({
 				}), document.getElementById('items'));
 			});
 
-			me.children[3].textContent = 0;
+			me.children[2].textContent = 0;
+
+			if (!me.children[1].classList.contains('feed-zero')) {
+				me.children[1].classList.add('feed-zero');
+			}
+
+			if (!me.children[2].classList.contains('badge-zero')) {
+				me.children[2].classList.add('badge-zero');
+			}
 
 			request.post('http://reader.livedoor.com/api/touch_all', {
 				headers: {
@@ -151,6 +159,10 @@ module.exports = React.createClass({
 		});
 	},
 	componentDidMount: function(){
+		if (process.platform === 'darwin') {
+			document.getElementById('feeds').children[0].style.marginTop = '130px';
+		}
+
 		mousetrap.bind('a', this.doPrev);
 		mousetrap.bind('s', this.doNext);
 		mousetrap.bind('z', this.doToggle);
@@ -182,12 +194,21 @@ module.exports = React.createClass({
 
 		return (
 			<ul>{this.props.feeds.map(function(item, index){
+					var feed = 'feed',
+						badge = 'badge';
+					if (item.unread_count === 0) {
+						feed += ' feed-zero';
+						badge += ' badge-zero';
+					}
+
 					return (
 						<li key={item.subscribe_id}
 							onMouseOver={this.doMouseOver.bind(this, index)}
 							onMouseOut={this.doMouseOut.bind(this, index)}
 							onClick={this.doClick.bind(this, index)}>
-							<img src={item.icon} style={favicon}/>{item.title}（<span>{item.unread_count}</span>）
+							<img src={item.icon} style={favicon}/>
+							<span className={feed}>{item.title}</span>
+							<span className={badge}>{item.unread_count}</span>
 						</li>
 					);
 				}, this)}

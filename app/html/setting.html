@@ -45,13 +45,10 @@ input[type=text] {
 	-webkit-box-sizing: border-box;
 }
 input[type=button] {
+	width: 60px;
 	height: 30px;
 	padding: 4px 10px;
-	background-color: #c0c0c0;
-	border: 1px solid #e2e2e2;
 	font-size: 16px;
-	-webkit-border-radius: 4px;
-	-webkit-box-sizing: border-box;
 }
 input[type=radio] {
 	width: 16px;
@@ -99,6 +96,11 @@ function doLoad() {
 }
 
 function doSubscribe() {
+	if (document.getElementById('url').value === '') {
+		dialog.showErrorBox('エラー', 'URL を入力してください');
+		return;
+	}
+
 	request.post('http://reader.livedoor.com/api/feed/discover', {
 		headers: {
 			'User-Agent': remote.getCurrentWindow().useragent,
