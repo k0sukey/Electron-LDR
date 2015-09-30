@@ -6,6 +6,7 @@ var _ = require('lodash'),
 	remote = require('remote'),
 	request = require('request'),
 	watchr = require('watchr'),
+	app = remote.require('app'),
 	React = require('react'),
 	Cookie = require('../cookie'),
 	Setting = require('../setting'),
@@ -111,6 +112,17 @@ function fetch(reload) {
 
 		try {
 			feeds = JSON.parse(body);
+
+			if (process.platform === 'darwin') {
+				var badge = 0;
+
+				_.each(feeds, function(feed){
+					badge += feed.unread_count
+				});
+
+				app.dock.setBadge('' + badge);
+			}
+
 			render();
 		} catch (e) {
 			Cookie.set('');

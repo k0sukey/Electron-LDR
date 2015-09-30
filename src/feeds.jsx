@@ -4,6 +4,7 @@ var _ = require('lodash'),
 	remote = require('remote'),
 	request = require('request'),
 	watchr = require('watchr'),
+	app = remote.require('app'),
 	React = require('react'),
 	Cookie = require('../cookie'),
 	Setting = require('../setting'),
@@ -36,7 +37,8 @@ module.exports = React.createClass({
 			active: index
 		});
 
-		var me,
+		var badge = 0,
+			me,
 			ul = document.getElementById('feeds').children[0];
 
 		_.each(React.findDOMNode(ul).childNodes, function(child, i){
@@ -46,10 +48,16 @@ module.exports = React.createClass({
 				child.style.color = '#7fdbff';
 				child.style.backgroundColor = '#001f3f';
 			} else {
+				badge += parseInt(child.children[2].textContent, 10);
+
 				child.style.color = '#ffffff';
 				child.style.backgroundColor = 'transparent';
 			}
 		});
+
+		if (process.platform === 'darwin') {
+			app.dock.setBadge('' + badge);
+		}
 
 		var url = 'http://reader.livedoor.com/api/unread',
 			feed = this.props.feeds[index],
