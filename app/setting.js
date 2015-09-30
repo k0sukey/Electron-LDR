@@ -6,6 +6,7 @@ exports.initialize = function(){
 	if (!fs.existsSync(path.join(__dirname, 'data', 'setting.json'))) {
 		fs.writeFileSync(path.join(__dirname, 'data', 'setting.json'), JSON.stringify({
 			favicon: true,
+			unread: true,
 			fontfamily: 'Noto Sans Japanese',
 			fontsize: '14px',
 			order: 'modified_on'

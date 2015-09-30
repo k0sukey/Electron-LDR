@@ -5,6 +5,7 @@ var _ = require('lodash'),
 	progress = require('request-progress'),
 	remote = require('remote'),
 	request = require('request'),
+	watchr = require('watchr'),
 	React = require('react'),
 	Cookie = require('../cookie'),
 	Setting = require('../setting'),
@@ -77,6 +78,14 @@ function render() {
 		}
 	});
 
+	var setting = Setting.get();
+
+	if (_.has(setting, 'unread') && !setting.unread) {
+		_feeds = _.filter(_feeds, function(feed){
+			return feed.unread_count;
+		});
+	}
+
 	React.unmountComponentAtNode(document.getElementById('feeds'));
 
 	React.render(React.createElement(Feeds, {
@@ -139,4 +148,9 @@ mousetrap.bind('f', function(){
 	_.defer(function(){
 		document.getElementById('filter').focus();
 	});
+});
+
+watchr.watch({
+	path: path.join(__dirname, '..', 'data', 'setting.json'),
+	listener: render
 });

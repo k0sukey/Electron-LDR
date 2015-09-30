@@ -200,6 +200,7 @@ module.exports = React.createClass({
 			this.props.feeds.map(function (item, index) {
 				var feed = 'feed',
 				    badge = 'badge';
+
 				if (item.unread_count === 0) {
 					feed += ' feed-zero';
 					badge += ' badge-zero';

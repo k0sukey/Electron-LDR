@@ -82,6 +82,12 @@ function doLoad() {
 		document.getElementById('favicon_false').checked = 'checked';
 	}
 
+	if (setting.unread || !_.has(setting, 'unread')) {
+		document.getElementById('unread_true').checked = 'checked';
+	} else {
+		document.getElementById('unread_false').checked = 'checked';
+	}
+
 	_.each(document.getElementById('fontfamily').options, function(item, index){
 		if (item.value === setting.fontfamily) {
 			item.selected = 'selected';
@@ -169,6 +175,10 @@ function doFavicon(param) {
 	Setting.set('favicon', param);
 }
 
+function doUnread(param) {
+	Setting.set('unread', param);
+}
+
 function doFontfamily() {
 	var element = document.getElementById('fontfamily'),
 		index = element.selectedIndex;
@@ -201,6 +211,13 @@ function doFontsize() {
 				<label for="favicon_true" style="margin-right: 10px;">表示する</label>
 				<input type="radio" id="favicon_false" name="favicon" onchange="doFavicon(false);"/>
 				<label for="favicon_false">表示しない</label>
+			</div>
+			<div class="row">
+				<label class="label" for="unread">未読がないフィード：</label>
+				<input type="radio" id="unread_true" name="unread" onchange="doUnread(true);"/>
+				<label for="unread_true" style="margin-right: 10px;">表示する</label>
+				<input type="radio" id="unread_false" name="unread" onchange="doUnread(false);"/>
+				<label for="unread_false">表示しない</label>
 			</div>
 			<div class="row">
 				<label class="label" for="fontfamily">フォント：</label>
