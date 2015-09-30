@@ -145,7 +145,7 @@ mousetrap.bind('r', function(){
 	fetch(true);
 });
 
-mousetrap.bind('?', function(){
+var doShortcut = function(){
 	var element = document.getElementById('help');
 
 	if (element.style.display === '' ||
@@ -154,7 +154,9 @@ mousetrap.bind('?', function(){
 	} else {
 		element.style.display = 'none';
 	}
-});
+};
+mousetrap.bind('?', doShortcut);
+remote.getCurrentWindow().on('shortcut', doShortcut);
 
 mousetrap.bind('f', function(){
 	_.defer(function(){

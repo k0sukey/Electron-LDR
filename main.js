@@ -118,7 +118,7 @@ var window = null,
 				label: '編集',
 				submenu: [
 					{
-					label: '取り消す',
+						label: '取り消す',
 						accelerator: 'CmdOrCtrl+Z',
 						role: 'undo'
 					},
@@ -150,6 +150,51 @@ var window = null,
 						accelerator: 'CmdOrCtrl+A',
 						role: 'selectall'
 					},
+				]
+			},
+			{
+				label: '表示',
+				submenu: [
+					{
+						label: '全画面表示にする',
+						accelerator: (function(){
+							if (process.platform == 'darwin') {
+								return 'Ctrl+Command+F';
+							} else {
+								return 'F11';
+							}
+						})(),
+						click: function(){
+							if (window) {
+								window.setFullScreen(!window.isFullScreen());
+							}
+						}
+					}
+				]
+			},
+			{
+				label: 'ウィンドウ',
+				role: 'window',
+				submenu: [
+					{
+						label: '最小化',
+						accelerator: 'CmdOrCtrl+M',
+						role: 'minimize'
+					}
+				]
+			},
+			{
+				label: 'ヘルプ',
+				role: 'help',
+				submenu: [
+					{
+						label: 'キーボードショートカット',
+						click: function(){
+							if (window) {
+								window.emit('shortcut');
+							}
+						}
+					}
 				]
 			}
 		],
