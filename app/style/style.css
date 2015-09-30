@@ -81,7 +81,8 @@ body {
 #feeds ul li .badge {
 	flex-direction: row;
 	display: inline-block;
-	width: 18px;
+	max-width: 18px;
+	min-width: 8px;
 	height: 16px;
 	margin: 0 4px 0 6px;
 	padding: 2px 6px;
