@@ -1,6 +1,7 @@
 var _ = require('lodash'),
 	app = require('app'),
 	fs = require('fs'),
+	opener = require('opener'),
 	path = require('path'),
 	request = require('request'),
 	BrowserWindow = require('browser-window'),
@@ -187,6 +188,12 @@ var window = null,
 				label: 'ヘルプ',
 				role: 'help',
 				submenu: [
+					{
+						label: '問題の報告...',
+						click: function(){
+							opener('https://github.com/k0sukey/Electron-LDR/issues');
+						}
+					},
 					{
 						label: 'キーボードショートカット',
 						click: function(){
