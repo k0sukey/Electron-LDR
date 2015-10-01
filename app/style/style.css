@@ -37,7 +37,7 @@ body {
 	position: fixed;
 	top: 0px;
 	left: 0px;
-	width: 224px;
+	width: 232px;
 	height: 100px;
 	background-color: #268fc7;
 	z-index: 100;
@@ -81,7 +81,7 @@ body {
 }
 #feeds ul li {
 	display: flex;
-	margin: 0 16px 0 0;
+	margin: 0 8px 0 0;
 	padding: 6px 4px 6px 10px;
 	cursor: pointer;
 	-webkit-border-radius: 0 4px 4px 0;
@@ -188,4 +188,19 @@ body {
 }
 .ReactModal__Overlay {
 	z-index: 999;
+}
+::-webkit-scrollbar {
+	width: 8px;
+}
+::-webkit-scrollbar-track {
+	-webkit-border-radius: 4px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2); 
+}
+::-webkit-scrollbar-thumb {
+	background: rgba(0, 31, 63, 0.8);
+	-webkit-border-radius: 4px;
+	-webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.5); 
+}
+::-webkit-scrollbar-thumb:window-inactive {
+	background: rgba(0, 116, 217, 0.8);
 }
