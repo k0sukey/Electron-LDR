@@ -161,9 +161,7 @@ module.exports = React.createClass({
 		this.doClick(index);
 	},
 	doToggle: function doToggle() {
-		document.getElementById('tools').style.display = this.state.toggle ? 'none' : 'block';
-		document.getElementById('feeds').style.display = this.state.toggle ? 'none' : 'block';
-		document.getElementById('items').style.paddingLeft = this.state.toggle ? '20px' : '260px';
+		document.getElementById('sidebar').style.display = this.state.toggle ? 'none' : 'block';
 		this.setState({
 			toggle: !this.state.toggle
 		});

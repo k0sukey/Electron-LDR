@@ -7,21 +7,25 @@
 	</head>
 	<body>
 		<div id="progressbar"></div>
-		<div id="tools">
-			<select id="order" onchange="doOrder();">
-				<option value="modified_on">新着順</option>
-				<option value="modified_on:reverse">旧着順</option>
-				<option value="unread_count">未読が多い</option>
-				<option value="unread_count:reverse">未読が少ない</option>
-				<option value="title:reverse">タイトル</option>
-				<option value="rate">レート</option>
-				<option value="subscribers_count">読者が多い</option>
-				<option value="subscribers_count:reverse">読者が少ない</option>
-			</select>
-			<input id="filter" type="test" onkeyup="doFilter();"/>
+		<div id="wrapper">
+			<div id="sidebar">
+				<div id="tools">
+					<select id="order" onchange="doOrder();">
+						<option value="modified_on">新着順</option>
+						<option value="modified_on:reverse">旧着順</option>
+						<option value="unread_count">未読が多い</option>
+						<option value="unread_count:reverse">未読が少ない</option>
+						<option value="title:reverse">タイトル</option>
+						<option value="rate">レート</option>
+						<option value="subscribers_count">読者が多い</option>
+						<option value="subscribers_count:reverse">読者が少ない</option>
+					</select>
+					<input id="filter" type="test" onkeyup="doFilter();"/>
+				</div>
+				<div id="feeds"></div>
+			</div>
+			<div id="items"></div>
 		</div>
-		<div id="feeds"></div>
-		<div id="items"></div>
 		<div id="help">
 			<table>
 				<tbody>
