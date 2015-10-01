@@ -167,10 +167,6 @@ module.exports = React.createClass({
 		});
 	},
 	componentDidMount: function componentDidMount() {
-		if (process.platform === 'darwin') {
-			document.getElementById('feeds').children[0].style.marginTop = '130px';
-		}
-
 		mousetrap.bind('a', this.doPrev);
 		mousetrap.bind('s', this.doNext);
 		mousetrap.bind('z', this.doToggle);

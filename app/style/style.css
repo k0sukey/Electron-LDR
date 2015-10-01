@@ -37,7 +37,7 @@ body {
 	position: fixed;
 	top: 0px;
 	left: 0px;
-	width: 232px;
+	width: 240px;
 	height: 100px;
 	background-color: #268fc7;
 	z-index: 100;
@@ -64,7 +64,7 @@ body {
 }
 #feeds {
 	position: fixed;
-	top: 0;
+	top: 130px;
 	left: 0;
 	bottom: 0;
 	width: 240px;
@@ -76,7 +76,7 @@ body {
 	-webkit-overflow-scrolling: touch;
 }
 #feeds ul {
-	margin: 100px 0 20px;
+	margin: 0 0 20px;
 	list-style-type: none;
 }
 #feeds ul li {
