@@ -3,6 +3,10 @@ var _ = require('lodash'),
 	path = require('path');
 
 exports.initialize = function(){
+	if (!fs.existsSync(path.join(__dirname, 'data'))) {
+		fs.mkdirSync(path.join(__dirname, 'data'));
+	}
+
 	if (!fs.existsSync(path.join(__dirname, 'data', 'setting.json'))) {
 		fs.writeFileSync(path.join(__dirname, 'data', 'setting.json'), JSON.stringify({
 			favicon: true,

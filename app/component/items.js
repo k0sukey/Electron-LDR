@@ -128,12 +128,13 @@ module.exports = React.createClass({
 				'User-Agent': remote.getCurrentWindow().useragent,
 				Cookie: Cookie.get()
 			}
-		}, function (error, response, body) {
+		}, (function (error, response, body) {
 			if (error) {
 				return;
 			}
 
-			var json;
+			var json,
+			    pins = this.props.pins;
 
 			try {
 				json = JSON.parse(body);
@@ -180,12 +181,33 @@ module.exports = React.createClass({
 				if (json.isSuccess) {
 					if (haspin) {
 						document.getElementById(item.id).classList.remove('haspin');
+
+						State.merge({
+							category: 'meta',
+							content: {
+								pins: _.filter(pins, function (pin) {
+									return pin.link !== item.link;
+								})
+							}
+						});
 					} else {
 						document.getElementById(item.id).classList.add('haspin');
+
+						pins.push({
+							link: item.link,
+							title: item.title
+						});
+
+						State.merge({
+							category: 'meta',
+							content: {
+								pins: pins
+							}
+						});
 					}
 				}
 			});
-		});
+		}).bind(this));
 	},
 	doBrowser: function doBrowser() {
 		var index = _.isNull(this.state.active) ? 0 : this.state.active;

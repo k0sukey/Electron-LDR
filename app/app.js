@@ -1,5 +1,4 @@
 var _ = require('lodash'),
-	fs = require('fs'),
 	mousetrap = require('mousetrap'),
 	path = require('path'),
 	progress = require('request-progress'),
@@ -10,6 +9,7 @@ var _ = require('lodash'),
 	React = require('react'),
 	Cookie = require('../cookie'),
 	Setting = require('../setting'),
+	State = require('../state'),
 	Feeds = require('../component/feeds');
 
 var feeds = [],
@@ -112,6 +112,10 @@ function fetch(reload) {
 
 		try {
 			feeds = JSON.parse(body);
+			State.save({
+				category: 'feeds',
+				content: feeds
+			});
 
 			if (process.platform === 'darwin') {
 				var badge = 0;
@@ -139,7 +143,15 @@ function fetch(reload) {
 		document.getElementById('progressbar').style.width = state.percent + '%';
 	});
 }
-fetch(true);
+
+if (State.exists({ category: 'feeds'})) {
+	feeds = State.load({
+		category: 'feeds'
+	});
+	render();
+} else {
+	fetch(true);
+}
 
 mousetrap.bind('r', function(){
 	fetch(true);

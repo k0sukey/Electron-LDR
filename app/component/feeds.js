@@ -10,6 +10,7 @@ var _ = require('lodash'),
     React = require('react'),
     Cookie = require('../cookie'),
     Setting = require('../setting'),
+    State = require('../state'),
     Items = require('./items');
 
 module.exports = React.createClass({
@@ -90,6 +91,10 @@ module.exports = React.createClass({
 
 			try {
 				json = JSON.parse(body);
+				State.save({
+					category: 'items',
+					content: json.items
+				});
 			} catch (e) {
 				return;
 			}
@@ -106,6 +111,15 @@ module.exports = React.createClass({
 					} catch (e) {}
 				}
 
+				State.save({
+					category: 'meta',
+					content: {
+						subscribe_id: feed.subscribe_id,
+						title: feed.title,
+						pins: pins
+					}
+				});
+
 				React.render(React.createElement(Items, {
 					subscribe_id: feed.subscribe_id,
 					title: feed.title,
@@ -115,6 +129,12 @@ module.exports = React.createClass({
 			});
 
 			me.children[2].textContent = 0;
+
+			feed.unread_count = 0;
+			State.merge({
+				category: 'feeds',
+				content: feed
+			});
 
 			if (!me.children[1].classList.contains('feed-zero')) {
 				me.children[1].classList.add('feed-zero');
@@ -184,6 +204,22 @@ module.exports = React.createClass({
 				});
 			}).bind(this)
 		});
+
+		if (State.exists({ category: 'items' }) && State.exists({ category: 'meta' })) {
+			var items = State.load({
+				category: 'items'
+			}),
+			    meta = State.load({
+				category: 'meta'
+			});
+
+			React.render(React.createElement(Items, {
+				subscribe_id: meta.subscribe_id,
+				title: meta.title,
+				items: items,
+				pins: meta.pins
+			}), document.getElementById('items'));
+		}
 	},
 	componentWillUnmount: function componentWillUnmount() {
 		mousetrap.unbind('a');

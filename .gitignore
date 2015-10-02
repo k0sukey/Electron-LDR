@@ -3,5 +3,7 @@ npm-debug.log
 node_modules
 packages
 app/data/cookies
-app/data/order.dat
 app/data/setting.json
+app/data/feeds.json
+app/data/items.json
+app/data/meta.json
