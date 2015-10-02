@@ -6,7 +6,8 @@ var _ = require('lodash'),
 	request = require('request'),
 	BrowserWindow = require('browser-window'),
 	Menu = require('menu'),
-	Cookie = require('./app/cookie');
+	Cookie = require('./app/cookie'),
+	State = require('./app/state');
 
 require('crash-reporter').start();
 
@@ -92,7 +93,18 @@ var window = null,
 										'User-Agent': window.useragent,
 										Cookie: Cookie.get() + '; reader_sid=' + Cookie.parseApiKey(response.headers['set-cookie'])
 									}
-								}, function(error, response, body){});
+								}, function(error, response, body){
+									if (error) {
+										return;
+									}
+
+									State.merge({
+										category: 'meta',
+										content: {
+											pins: []
+										}
+									});
+								});
 							});
 						}
 					},
@@ -244,8 +256,6 @@ app.on('ready', function(){
 		window.on('closed', function(){
 			window = null;
 		});
-
-		window.loadUrl('file://' + path.join(__dirname, 'app', 'html', 'index.html'));
 	});
 
 	splash.webContents.once('did-finish-load', function(){
