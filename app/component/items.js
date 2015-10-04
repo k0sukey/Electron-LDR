@@ -87,6 +87,13 @@ module.exports = React.createClass({
 		this.setState({
 			active: index
 		});
+
+		State.merge({
+			category: 'meta',
+			content: {
+				active: index
+			}
+		});
 	},
 	doNext: function doNext() {
 		var index = _.isNull(this.state.active) ? 0 : this.state.active + 1;
@@ -97,6 +104,13 @@ module.exports = React.createClass({
 		document.getElementById(this.props.items[index].id).scrollIntoView();
 		this.setState({
 			active: index
+		});
+
+		State.merge({
+			category: 'meta',
+			content: {
+				active: index
+			}
 		});
 	},
 	doCollapse: function doCollapse() {
@@ -279,6 +293,19 @@ module.exports = React.createClass({
 				});
 			}).bind(this)
 		});
+
+		if (State.exists({ category: 'meta' })) {
+			var meta = State.load({
+				category: 'meta'
+			});
+
+			if (meta.active && this.props.items[meta.active]) {
+				document.getElementById(this.props.items[meta.active].id).scrollIntoView();
+				this.setState({
+					active: meta.active
+				});
+			}
+		}
 	},
 	componentWillUnmount: function componentWillUnmount() {
 		mousetrap.unbind('k');
