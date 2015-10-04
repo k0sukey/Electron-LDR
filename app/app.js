@@ -144,7 +144,8 @@ function fetch(reload) {
 	});
 }
 
-if (State.exists({ category: 'feeds'})) {
+if (State.exists({ category: 'feeds'}) &&
+	(_.isUndefined(setting, 'state') || setting.state)) {
 	feeds = State.load({
 		category: 'feeds'
 	});

@@ -13,7 +13,8 @@ exports.initialize = function(){
 			unread: true,
 			fontfamily: 'Noto Sans Japanese',
 			fontsize: '14px',
-			order: 'modified_on'
+			order: 'modified_on',
+			state: true
 		}));
 	}
 };

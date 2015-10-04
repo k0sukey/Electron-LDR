@@ -205,13 +205,36 @@ module.exports = React.createClass({
 			}).bind(this)
 		});
 
-		if (State.exists({ category: 'items' }) && State.exists({ category: 'meta' })) {
+		var setting = Setting.get();
+
+		if (State.exists({ category: 'items' }) && State.exists({ category: 'meta' }) && (_.isUndefined(setting, 'state') || setting.state)) {
 			var items = State.load({
 				category: 'items'
 			}),
 			    meta = State.load({
 				category: 'meta'
-			});
+			}),
+			    badge = 0;
+
+			_.each(React.findDOMNode(document.getElementById('feeds').children[0]).childNodes, (function (item, index) {
+				if (this.props.feeds[index].subscribe_id === meta.subscribe_id) {
+					this.setState({
+						active: index
+					});
+
+					item.style.color = '#7fdbff';
+					item.style.backgroundColor = '#001f3f';
+				} else {
+					badge += parseInt(item.children[2].textContent, 10);
+
+					item.style.color = '#ffffff';
+					item.style.backgroundColor = 'transparent';
+				}
+			}).bind(this));
+
+			if (process.platform === 'darwin') {
+				app.dock.setBadge('' + badge);
+			}
 
 			React.render(React.createElement(Items, {
 				subscribe_id: meta.subscribe_id,

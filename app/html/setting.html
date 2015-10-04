@@ -99,6 +99,12 @@ function doLoad() {
 			item.selected = 'selected';
 		}
 	});
+
+	if (setting.state || !_.has(setting, 'state')) {
+		document.getElementById('state_true').checked = 'checked';
+	} else {
+		document.getElementById('state_false').checked = 'checked';
+	}
 }
 
 function doSubscribe() {
@@ -192,6 +198,10 @@ function doFontsize() {
 
 	Setting.set('fontsize', element.options[index].value);
 }
+
+function doState(param) {
+	Setting.set('state', param);
+}
 		</script>
 	</head>
 	<body onload="doLoad();">
@@ -245,6 +255,16 @@ function doFontsize() {
 					<option value="21px">21px</option>
 					<option value="22px">22px</option>
 				</select>
+			</div>
+		</div>
+		<p class="category">起動時</p>
+		<div class="wrapper">
+			<div class="row">
+				<label class="label" for="state">前回まで表示していた状態：</label>
+				<input type="radio" id="state_true" name="state" onchange="doState(true);"/>
+				<label for="state_true" style="margin-right: 10px;">表示する</label>
+				<input type="radio" id="state_false" name="state" onchange="doState(false);"/>
+				<label for="state_false">表示しない</label>
 			</div>
 		</div>
 	</body>

@@ -11,6 +11,7 @@ var _ = require('lodash'),
     React = require('react'),
     Modal = require('react-modal'),
     Setting = require('../setting'),
+    State = require('../state'),
     Cookie = require('../cookie');
 
 moment.locale('ja');
@@ -91,7 +92,7 @@ module.exports = React.createClass({
 		State.merge({
 			category: 'meta',
 			content: {
-				active: index
+				items: index
 			}
 		});
 	},
@@ -109,7 +110,7 @@ module.exports = React.createClass({
 		State.merge({
 			category: 'meta',
 			content: {
-				active: index
+				items: index
 			}
 		});
 	},
@@ -294,15 +295,17 @@ module.exports = React.createClass({
 			}).bind(this)
 		});
 
-		if (State.exists({ category: 'meta' })) {
+		var setting = Setting.get();
+
+		if (State.exists({ category: 'meta' }) && (_.isUndefined(setting, 'state') || setting.state)) {
 			var meta = State.load({
 				category: 'meta'
 			});
 
-			if (meta.active && this.props.items[meta.active]) {
-				document.getElementById(this.props.items[meta.active].id).scrollIntoView();
+			if (meta.items && this.props.items[meta.items]) {
+				document.getElementById(this.props.items[meta.items].id).scrollIntoView();
 				this.setState({
-					active: meta.active
+					active: meta.items
 				});
 			}
 		}
