@@ -111,6 +111,10 @@ var window = null,
 					{
 						label: 'ログアウト',
 						click: function(){
+							State.destroy({ category: 'meta' });
+							State.destroy({ category: 'feeds' });
+							State.destroy({ category: 'items' });
+
 							Cookie.clear();
 							app.emit('ready');
 						}
@@ -256,6 +260,8 @@ app.on('ready', function(){
 		window.on('closed', function(){
 			window = null;
 		});
+
+		window.loadUrl('file://' + path.join(__dirname, 'app', 'html', 'index.html'));
 	});
 
 	splash.webContents.once('did-finish-load', function(){

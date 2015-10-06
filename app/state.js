@@ -69,3 +69,13 @@ exports.load = function(params){
 	delete require.cache[path.join(__dirname, 'data', params.category + '.json')];
 	return require('./data/' + params.category);
 };
+
+exports.destroy = function(params){
+	params = params || {};
+
+	if (params.category === '') {
+		return;
+	}
+
+	fs.unlinkSync(path.join(__dirname, 'data', params.category + '.json'));
+}
