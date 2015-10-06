@@ -309,6 +309,8 @@ module.exports = React.createClass({
 				});
 			}
 		}
+
+		document.getElementById('items').focus();
 	},
 	componentWillUnmount: function componentWillUnmount() {
 		mousetrap.unbind('k');

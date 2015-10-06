@@ -308,6 +308,8 @@ module.exports = React.createClass({
 				});
 			}
 		}
+
+		document.getElementById('items').focus();
 	},
 	componentWillUnmount: function(){
 		mousetrap.unbind('k');
