@@ -31,7 +31,8 @@ body {
 	flex-direction: row;
 	display: block;
 	width: 240px;
-	height: 100%;	
+	height: 100%;
+	-webkit-user-select: none;
 }
 #tools {
 	position: fixed;
@@ -44,7 +45,7 @@ body {
 }
 #order {
 	position: absolute;
-	bottom: 60px;	
+	bottom: 60px;
 	left: 20px;
 	width: 200px;
 	border: 1px solid #268fc7;
@@ -190,18 +191,22 @@ body {
 .ReactModal__Overlay {
 	z-index: 999;
 }
-::-webkit-scrollbar {
+#feeds::-webkit-scrollbar,
+#items::-webkit-scrollbar {
 	width: 8px;
 }
-::-webkit-scrollbar-track {
+#feeds::-webkit-scrollbar-track,
+#items::-webkit-scrollbar-track {
 	-webkit-border-radius: 4px;
 	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2); 
 }
-::-webkit-scrollbar-thumb {
+#feeds::-webkit-scrollbar-thumb,
+#items::-webkit-scrollbar-thumb {
 	background: rgba(0, 31, 63, 0.8);
 	-webkit-border-radius: 4px;
 	-webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.5); 
 }
-::-webkit-scrollbar-thumb:window-inactive {
+#feeds::-webkit-scrollbar-thumb:window-inactive,
+#items::-webkit-scrollbar-thumb:window-inactive {
 	background: rgba(0, 116, 217, 0.8);
 }
