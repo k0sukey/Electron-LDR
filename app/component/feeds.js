@@ -182,6 +182,7 @@ module.exports = React.createClass({
 	},
 	doToggle: function doToggle() {
 		document.getElementById('sidebar').style.display = this.state.toggle ? 'none' : 'block';
+		document.getElementById('items').style.left = this.state.toggle ? 0 : '240px';
 		this.setState({
 			toggle: !this.state.toggle
 		});
