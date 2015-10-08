@@ -73,6 +73,7 @@ $ npm start
 
 **独自のキーボードショートカット**
 - [x] <kbd>b</kbd> 元記事をブラウザで開く
+- [x] <kbd>command or control + 1-9</kbd> フォルダを移動
 - [x] <kbd>command + ,</kbd> 設定を開く
 - [x] <kbd>command + q</kbd> アプリを終了
 

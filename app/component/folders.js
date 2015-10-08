@@ -1,6 +1,7 @@
 'use strict';
 
 var _ = require('lodash'),
+    mousetrap = require('mousetrap'),
     remote = require('remote'),
     app = remote.require('app'),
     ipc = remote.require('ipc'),
@@ -74,6 +75,21 @@ module.exports = React.createClass({
 				});
 
 				item.style.opacity = 1.0;
+			}
+
+			if (index < 10) {
+				mousetrap.bind(['command+' + (index + 1), 'ctrl' + (index + 1)], (function () {
+					this.doClick(index);
+				}).bind(this));
+			}
+		}).bind(this));
+	},
+	componentWillUnmount: function componentWillUnmount() {
+		var ul = document.getElementById('folders').children[0].children[0];
+
+		_.each(React.findDOMNode(ul).childNodes, (function (item, index) {
+			if (index < 10) {
+				mousetrap.unbind(['command+' + (index + 1), 'ctrl' + (index + 1)]);
 			}
 		}).bind(this));
 	},
