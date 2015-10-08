@@ -112,6 +112,7 @@ var window = null,
 						label: 'ログアウト',
 						click: function(){
 							State.destroy({ category: 'meta' });
+							State.destroy({ category: 'folders' });
 							State.destroy({ category: 'feeds' });
 							State.destroy({ category: 'items' });
 

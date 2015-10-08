@@ -6,20 +6,20 @@ var _ = require('lodash'),
 	request = require('request'),
 	watchr = require('watchr'),
 	app = remote.require('app'),
+	ipc = remote.require('ipc'),
 	React = require('react'),
 	Cookie = require('../cookie'),
 	Setting = require('../setting'),
 	State = require('../state'),
-	Feeds = require('../component/feeds');
+	Feeds = require('../component/feeds'),
+	Folders = require('../component/folders');
 
-var feeds = [],
+var folders = [],
+	folder = '全て',
+	feeds = [],
 	order = 'modified_on',
 	filter = '',
 	setting = Setting.get();
-
-if (process.platform === 'darwin') {
-	document.getElementById('tools').style.paddingTop = '30px';
-}
 
 document.getElementsByTagName('body')[0].style.fontFamily = setting.fontfamily;
 
@@ -47,8 +47,26 @@ function doFilter() {
 	render();
 }
 
+function doFolder() {
+	var meta = State.load({
+		category: 'meta'
+	});
+
+	if (_.has(meta, 'folder')) {
+		folder = meta.folder;
+		render();
+	}
+}
+ipc.on('folder', doFolder);
+
 function render() {
 	var _feeds = feeds;
+
+	if (folder !== '' && folder !== '全て') {
+		_feeds = _.filter(_feeds, function(feed){
+			return feed.folder === folder;
+		});
+	}
 
 	if (filter !== '') {
 		var regex = new RegExp(filter, 'i');
@@ -92,6 +110,13 @@ function render() {
 	React.render(React.createElement(Feeds, {
 		feeds: _feeds,
 	}), document.getElementById('feeds'));
+
+	React.unmountComponentAtNode(document.getElementById('folders'));
+
+	React.render(React.createElement(Folders, {
+		folders: folders,
+		folder: folder
+	}), document.getElementById('folders'));
 }
 
 function fetch(reload) {
@@ -127,28 +152,81 @@ function fetch(reload) {
 				app.dock.setBadge('' + badge);
 			}
 
-			render();
+			document.getElementById('progressbar').style.width = '50%';
+
+			progress(request.post('http://reader.livedoor.com/api/folders', {
+				headers: {
+					'User-Agent': remote.getCurrentWindow().useragent,
+					Cookie: Cookie.get()
+				},
+				form: {
+					unread: 0
+				}
+			}, function(error, response, body){
+				if (error) {
+					return;
+				}
+
+				try {
+					folders = JSON.parse(body);
+
+					folders.name2id = _.extend({
+						'全て': '-1'
+					}, folders.name2id);
+					folders.name2id = _.extend({
+						'未分類': '0'
+					}, folders.name2id);
+
+					folders.names.unshift('未分類');
+					folders.names.unshift('全て');
+
+					State.save({
+						category: 'folders',
+						content: folders
+					});
+
+					document.getElementById('progressbar').style.width = '100%';
+
+					render();
+
+					_.delay(function(){
+						document.getElementById('progressbar').style.width = '0%';
+					}, 500);
+				} catch (e) {}
+			}), {
+				throttle: 100
+			}).on('progress', function(state){
+				document.getElementById('progressbar').style.width = (state.percent * 0.5 + 50) + '%';
+			});
 		} catch (e) {
 			Cookie.set('');
 			remote.getCurrentWindow().close();
 		}
-
-		document.getElementById('progressbar').style.width = '100%';
-		_.delay(function(){
-			document.getElementById('progressbar').style.width = '0%';
-		}, 500);
 	}), {
 		throttle: 100
 	}).on('progress', function(state){
-		document.getElementById('progressbar').style.width = state.percent + '%';
+		document.getElementById('progressbar').style.width = (state.percent * 0.5) + '%';
 	});
 }
 
 if (State.exists({ category: 'feeds'}) &&
+	State.exists({ category: 'folders'}) &&
 	(_.isUndefined(setting, 'state') || setting.state)) {
 	feeds = State.load({
 		category: 'feeds'
 	});
+
+	folders = State.load({
+		category: 'folders'
+	});
+
+	var meta = State.load({
+		category: 'meta'
+	});
+	if (_.has(meta, 'folder')) {
+		folder = meta.folder;
+	}
+
 	render();
 } else {
 	fetch(true);

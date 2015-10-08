@@ -27,6 +27,40 @@ body {
 #wrapper {
 	display: flex;
 }
+#folders {
+	width: 76px;
+	-webkit-user-select: none;
+}
+#folders ul {
+	position: fixed;
+	top: 0px;
+	bottom: 0;
+	padding: 40px 0;
+	width: 76px;
+	height: 100%;
+	background-color: #002f4a;
+	list-style-type: none;
+	overflow-x: hidden;
+	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
+}
+#folders ul li {
+	margin: 0 0 20px 16px;
+	width: 44px;
+	height: 44px;
+	background-color: #ffffff;
+	cursor: pointer;
+	opacity: 0.4;
+	-webkit-border-radius: 4px;
+}
+#folders ul li p {
+	width: 44px;
+	height: 44px;
+	font-size: 26px;
+	line-height: 44px;
+	text-align: center;
+	color: #001f3f;
+}
 #sidebar {
 	width: 240px;
 	-webkit-user-select: none;
@@ -34,7 +68,6 @@ body {
 #tools {
 	position: fixed;
 	top: 0px;
-	left: 0px;
 	width: 240px;
 	height: 100px;
 	background-color: #268fc7;
@@ -42,7 +75,7 @@ body {
 }
 #order {
 	position: absolute;
-	bottom: 60px;
+	top: 20px;
 	left: 20px;
 	width: 200px;
 	border: 1px solid #268fc7;
@@ -50,7 +83,7 @@ body {
 }
 #filter {
 	position: absolute;
-	bottom: 20px;
+	top: 60px;
 	left: 20px;
 	width: 200px;
 	height: 30px;
@@ -62,9 +95,8 @@ body {
 }
 #feeds {
 	position: fixed;
-	top: 130px;
+	top: 100px;
 	bottom: 0;
-	left: 0;
 	width: 240px;
 	background-color: #268fc7;
 	overflow-x: hidden;
@@ -122,7 +154,7 @@ body {
 	top: 0;
 	right: 0;
 	bottom: 0;
-	left: 240px;
+	left: 316px;
 	overflow-x: hidden;
 	overflow-y: auto;
 	-webkit-overflow-scrolling: touch;

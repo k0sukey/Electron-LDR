@@ -4,6 +4,7 @@ node_modules
 packages
 app/data/cookies
 app/data/setting.json
+app/data/folders.json
 app/data/feeds.json
 app/data/items.json
 app/data/meta.json
