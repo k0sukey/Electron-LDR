@@ -62,7 +62,11 @@ ipc.on('folder', doFolder);
 function render() {
 	var _feeds = feeds;
 
-	if (folder !== '' && folder !== '全て') {
+	if (folder === '未分類') {
+		_feeds = _.filter(_feeds, function(feed){
+			return feed.folder === '';
+		});
+	} else if (folder !== '' && folder !== '全て') {
 		_feeds = _.filter(_feeds, function(feed){
 			return feed.folder === folder;
 		});
