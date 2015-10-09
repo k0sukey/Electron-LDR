@@ -314,11 +314,18 @@ module.exports = React.createClass({
 	componentWillUnmount: function(){
 		mousetrap.unbind('k');
 		mousetrap.unbind('j');
-		mousetrap.unbind('c',);
+		mousetrap.unbind('c');
 		mousetrap.unbind('v');
 		mousetrap.unbind('p');
 		mousetrap.unbind('b');
 		mousetrap.unbind('del');
+
+		State.merge({
+			category: 'meta',
+			content: {
+				items: 0
+			}
+		});
 	},
 	render: function(){
 		var setting = Setting.get(),

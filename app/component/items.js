@@ -320,6 +320,13 @@ module.exports = React.createClass({
 		mousetrap.unbind('p');
 		mousetrap.unbind('b');
 		mousetrap.unbind('del');
+
+		State.merge({
+			category: 'meta',
+			content: {
+				items: 0
+			}
+		});
 	},
 	render: function render() {
 		var setting = Setting.get(),
