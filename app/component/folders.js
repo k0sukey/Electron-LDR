@@ -94,6 +94,11 @@ module.exports = React.createClass({
 		}).bind(this));
 	},
 	render: function render() {
+		var setting = Setting.get(),
+		    font = {
+			fontFamily: setting.fontfamily
+		};
+
 		return React.createElement(
 			'div',
 			null,
@@ -104,6 +109,7 @@ module.exports = React.createClass({
 					return React.createElement(
 						'li',
 						{ key: this.props.folders.name2id[item],
+							style: font,
 							onMouseOver: this.doMouseOver.bind(this, index),
 							onMouseOut: this.doMouseOut.bind(this, index),
 							onClick: this.doClick.bind(this, index) },

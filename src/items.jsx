@@ -4,7 +4,6 @@ var _ = require('lodash'),
 	opener = require('opener'),
 	remote = require('remote'),
 	request = require('request'),
-	watchr = require('watchr'),
 	dialog = remote.require('dialog'),
 	React = require('react'),
 	Modal = require('react-modal'),
@@ -281,18 +280,6 @@ module.exports = React.createClass({
 			});
 		}
 
-		watchr.watch({
-			path: path.join(__dirname, '..', 'data', 'setting.json'),
-			listener: function(){
-				var setting = Setting.get();
-
-				this.props.items.map(function(item){
-					document.getElementById(item.id).children[2].style.fontFamily = setting.fontfamily;
-					document.getElementById(item.id).children[2].style.fontSize = setting.fontsize;
-				});
-			}.bind(this)
-		});
-
 		var setting = Setting.get();
 
 		if (State.exists({ category: 'meta' }) &&
@@ -330,6 +317,7 @@ module.exports = React.createClass({
 	render: function(){
 		var setting = Setting.get(),
 			font = {
+				fontFamily: setting.fontfamily,
 				fontSize: setting.fontsize
 			};
 

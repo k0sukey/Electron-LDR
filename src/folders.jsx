@@ -98,11 +98,17 @@ module.exports = React.createClass({
 		}.bind(this));
 	},
 	render: function(){
+		var setting = Setting.get(),
+			font = {
+				fontFamily: setting.fontfamily
+			};
+
 		return (
 			<div>
 				<ul>{this.props.folders.names.map(function(item, index){
 						return (
 							<li key={this.props.folders.name2id[item]}
+								style={font}
 								onMouseOver={this.doMouseOver.bind(this, index)}
 								onMouseOut={this.doMouseOut.bind(this, index)}
 								onClick={this.doClick.bind(this, index)}>

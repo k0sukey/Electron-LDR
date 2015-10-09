@@ -4,7 +4,6 @@ var _ = require('lodash'),
 	progress = require('request-progress'),
 	remote = require('remote'),
 	request = require('request'),
-	watchr = require('watchr'),
 	app = remote.require('app'),
 	ipc = remote.require('ipc'),
 	React = require('react'),
@@ -266,7 +265,6 @@ mousetrap.bind('f', function(){
 	});
 });
 
-watchr.watch({
-	path: path.join(__dirname, '..', 'data', 'setting.json'),
-	listener: render
+ipc.on('setting', function(){
+	render();
 });

@@ -5,7 +5,6 @@ var _ = require('lodash'),
     progress = require('request-progress'),
     remote = require('remote'),
     request = require('request'),
-    watchr = require('watchr'),
     app = remote.require('app'),
     React = require('react'),
     Cookie = require('../cookie'),
@@ -193,20 +192,6 @@ module.exports = React.createClass({
 		mousetrap.bind('s', this.doNext);
 		mousetrap.bind('z', this.doToggle);
 
-		watchr.watch({
-			path: path.join(__dirname, '..', 'data', 'setting.json'),
-			listener: (function () {
-				var setting = Setting.get(),
-				    ul = document.getElementById('feeds').children[0];
-
-				document.getElementsByTagName('body')[0].style.fontFamily = setting.fontfamily;
-
-				_.each(React.findDOMNode(ul).childNodes, function (item) {
-					item.children[0].style.display = setting.favicon ? 'inline' : 'none';
-				});
-			}).bind(this)
-		});
-
 		var setting = Setting.get();
 
 		if (State.exists({ category: 'items' }) && State.exists({ category: 'meta' }) && (_.isUndefined(setting, 'state') || setting.state)) {
@@ -255,6 +240,9 @@ module.exports = React.createClass({
 		var setting = Setting.get(),
 		    favicon = {
 			display: setting.favicon ? 'inline' : 'none'
+		},
+		    font = {
+			fontFamily: setting.fontfamily
 		};
 
 		return React.createElement(
@@ -272,6 +260,7 @@ module.exports = React.createClass({
 				return React.createElement(
 					'li',
 					{ key: item.subscribe_id,
+						style: font,
 						onMouseOver: this.doMouseOver.bind(this, index),
 						onMouseOut: this.doMouseOut.bind(this, index),
 						onClick: this.doClick.bind(this, index) },

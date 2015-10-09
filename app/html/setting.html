@@ -69,6 +69,7 @@ select {
 var _ = require('lodash'),
 	remote = require('remote'),
 	request = require('request'),
+	ipc = remote.require('ipc'),
 	dialog = remote.require('dialog'),
 	Cookie = require('../cookie'),
 	Setting = require('../setting');
@@ -179,10 +180,12 @@ function doSubscribe() {
 
 function doFavicon(param) {
 	Setting.set('favicon', param);
+	ipc.emit('setting');
 }
 
 function doUnread(param) {
 	Setting.set('unread', param);
+	ipc.emit('setting');
 }
 
 function doFontfamily() {
@@ -190,6 +193,7 @@ function doFontfamily() {
 		index = element.selectedIndex;
 
 	Setting.set('fontfamily', element.options[index].value);
+	ipc.emit('setting');
 }
 
 function doFontsize() {
@@ -197,10 +201,12 @@ function doFontsize() {
 		index = element.selectedIndex;
 
 	Setting.set('fontsize', element.options[index].value);
+	ipc.emit('setting');
 }
 
 function doState(param) {
 	Setting.set('state', param);
+	ipc.emit('setting');
 }
 		</script>
 	</head>

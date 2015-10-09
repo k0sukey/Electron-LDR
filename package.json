@@ -29,8 +29,7 @@
     "react-modal": "^0.5.0",
     "react-tooltip": "^0.6.4",
     "request": "^2.61.0",
-    "request-progress": "^0.3.1",
-    "watchr": "^2.4.13"
+    "request-progress": "^0.3.1"
   },
   "devDependencies": {
     "electron-packager": "^5.1.0",
