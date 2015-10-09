@@ -59,7 +59,7 @@ $ npm start
 - [ ] <kbd>&gt;</kbd> 未来の記事に移動 たぶんやらない
 - [x] <kbd>v</kbd> 元記事を開く（独自：閉じる）
 - [x] <kbd>p</kbd> ピンを付ける / 外す
-- [ ] <kbd>o</kbd> ピンを開く → メニュー内で実装した
+- [x] <kbd>o</kbd> ピンを開く → メニュー内で実装した
 - [x] <kbd>c</kbd> 本文の表示 / 非表示
 - [x] <kbd>delete</kbd> 購読停止
 - [x] <kbd>r</kbd> フィード一覧の更新
