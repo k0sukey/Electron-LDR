@@ -209,6 +209,13 @@ function fetch(reload) {
 	});
 }
 
+if (!State.exists({ category: 'meta'})) {
+	State.save({
+		category: 'meta',
+		content: {}
+	});
+}
+
 if (State.exists({ category: 'feeds'}) &&
 	State.exists({ category: 'folders'}) &&
 	(_.isUndefined(setting, 'state') || setting.state)) {

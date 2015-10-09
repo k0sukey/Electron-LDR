@@ -111,7 +111,7 @@ module.exports = React.createClass({
 					} catch (e) {}
 				}
 
-				State.save({
+				State.merge({
 					category: 'meta',
 					content: {
 						subscribe_id: feed.subscribe_id,
