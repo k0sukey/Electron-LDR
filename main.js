@@ -56,7 +56,7 @@ var window = null,
 							setting = new BrowserWindow({
 								title: '環境設定',
 								width: 640,
-								height: 480,
+								height: 600,
 								resizable: false,
 								'always-on-top': true
 							});

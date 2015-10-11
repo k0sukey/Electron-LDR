@@ -178,6 +178,63 @@ function doSubscribe() {
 	});
 }
 
+function doCreate() {
+	if (document.getElementById('folder').value === '') {
+		dialog.showErrorBox('エラー', 'フォルダ名を入力してください');
+		return;
+	}
+
+	request.post('http://reader.livedoor.com/api/folders', {
+		headers: {
+			'User-Agent': remote.getCurrentWindow().useragent,
+			Cookie: Cookie.get()
+		}
+	}, function(error, response, body){
+		if (error) {
+			return;
+		}
+
+		var json;
+
+		try {
+			json = JSON.parse(body);
+
+			if (_.has(json.name2id, document.getElementById('folder').value)) {
+				dialog.showErrorBox('エラー', 'フォルダ名が重複しています');
+				return;
+			}
+
+			request.post('http://reader.livedoor.com/api/folder/create', {
+				headers: {
+					'User-Agent': remote.getCurrentWindow().useragent,
+					Cookie: Cookie.get() + '; reader_sid=' + Cookie.parseApiKey(response.headers['set-cookie'])
+				},
+				form: {
+					name: document.getElementById('folder').value
+				}
+			}, function(error, response, body){
+				if (error) {
+					return;
+				}
+
+				var json;
+
+				try {
+					json = JSON.parse(body);
+				} catch (e) {}
+
+				if (json.isSuccess) {
+					document.getElementById('folder').value = '';
+
+					ipc.emit('reload');
+				} else {
+					dialog.showErrorBox('エラー', 'すでに登録されているか登録することができませんでした');
+				}
+			});
+		} catch (e){}
+	});
+}
+
 function doFavicon(param) {
 	Setting.set('favicon', param);
 	ipc.emit('setting');
@@ -217,6 +274,14 @@ function doState(param) {
 				<label class="label" for="url">URL：</label>
 				<input type="text" id="url" style="margin-right: 10px;"/>
 				<input type="button" id="next" value="次へ" onclick="doSubscribe();"/>
+			</div>
+		</div>
+		<p class="category">新規フォルダ作成</p>
+		<div class="wrapper">
+			<div class="row">
+				<label class="label" for="folder">フォルダ名：</label>
+				<input type="text" id="folder" style="margin-right: 10px;"/>
+				<input type="button" id="create" value="作成" onclick="doCreate();"/>
 			</div>
 		</div>
 		<p class="category">表示の設定</p>

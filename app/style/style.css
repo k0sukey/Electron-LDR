@@ -34,7 +34,7 @@ body {
 #folders {
 	position: fixed;
 	top: 0;
-	bottom: 64px;
+	bottom: 0;
 	width: 76px;
 	background-color: #002f4a;
 	overflow-x: hidden;
@@ -61,27 +61,6 @@ body {
 	line-height: 44px;
 	text-align: center;
 	color: #001f3f;
-}
-#folder {
-	position: fixed;
-	bottom: 0;
-	width: 76px;
-	height: 84px;
-	background-color: #002f4a;
-	-webkit-overflow-scrolling: touch;
-}
-#folder p {
-	margin: 20px 0 20px 16px;
-	width: 44px;
-	height: 44px;
-	background-color: #ffffff;
-	font-size: 26px;
-	line-height: 44px;
-	text-align: center;
-	color: #001f3f;
-	cursor: pointer;
-	opacity: 0.4;
-	-webkit-border-radius: 4px;
 }
 #sidebar {
 	width: 240px;

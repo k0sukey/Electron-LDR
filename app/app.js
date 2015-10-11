@@ -21,13 +21,49 @@ var folders = [],
 	filter = '',
 	setting = Setting.get();
 
-document.getElementsByTagName('body')[0].style.fontFamily = setting.fontfamily;
+function doLoad() {
+	document.getElementsByTagName('body')[0].style.fontFamily = setting.fontfamily;
 
-_.each(document.getElementById('order').options, function(item, index){
-	if (item.value === setting.order) {
-		item.selected = 'selected';
+	_.each(document.getElementById('order').options, function(item, index){
+		if (item.value === setting.order) {
+			item.selected = 'selected';
+		}
+	});
+
+	ipc.on('folders', doFolders);
+	ipc.on('reload', fetch);
+	ipc.on('setting', render);
+
+	if (!State.exists({ category: 'meta'})) {
+		State.save({
+			category: 'meta',
+			content: {}
+		});
 	}
-});
+
+	if (State.exists({ category: 'feeds'}) &&
+		State.exists({ category: 'folders'}) &&
+		(_.isUndefined(setting, 'state') || setting.state)) {
+		feeds = State.load({
+			category: 'feeds'
+		});
+
+		folders = State.load({
+			category: 'folders'
+		});
+
+		var meta = State.load({
+			category: 'meta'
+		});
+		if (_.has(meta, 'folder')) {
+			folder = meta.folder;
+		}
+
+		render();
+	} else {
+		fetch(true);
+	}
+}
 
 function doOrder() {
 	var element = document.getElementById('order'),
@@ -56,11 +92,6 @@ function doFolders() {
 		folder = meta.folder;
 		render();
 	}
-}
-ipc.on('folders', doFolders);
-
-function doFolder() {
-	alert('未実装');
 }
 
 function render() {
@@ -215,37 +246,6 @@ function fetch(reload) {
 		document.getElementById('progressbar').style.width = (state.percent * 0.5) + '%';
 	});
 }
-ipc.on('reload', fetch);
-
-if (!State.exists({ category: 'meta'})) {
-	State.save({
-		category: 'meta',
-		content: {}
-	});
-}
-
-if (State.exists({ category: 'feeds'}) &&
-	State.exists({ category: 'folders'}) &&
-	(_.isUndefined(setting, 'state') || setting.state)) {
-	feeds = State.load({
-		category: 'feeds'
-	});
-
-	folders = State.load({
-		category: 'folders'
-	});
-
-	var meta = State.load({
-		category: 'meta'
-	});
-	if (_.has(meta, 'folder')) {
-		folder = meta.folder;
-	}
-
-	render();
-} else {
-	fetch(true);
-}
 
 mousetrap.bind('r', function(){
 	fetch(true);
@@ -268,8 +268,4 @@ mousetrap.bind('f', function(){
 	_.defer(function(){
 		document.getElementById('filter').focus();
 	});
-});
-
-ipc.on('setting', function(){
-	render();
 });

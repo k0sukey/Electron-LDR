@@ -5,21 +5,12 @@
 		<link href="https://fonts.googleapis.com/earlyaccess/notosansjapanese.css" rel="stylesheet">
 		<link href="../style/style.css" rel="stylesheet">
 	</head>
-	<body>
+	<body onload="doLoad();">
 		<div id="progressbar"></div>
 		<div id="tooltip"></div>
 		<div id="wrapper">
 			<div id="extend">
 				<div id="folders"></div>
-				<div id="folder">
-					<p data-tip="新規フォルダ作成"
-						data-place="right"
-						data-type="light"
-						data-effect="solid"
-						onMouseOver="this.style.opacity = 1.0;"
-						onMouseOut="this.style.opacity = 0.4;"
-						onClick="doFolder();">＋</p>
-				</div>
 			</div>
 			<div id="sidebar">
 				<div id="tools">

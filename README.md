@@ -41,7 +41,7 @@ $ npm start
 - [x] **/api/touch_all** GET/POST ```{ subscribe_id: String }``` クッキーに ```reader_sid``` も必要
 - [ ] **/api/feed/set_rate** POST ```{ subscribe_id: String, rate: [0-5] }``` たぶんやらない
 - [x] **/api/folders** GET/POST たぶんやらない → サイドバーの横に入れた
-- [ ] **/api/folder/create** POST ```{ name: String }``` たぶんやらない
+- [x] **/api/folder/create** POST ```{ name: String }``` たぶんやらない → 設定に入れた
 - [x] **/api/folder/delete** POST ```{ folder_id: String }``` たぶんやらない → 長押しで実装した
 - [ ] **/api/feed/move** POST ```{ subscribe_id: String, to: String }``` たぶんやらない
 - [x] **/api/pin/all** POST ピンの付け外しに。たぶん一覧表示はやらないと思う
