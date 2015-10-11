@@ -40,7 +40,7 @@ $ npm start
 - [x] **/api/unread** GET/POST ```{ subscribe_id: String }```
 - [x] **/api/touch_all** GET/POST ```{ subscribe_id: String }``` クッキーに ```reader_sid``` も必要
 - [ ] **/api/feed/set_rate** POST ```{ subscribe_id: String, rate: [0-5] }``` たぶんやらない
-- [ ] **/api/folders** GET/POST たぶんやらない → サイドバーの横に入れた
+- [x] **/api/folders** GET/POST たぶんやらない → サイドバーの横に入れた
 - [ ] **/api/folder/create** POST ```{ name: String }``` たぶんやらない
 - [ ] **/api/folder/delete** ??? たぶんやらない
 - [ ] **/api/feed/move** POST ```{ subscribe_id: String, to: String }``` たぶんやらない
