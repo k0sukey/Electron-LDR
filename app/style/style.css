@@ -27,22 +27,23 @@ body {
 #wrapper {
 	display: flex;
 }
-#folders {
+#extend {
 	width: 76px;
 	-webkit-user-select: none;
 }
-#folders ul {
+#folders {
 	position: fixed;
-	top: 0px;
+	top: 00px;
 	bottom: 0;
-	padding: 40px 0;
 	width: 76px;
-	height: 100%;
 	background-color: #002f4a;
-	list-style-type: none;
 	overflow-x: hidden;
 	overflow-y: auto;
 	-webkit-overflow-scrolling: touch;
+}
+#folders ul {
+	padding: 40px 0 0;
+	list-style-type: none;
 }
 #folders ul li {
 	margin: 0 0 20px 16px;
@@ -216,6 +217,9 @@ body {
 }
 .ReactModal__Overlay {
 	z-index: 999;
+}
+#folders::-webkit-scrollbar {
+	width: 0;
 }
 #feeds::-webkit-scrollbar,
 #items::-webkit-scrollbar {

@@ -7,6 +7,7 @@ var _ = require('lodash'),
 	app = remote.require('app'),
 	ipc = remote.require('ipc'),
 	React = require('react'),
+	ReactTooltip = require('react-tooltip'),
 	Cookie = require('../cookie'),
 	Setting = require('../setting'),
 	State = require('../state'),
@@ -120,6 +121,8 @@ function render() {
 		folders: folders,
 		folder: folder
 	}), document.getElementById('folders'));
+
+	React.render(React.createElement(ReactTooltip), document.getElementById('tooltip'));
 }
 
 function fetch(reload) {
