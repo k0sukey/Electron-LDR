@@ -231,7 +231,7 @@ module.exports = React.createClass({
 	doUnsubscribe: function doUnsubscribe() {
 		dialog.showMessageBox(remote.getCurrentWindow(), {
 			type: 'question',
-			buttons: ['キャンセル', '削除する'],
+			buttons: ['キャンセル', '解除する'],
 			message: '「' + this.props.title + '」の登録を解除しますか？',
 			cancelId: 0
 		}, (function (e) {
