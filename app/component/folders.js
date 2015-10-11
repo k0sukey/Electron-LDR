@@ -3,16 +3,20 @@
 var _ = require('lodash'),
     mousetrap = require('mousetrap'),
     remote = require('remote'),
+    request = require('request'),
     app = remote.require('app'),
+    dialog = remote.require('dialog'),
     ipc = remote.require('ipc'),
     React = require('react'),
+    Cookie = require('../cookie'),
     State = require('../state');
 
 module.exports = React.createClass({
 	displayName: 'folders',
 	getInitialState: function getInitialState() {
 		return {
-			active: null
+			active: null,
+			touch: 0
 		};
 	},
 	doMouseOver: function doMouseOver(index) {
@@ -26,6 +30,71 @@ module.exports = React.createClass({
 			var ul = document.getElementById('folders').children[0];
 			React.findDOMNode(ul).childNodes[index].style.opacity = 0.4;
 		}
+	},
+	doMouseDown: function doMouseDown(index) {
+		this.setState({
+			touch: Date.now()
+		});
+	},
+	doMouseUp: function doMouseUp(index) {
+		if (Date.now() - this.state.touch < 1000) {
+			this.doClick(index);
+			return;
+		}
+
+		if (index === 0 || index === -1) {
+			return;
+		}
+
+		dialog.showMessageBox(remote.getCurrentWindow(), {
+			type: 'question',
+			buttons: ['キャンセル', '削除する'],
+			message: '「' + this.props.folders.names[index] + '」フォルダを削除しますか？（中のフィードは削除されません）',
+			cancelId: 0
+		}, (function (e) {
+			if (e === 0) {
+				return;
+			}
+
+			request.post('http://reader.livedoor.com/api/folders', {
+				headers: {
+					'User-Agent': remote.getCurrentWindow().useragent,
+					Cookie: Cookie.get()
+				}
+			}, (function (error, response, body) {
+				if (error) {
+					return;
+				}
+
+				var json;
+
+				try {
+					json = JSON.parse(body);
+				} catch (e) {
+					return;
+				}
+
+				if (!_.has(json.name2id, this.props.folders.names[index])) {
+					return;
+				}
+
+				request.post('http://reader.livedoor.com/api/folder/delete', {
+					headers: {
+						'User-Agent': remote.getCurrentWindow().useragent,
+						Cookie: Cookie.get() + '; reader_sid=' + Cookie.parseApiKey(response.headers['set-cookie'])
+					},
+					form: {
+						folder_id: json.name2id[this.props.folders.names[index]]
+					}
+				}, function (error, response, body) {
+					if (error) {
+						return;
+					}
+
+					ipc.emit('reload');
+				});
+			}).bind(this));
+		}).bind(this));
 	},
 	doClick: function doClick(index) {
 		this.setState({
@@ -45,12 +114,10 @@ module.exports = React.createClass({
 			}
 		});
 
-		var name = this.props.folders.names[index];
-
 		State.merge({
 			category: 'meta',
 			content: {
-				folder: name
+				folder: this.props.folders.names[index]
 			}
 		});
 
@@ -108,7 +175,8 @@ module.exports = React.createClass({
 						style: font,
 						onMouseOver: this.doMouseOver.bind(this, index),
 						onMouseOut: this.doMouseOut.bind(this, index),
-						onClick: this.doClick.bind(this, index) },
+						onMouseDown: this.doMouseDown.bind(this, index),
+						onMouseUp: this.doMouseUp.bind(this, index) },
 					React.createElement(
 						'p',
 						{ 'data-value': item,

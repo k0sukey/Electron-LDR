@@ -164,9 +164,6 @@ function fetch(reload) {
 				headers: {
 					'User-Agent': remote.getCurrentWindow().useragent,
 					Cookie: Cookie.get()
-				},
-				form: {
-					unread: 0
 				}
 			}, function(error, response, body){
 				if (error) {
@@ -214,6 +211,7 @@ function fetch(reload) {
 		document.getElementById('progressbar').style.width = (state.percent * 0.5) + '%';
 	});
 }
+ipc.on('reload', fetch);
 
 if (!State.exists({ category: 'meta'})) {
 	State.save({
