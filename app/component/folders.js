@@ -121,7 +121,7 @@ module.exports = React.createClass({
 			}
 		});
 
-		ipc.emit('folder');
+		ipc.emit('folders');
 	},
 	componentDidMount: function componentDidMount() {
 		var ul = document.getElementById('folders').children[0];

@@ -47,7 +47,7 @@ function doFilter() {
 	render();
 }
 
-function doFolder() {
+function doFolders() {
 	var meta = State.load({
 		category: 'meta'
 	});
@@ -57,7 +57,11 @@ function doFolder() {
 		render();
 	}
 }
-ipc.on('folder', doFolder);
+ipc.on('folders', doFolders);
+
+function doFolder() {
+	alert('未実装');
+}
 
 function render() {
 	var _feeds = feeds;
