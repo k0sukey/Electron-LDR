@@ -77,5 +77,9 @@ exports.destroy = function(params){
 		return;
 	}
 
+	if (!exports.exists(params)) {
+		return;
+	}
+
 	fs.unlinkSync(path.join(__dirname, 'data', params.category + '.json'));
 }
