@@ -144,6 +144,16 @@ function render() {
 		});
 	}
 
+	if (process.platform === 'darwin') {
+		var badge = 0;
+
+		_.each(feeds, function(feed){
+			badge += feed.unread_count
+		});
+
+		app.dock.setBadge('' + badge);
+	}
+
 	React.unmountComponentAtNode(document.getElementById('feeds'));
 
 	React.render(React.createElement(Feeds, {
@@ -182,16 +192,6 @@ function fetch(reload) {
 				category: 'feeds',
 				content: feeds
 			});
-
-			if (process.platform === 'darwin') {
-				var badge = 0;
-
-				_.each(feeds, function(feed){
-					badge += feed.unread_count
-				});
-
-				app.dock.setBadge('' + badge);
-			}
 
 			document.getElementById('progressbar').style.width = '50%';
 
