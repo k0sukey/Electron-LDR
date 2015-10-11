@@ -168,6 +168,8 @@ function doSubscribe() {
 
 						if (json.isSuccess) {
 							document.getElementById('url').value = '';
+
+							ipc.emit('reload');
 						} else {
 							dialog.showErrorBox('エラー', 'すでに登録されているか登録することができませんでした');
 						}
