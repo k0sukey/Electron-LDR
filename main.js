@@ -1,6 +1,7 @@
 var _ = require('lodash'),
 	app = require('app'),
 	fs = require('fs'),
+	ipc = require('ipc'),
 	opener = require('opener'),
 	path = require('path'),
 	request = require('request'),
@@ -10,6 +11,8 @@ var _ = require('lodash'),
 	State = require('./app/state');
 
 require('crash-reporter').start();
+
+ipc.setMaxListeners(20);
 
 require('./app/setting').initialize();
 
