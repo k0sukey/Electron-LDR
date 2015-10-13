@@ -4,28 +4,36 @@ var _ = require('lodash'),
 	remote = require('remote'),
 	request = require('request'),
 	app = remote.require('app'),
+	ipc = remote.require('ipc'),
 	React = require('react'),
+	ReactDnD = require('react-dnd'),
 	Cookie = require('../cookie'),
 	Setting = require('../setting'),
 	State = require('../state'),
+	Feed = require('./feed'),
 	Items = require('./items');
 
 module.exports = React.createClass({
-	displayName: 'items',
+	displayName: 'feeds',
 	getInitialState: function(){
 		return {
 			active: null,
 			toggle: true
 		};
 	},
-	doMouseOver: function(index){
+	doActive: function(index){
+		this.setState({
+			active: index
+		});
+	},
+	doMouseEnter: function(index){
 		if (index !== this.state.active) {
 			var ul = document.getElementById('feeds').children[0];
 			React.findDOMNode(ul).childNodes[index].style.color = '#7fdbff';
 			React.findDOMNode(ul).childNodes[index].style.backgroundColor = '#001f3f';
 		}
 	},
-	doMouseOut: function(index){
+	doMouseLeave: function(index){
 		if (index !== this.state.active) {
 			var ul = document.getElementById('feeds').children[0];
 			React.findDOMNode(ul).childNodes[index].style.color = '#ffffff';
@@ -186,6 +194,11 @@ module.exports = React.createClass({
 		});
 	},
 	componentDidMount: function(){
+		ipc.on('feed:mouseenter', this.doMouseEnter);
+		ipc.on('feed:mouseleave', this.doMouseLeave);
+		ipc.on('feed:click', this.doClick);
+		ipc.on('feed:active', this.doActive);
+
 		mousetrap.bind('a', this.doPrev);
 		mousetrap.bind('s', this.doNext);
 		mousetrap.bind('z', this.doToggle);
@@ -200,28 +213,7 @@ module.exports = React.createClass({
 				}),
 				meta = State.load({
 					category: 'meta'
-				}),
-				badge = 0;
-
-			_.each(React.findDOMNode(document.getElementById('feeds').children[0]).childNodes, function(item, index){
-				if (this.props.feeds[index].subscribe_id === meta.subscribe_id) {
-					this.setState({
-						active: index
-					});
-
-					item.style.color = '#7fdbff';
-					item.style.backgroundColor = '#001f3f';
-				} else {
-					badge += parseInt(item.children[2].textContent, 10);
-
-					item.style.color = '#ffffff';
-					item.style.backgroundColor = 'transparent';
-				}
-			}.bind(this));
-
-			if (process.platform === 'darwin') {
-				app.dock.setBadge('' + badge);
-			}
+				});
 
 			React.render(React.createElement(Items, {
 				subscribe_id: meta.subscribe_id,
@@ -231,7 +223,38 @@ module.exports = React.createClass({
 			}), document.getElementById('items'));
 		}
 	},
+	componentDidUpdate: function(){
+		var setting = Setting.get();
+
+		if (State.exists({ category: 'items' }) &&
+			State.exists({ category: 'meta' }) &&
+			(_.isUndefined(setting, 'state') || setting.state)) {
+			var items = State.load({
+					category: 'items'
+				}),
+				meta = State.load({
+					category: 'meta'
+				});
+
+			React.render(React.createElement(Items, {
+				subscribe_id: meta.subscribe_id,
+				title: meta.title,
+				items: items,
+				pins: meta.pins
+			}), document.getElementById('items'));
+		}
+	},
+	componentWillReceiveProps: function(){
+		this.setState({
+			active: null
+		});
+	},
 	componentWillUnmount: function(){
+		ipc.removeListener('feed:mouseenter', this.doMouseEnter);
+		ipc.removeListener('feed:mouseleave', this.doMouseLeave);
+		ipc.removeListener('feed:click', this.doClick);
+		ipc.removeListener('feed:active', this.doActive);
+
 		mousetrap.unbind('a');
 		mousetrap.unbind('s');
 		mousetrap.unbind('z');
@@ -256,15 +279,17 @@ module.exports = React.createClass({
 					}
 
 					return (
-						<li key={item.subscribe_id}
-							style={font}
-							onMouseOver={this.doMouseOver.bind(this, index)}
-							onMouseOut={this.doMouseOut.bind(this, index)}
-							onClick={this.doClick.bind(this, index)}>
-							<img src={item.icon} style={favicon}/>
-							<span className={feed}>{item.title}</span>
-							<span className={badge}>{item.unread_count}</span>
-						</li>
+						<Feed key={item.subscribe_id}
+							subscribe_id={item.subscribe_id}
+							index={index}
+							font={font}
+							icon={item.icon}
+							favicon={favicon}
+							feed={feed}
+							title={item.title}
+							badge={badge}
+							unread_count={item.unread_count}
+							folder={item.folder}/>
 					);
 				}, this)}
 			</ul>

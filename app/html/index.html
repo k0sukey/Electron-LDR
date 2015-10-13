@@ -5,33 +5,10 @@
 		<link href="https://fonts.googleapis.com/earlyaccess/notosansjapanese.css" rel="stylesheet">
 		<link href="../style/style.css" rel="stylesheet">
 	</head>
-	<body onload="doLoad();">
+	<body>
 		<div id="progressbar"></div>
 		<div id="tooltip"></div>
-		<div id="wrapper">
-			<div id="extend">
-				<div id="folders"></div>
-			</div>
-			<div id="sidebar">
-				<div id="tools">
-					<select id="order" onchange="doOrder();">
-						<option value="modified_on">新着順</option>
-						<option value="modified_on:reverse">旧着順</option>
-						<option value="unread_count">未読が多い</option>
-						<option value="unread_count:reverse">未読が少ない</option>
-						<option value="title:reverse">タイトル</option>
-						<option value="rate">レート</option>
-						<option value="subscribers_count">読者が多い</option>
-						<option value="subscribers_count:reverse">読者が少ない</option>
-					</select>
-					<input id="filter" type="test" onkeyup="doFilter();"/>
-				</div>
-				<div id="feeds"></div>
-			</div>
-			<div id="content">
-				<div id="items" tabindex="-1"></div>
-			</div>
-		</div>
+		<div id="app"></div>
 		<div id="help">
 			<table>
 				<tbody>
@@ -92,6 +69,6 @@
 				</tbody>
 			</table>
 		</div>
-		<script src="../app.js"></script>
+		<script src="../component/app.js"></script>
 	</body>
 </html>

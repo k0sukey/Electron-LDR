@@ -49,7 +49,7 @@ var style = {
 };
 
 module.exports = React.createClass({
-	displayName: 'feeds',
+	displayName: 'items',
 	getInitialState: function getInitialState() {
 		return {
 			collapse: false,

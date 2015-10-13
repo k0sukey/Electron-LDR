@@ -7,7 +7,8 @@ var _ = require('lodash'),
 	ipc = remote.require('ipc'),
 	React = require('react'),
 	Cookie = require('../cookie'),
-	State = require('../state');
+	State = require('../state'),
+	Folder = require('./folder');
 
 module.exports = React.createClass({
 	displayName: 'folders',
@@ -17,13 +18,13 @@ module.exports = React.createClass({
 			touch: 0
 		};
 	},
-	doMouseOver: function(index){
+	doMouseEnter: function(index){
 		if (index !== this.state.active) {
 			var ul = document.getElementById('folders').children[0];
 			React.findDOMNode(ul).childNodes[index].style.opacity = 1.0;
 		}
 	},
-	doMouseOut: function(index){
+	doMouseLeave: function(index){
 		if (index !== this.state.active) {
 			var ul = document.getElementById('folders').children[0];
 			React.findDOMNode(ul).childNodes[index].style.opacity = 0.4;
@@ -121,37 +122,26 @@ module.exports = React.createClass({
 
 		ipc.emit('folders');
 	},
-	componentDidMount: function(){
-		var ul = document.getElementById('folders').children[0];
+	componentWillReceiveProps: function(props){
+		ipc.on('folder:mouseenter', this.doMouseEnter);
+		ipc.on('folder:mouseleave', this.doMouseLeave);
+		ipc.on('folder:mousedown', this.doMouseDown);
+		ipc.on('folder:mouseup', this.doMouseUp);
 
-		_.each(React.findDOMNode(ul).childNodes, function(item, index){
-			var name = '';
-
-			_.each(item.children[0].attributes, function(attribute, i){
-				if (attribute.name === 'data-value') {
-					name = attribute.textContent;
-				}
-			});
-
-			if (this.props.folder === name) {
+		_.each(props.folders.names, function(item, index){
+			if (item === props.folder) {
 				this.setState({
 					active: index
 				});
-
-				item.style.opacity = 1.0;
-			}
-
-			if (index < 10) {
-				mousetrap.bind([
-					'command+' + (index + 1),
-					'ctrl' + (index + 1)
-				], function(){
-					this.doClick(index);
-				}.bind(this));
 			}
 		}.bind(this));
 	},
 	componentWillUnmount: function(){
+		ipc.removeListener('folder:mouseenter', this.doMouseEnter);
+		ipc.removeListener('folder:mouseleave', this.doMouseLeave);
+		ipc.removeListener('folder:mousedown', this.doMouseDown);
+		ipc.removeListener('folder:mouseup', this.doMouseUp);
+
 		var ul = document.getElementById('folders').children[0];
 
 		_.each(React.findDOMNode(ul).childNodes, function(item, index){
@@ -164,26 +154,33 @@ module.exports = React.createClass({
 		}.bind(this));
 	},
 	render: function(){
-		var setting = Setting.get(),
-			font = {
-				fontFamily: setting.fontfamily
-			};
+		var setting = Setting.get();
 
 		return (
 			<ul>{this.props.folders.names.map(function(item, index){
+					var style = {
+						fontFamily: setting.fontfamily
+					}
+
+					if (this.props.folder === item) {
+						style.opacity = 1.0;
+					}
+
+					if (index < 10) {
+						mousetrap.bind([
+							'command+' + (index + 1),
+							'ctrl' + (index + 1)
+						], function(){
+							this.doClick(index);
+						}.bind(this));
+					}
+
 					return (
-						<li key={this.props.folders.name2id[item]}
-							style={font}
-							onMouseOver={this.doMouseOver.bind(this, index)}
-							onMouseOut={this.doMouseOut.bind(this, index)}
-							onMouseDown={this.doMouseDown.bind(this, index)}
-							onMouseUp={this.doMouseUp.bind(this, index)}>
-							<p data-value={item}
-								data-tip={item}
-								data-place='right'
-								data-type='light'
-								data-effect='solid'>{item.substr(0, 1)}</p>
-						</li>
+						<Folder key={this.props.folders.name2id[item]}
+							folder_id={this.props.folders.name2id[item]}
+							index={index}
+							style={style}
+							name={item}/>
 					);
 				}, this)}
 			</ul>

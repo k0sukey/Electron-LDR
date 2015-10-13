@@ -26,6 +26,7 @@
     "mousetrap": "^1.5.3",
     "opener": "^1.4.1",
     "react": "^0.13.3",
+    "react-dnd": "^1.1.8",
     "react-modal": "^0.5.0",
     "react-tooltip": "^0.6.4",
     "request": "^2.61.0",
