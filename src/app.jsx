@@ -286,8 +286,6 @@ var App = React.createClass({
 		ipc.on('reload', this.doFetch);
 		mousetrap.bind('r', this.doFetch);
 	},
-	componentWillUnmount: function(){
-	},
 	render: function(){
 		return (
 			<div id="wrapper">

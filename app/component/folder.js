@@ -45,7 +45,7 @@ var Folder = React.createClass({
 
 Folder = ReactDnD.DropTarget('feed', {
 	canDrop: function canDrop(props, monitor) {
-		return props.name === '全て' || monitor.getItem().folder !== props.name;
+		return props.name !== '全て' && monitor.getItem().folder !== props.name;
 	},
 	drop: function drop(props, monitor) {
 		var to = props.name;
