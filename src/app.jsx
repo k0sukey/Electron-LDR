@@ -296,8 +296,12 @@ var App = React.createClass({
 	},
 	render: function(){
 		return (
-			<div id="wrapper">
-				<div id='extend'><div id='folders'><Folders folders={this.state.folders} folder={this.state.folder}/></div></div>
+			<div id='wrapper'>
+				<div id='extend'>
+					<div id='folders'>
+						<Folders folders={this.state.folders} folder={this.state.folder}/>
+					</div>
+				</div>
 				<div id='sidebar'>
 					<div id='tools'>
 						<select id='order' onChange={this.doOrder}>
@@ -317,13 +321,13 @@ var App = React.createClass({
 				<div id='content'>
 					<div id='items' tabindex='-1'></div>
 				</div>
+				<ReactTooltip/>
 			</div>
 		);
 	}
 });
 App = ReactDnD.DragDropContext(HTML5Backend)(App);
 React.render(React.createElement(App), document.getElementById('app'));
-React.render(React.createElement(ReactTooltip), document.getElementById('tooltip'));
 
 var doShortcut = function(){
 	var element = document.getElementById('help');

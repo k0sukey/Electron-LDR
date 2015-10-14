@@ -367,13 +367,13 @@ var App = React.createClass({
 				'div',
 				{ id: 'content' },
 				React.createElement('div', { id: 'items', tabindex: '-1' })
-			)
+			),
+			React.createElement(ReactTooltip, null)
 		);
 	}
 });
 App = ReactDnD.DragDropContext(HTML5Backend)(App);
 React.render(React.createElement(App), document.getElementById('app'));
-React.render(React.createElement(ReactTooltip), document.getElementById('tooltip'));
 
 var doShortcut = function doShortcut() {
 	var element = document.getElementById('help');
