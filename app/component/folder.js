@@ -23,9 +23,13 @@ var Folder = React.createClass({
 		ipc.emit('folder:mouseup', this.props.index);
 	},
 	render: function render() {
+		var style = _.extend(this.props.style, {
+			boxShadow: this.props.isOver && this.props.canDrop ? '0px 0px 0px 4px rgba(255, 255, 255, 0.8)' : 'none'
+		});
+
 		return this.props.connectDropTarget(React.createElement(
 			'li',
-			{ style: this.props.style,
+			{ style: style,
 				onMouseEnter: this.doMouseEnter,
 				onMouseLeave: this.doMouseLeave,
 				onMouseDown: this.onMouseDown,
@@ -45,7 +49,7 @@ var Folder = React.createClass({
 
 Folder = ReactDnD.DropTarget('feed', {
 	canDrop: function canDrop(props, monitor) {
-		return props.name !== '全て' && monitor.getItem().folder !== props.name;
+		return props.folder_id !== '-1' && monitor.getItem().folder !== props.name || props.folder_id === 0;
 	},
 	drop: function drop(props, monitor) {
 		var to = props.name;
@@ -108,9 +112,11 @@ Folder = ReactDnD.DropTarget('feed', {
 
 		return;
 	}
-}, function (connect) {
+}, function (connect, monitor) {
 	return {
-		connectDropTarget: connect.dropTarget()
+		connectDropTarget: connect.dropTarget(),
+		isOver: monitor.isOver(),
+		canDrop: monitor.canDrop()
 	};
 })(Folder);
 

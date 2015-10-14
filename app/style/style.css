@@ -49,9 +49,8 @@ body {
 	margin: 0 0 20px 16px;
 	width: 44px;
 	height: 44px;
-	background-color: #ffffff;
+	background-color: rgba(255, 255, 255, 0.4);
 	cursor: pointer;
-	opacity: 0.4;
 	-webkit-border-radius: 4px;
 }
 #folders ul li p {

@@ -12,7 +12,7 @@ var _ = require('lodash'),
 
 require('crash-reporter').start();
 
-ipc.setMaxListeners(20);
+ipc.setMaxListeners(Infinity);
 
 require('./app/setting').initialize();
 

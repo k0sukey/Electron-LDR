@@ -23,13 +23,13 @@ module.exports = React.createClass({
 	doMouseEnter: function doMouseEnter(index) {
 		if (index !== this.state.active) {
 			var ul = document.getElementById('folders').children[0];
-			React.findDOMNode(ul).childNodes[index].style.opacity = 1.0;
+			React.findDOMNode(ul).childNodes[index].style.backgroundColor = 'rgba(255, 255, 255, 1)';
 		}
 	},
 	doMouseLeave: function doMouseLeave(index) {
 		if (index !== this.state.active) {
 			var ul = document.getElementById('folders').children[0];
-			React.findDOMNode(ul).childNodes[index].style.opacity = 0.4;
+			React.findDOMNode(ul).childNodes[index].style.backgroundColor = 'rgba(255, 255, 255, 0.4)';
 		}
 	},
 	doMouseDown: function doMouseDown(index) {
@@ -109,9 +109,9 @@ module.exports = React.createClass({
 			if (index === i) {
 				me = child;
 
-				child.style.opacity = 1.0;
+				child.style.backgroundColor = 'rgba(255, 255, 255, 1)';
 			} else {
-				child.style.opacity = 0.4;
+				child.style.backgroundColor = 'rgba(255, 255, 255, 0.4)';
 			}
 		});
 
@@ -164,7 +164,7 @@ module.exports = React.createClass({
 				};
 
 				if (this.props.folder === item) {
-					style.opacity = 1.0;
+					style.backgroundColor = 'rgba(255, 255, 255, 1)';
 				}
 
 				if (index < 10) {
