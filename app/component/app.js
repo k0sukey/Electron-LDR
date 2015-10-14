@@ -284,6 +284,14 @@ var App = React.createClass({
 		ipc.on('reload', this.doFetch);
 		mousetrap.bind('r', this.doFetch);
 	},
+	componentWillUnmount: function componentWillUnmount() {
+		ipc.removeListener('folders', this.doFolders);
+		ipc.removeListener('setting', this.doFeeds);
+		ipc.removeListener('reload', this.doFetch);
+		mousetrap.unbind('r');
+		mousetrap.unbind('?');
+		mousetrap.unbind('f');
+	},
 	render: function render() {
 		return React.createElement(
 			'div',

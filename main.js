@@ -114,6 +114,18 @@ var window = null,
 					{
 						label: 'ログアウト',
 						click: function(){
+							ipc.removeAllListeners('feed:mouseenter');
+							ipc.removeAllListeners('feed:mouseleave');
+							ipc.removeAllListeners('feed:click');
+							ipc.removeAllListeners('feed:active');
+							ipc.removeAllListeners('folder:mouseenter');
+							ipc.removeAllListeners('folder:mouseleave');
+							ipc.removeAllListeners('folder:mousedown');
+							ipc.removeAllListeners('folder:mouseup');
+							ipc.removeAllListeners('folders');
+							ipc.removeAllListeners('setting');
+							ipc.removeAllListeners('reload');
+
 							State.destroy({ category: 'meta' });
 							State.destroy({ category: 'folders' });
 							State.destroy({ category: 'feeds' });
