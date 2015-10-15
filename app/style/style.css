@@ -217,6 +217,34 @@ body {
 .ReactModal__Overlay {
 	z-index: 999;
 }
+.react-rater {
+	float: right;
+	display: inline-block;
+	direction: rtl;
+	line-height: normal;
+	text-align: left;
+	unicode-bidi: bidi-override;
+}
+.react-rater a {
+	color: #cccccc;
+	cursor: pointer;
+}
+.react-rater a:hover {
+	color: #ffdd99;
+}
+.react-rater a:hover ~ a {
+	color: #ffdd99;
+}
+.react-rater a.is-active {
+	color: #ffcc66 !important;
+}
+.react-rater a.is-active ~ a {
+	color: #ffcc66;
+}
+.react-rater a.is-disabled {
+	color: #cccccc !important;
+	cursor: not-allowed;
+}
 #folders::-webkit-scrollbar {
 	width: 0;
 }

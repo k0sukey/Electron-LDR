@@ -316,7 +316,9 @@ var App = React.createClass({
 						</select>
 						<input id='filter' type='test' onKeyUp={this.doFilter}/>
 					</div>
-					<div id='feeds'><Feeds feeds={this.state.feeds}/></div>
+					<div id='feeds'>
+						<Feeds feeds={this.state.feeds}/>
+					</div>
 				</div>
 				<div id='content'>
 					<div id='items' tabindex='-1'></div>

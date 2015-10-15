@@ -126,8 +126,7 @@ module.exports = React.createClass({
 				});
 
 				React.render(React.createElement(Items, {
-					subscribe_id: feed.subscribe_id,
-					title: feed.title,
+					feed: feed,
 					items: json.items,
 					pins: pins
 				}), document.getElementById('items'));
@@ -205,10 +204,14 @@ module.exports = React.createClass({
 
 		var setting = Setting.get();
 
-		if (State.exists({ category: 'items' }) &&
+		if (State.exists({ category: 'feeds' }) &&
+			State.exists({ category: 'items' }) &&
 			State.exists({ category: 'meta' }) &&
 			(_.isUndefined(setting, 'state') || setting.state)) {
-			var items = State.load({
+			var feeds = State.load({
+					category: 'feeds'
+				}),
+				items = State.load({
 					category: 'items'
 				}),
 				meta = State.load({
@@ -216,8 +219,9 @@ module.exports = React.createClass({
 				});
 
 			React.render(React.createElement(Items, {
-				subscribe_id: meta.subscribe_id,
-				title: meta.title,
+				feed: _.filter(feeds, function(item){
+					return item.subscribe_id === meta.subscribe_id;
+				})[0],
 				items: items,
 				pins: meta.pins
 			}), document.getElementById('items'));
@@ -226,10 +230,14 @@ module.exports = React.createClass({
 	componentDidUpdate: function(){
 		var setting = Setting.get();
 
-		if (State.exists({ category: 'items' }) &&
+		if (State.exists({ category: 'feeds' }) &&
+			State.exists({ category: 'items' }) &&
 			State.exists({ category: 'meta' }) &&
 			(_.isUndefined(setting, 'state') || setting.state)) {
-			var items = State.load({
+			var feeds = State.load({
+					category: 'feeds'
+				}),
+				items = State.load({
 					category: 'items'
 				}),
 				meta = State.load({
@@ -237,8 +245,9 @@ module.exports = React.createClass({
 				});
 
 			React.render(React.createElement(Items, {
-				subscribe_id: meta.subscribe_id,
-				title: meta.title,
+				feed: _.filter(feeds, function(item){
+					return item.subscribe_id === meta.subscribe_id;
+				})[0],
 				items: items,
 				pins: meta.pins
 			}), document.getElementById('items'));

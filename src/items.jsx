@@ -9,7 +9,8 @@ var _ = require('lodash'),
 	Modal = require('react-modal'),
 	Setting = require('../setting'),
 	State = require('../state'),
-	Cookie = require('../cookie');
+	Cookie = require('../cookie'),
+	Meta = require('../component/meta');
 
 moment.locale('ja');
 
@@ -230,7 +231,7 @@ module.exports = React.createClass({
 		dialog.showMessageBox(remote.getCurrentWindow(), {
 			type: 'question',
 			buttons: [ 'キャンセル', '解除する' ],
-			message: '「' + this.props.title + '」の登録を解除しますか？',
+			message: '「' + this.props.feed.title + '」の登録を解除しますか？',
 			cancelId: 0
 		}, function(e){
 			if (e === 0) {
@@ -243,7 +244,7 @@ module.exports = React.createClass({
 					Cookie: Cookie.get()
 				},
 				form: {
-					subscribe_id: this.props.subscribe_id,
+					subscribe_id: this.props.feed.subscribe_id,
 					offset: 0,
 					limit: 1
 				}
@@ -258,7 +259,7 @@ module.exports = React.createClass({
 						Cookie: Cookie.get() + '; reader_sid=' + Cookie.parseApiKey(response.headers['set-cookie'])
 					},
 					form: {
-						subscribe_id: this.props.subscribe_id
+						subscribe_id: this.props.feed.subscribe_id
 					}
 				}, function(error, response, body){});
 			}.bind(this));
@@ -322,7 +323,8 @@ module.exports = React.createClass({
 			};
 
 		return (
-			<ul>{this.props.items.map(function(item, index){
+			<ul>
+				<Meta feed={this.props.feed}/>{this.props.items.map(function(item, index){
 					var haspin = '';
 
 					if (_.where(this.props.pins, { link: item.link }).length > 0) {

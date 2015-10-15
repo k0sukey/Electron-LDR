@@ -28,6 +28,7 @@
     "react": "^0.13.3",
     "react-dnd": "^1.1.8",
     "react-modal": "^0.5.0",
+    "react-rater": "^0.1.0",
     "react-tooltip": "^0.6.4",
     "request": "^2.61.0",
     "request-progress": "^0.3.1"

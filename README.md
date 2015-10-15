@@ -39,7 +39,7 @@ $ npm start
 - [x] **/api/all** GET/POST ```{ subscribe_id: String, offset:Number, limit: Number}```
 - [x] **/api/unread** GET/POST ```{ subscribe_id: String }```
 - [x] **/api/touch_all** GET/POST ```{ subscribe_id: String }``` クッキーに ```reader_sid``` も必要
-- [ ] **/api/feed/set_rate** POST ```{ subscribe_id: String, rate: [0-5] }``` たぶんやらない
+- [x] **/api/feed/set_rate** POST ```{ subscribe_id: String, rate: [0-5] }``` たぶんやらない → 記事一覧の最上部で設定できるようにした
 - [x] **/api/folders** GET/POST たぶんやらない → サイドバーの横に入れた
 - [x] **/api/folder/create** POST ```{ name: String }``` たぶんやらない → 設定に入れた
 - [x] **/api/folder/delete** POST ```{ folder_id: String }``` たぶんやらない → 長押しで実装した
