@@ -321,7 +321,7 @@ var App = React.createClass({
 					</div>
 				</div>
 				<div id='content'>
-					<div id='items' tabindex='-1'></div>
+					<div id='items' tabIndex='-1'></div>
 				</div>
 				<ReactTooltip/>
 			</div>

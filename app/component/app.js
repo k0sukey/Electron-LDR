@@ -366,7 +366,7 @@ var App = React.createClass({
 			React.createElement(
 				'div',
 				{ id: 'content' },
-				React.createElement('div', { id: 'items', tabindex: '-1' })
+				React.createElement('div', { id: 'items', tabIndex: '-1' })
 			),
 			React.createElement(ReactTooltip, null)
 		);
