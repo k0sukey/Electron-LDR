@@ -1,6 +1,5 @@
 var _ = require('lodash'),
 	mousetrap = require('mousetrap'),
-	path = require('path'),
 	progress = require('request-progress'),
 	remote = require('remote'),
 	request = require('request'),
