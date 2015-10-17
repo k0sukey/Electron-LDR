@@ -142,8 +142,8 @@ function doSubscribe() {
 
 			dialog.showMessageBox(remote.getCurrentWindow(), {
 				type: 'question',
-				buttons: [ 'キャンセル', '登録する' ],
-				message: '「' + feed.title + '」を登録しますか？',
+				buttons: [ 'キャンセル', '追加する' ],
+				message: '「' + feed.title + '」を追加しますか？',
 				cancelId: 0
 			}, function(e){
 				if (e === 0) {
@@ -171,7 +171,7 @@ function doSubscribe() {
 
 							ipc.emit('reload');
 						} else {
-							dialog.showErrorBox('エラー', 'すでに登録されているか登録することができませんでした');
+							dialog.showErrorBox('エラー', 'すでに追加されているか、追加することができませんでした');
 						}
 					} catch (e) {}
 				});
@@ -275,7 +275,7 @@ function doState(param) {
 			<div class="row">
 				<label class="label" for="url">URL：</label>
 				<input type="text" id="url" style="margin-right: 10px;"/>
-				<input type="button" id="next" value="次へ" onclick="doSubscribe();"/>
+				<input type="button" id="next" value="追加" onclick="doSubscribe();"/>
 			</div>
 		</div>
 		<p class="category">新規フォルダ作成</p>
