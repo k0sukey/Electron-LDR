@@ -49,7 +49,7 @@ Feed = ReactDnD.DragSource('feed', {
 		return {
 			subscribe_id: props.subscribe_id,
 			folder: props.folder
-		}
+		};
 	}
 }, function(connect, monitor){
 	return {
