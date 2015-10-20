@@ -191,7 +191,7 @@ var window = null,
 					{
 						label: '全画面表示にする',
 						accelerator: (function(){
-							if (process.platform == 'darwin') {
+							if (process.platform === 'darwin') {
 								return 'Ctrl+Command+F';
 							} else {
 								return 'F11';

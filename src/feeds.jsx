@@ -45,8 +45,7 @@ module.exports = React.createClass({
 			active: index
 		});
 
-		var badge = 0,
-			me,
+		var me,
 			ul = document.getElementById('feeds').children[0];
 
 		_.each(React.findDOMNode(ul).childNodes, function(child, i){
@@ -56,15 +55,13 @@ module.exports = React.createClass({
 				child.style.color = '#7fdbff';
 				child.style.backgroundColor = '#001f3f';
 			} else {
-				badge += parseInt(child.children[2].textContent, 10);
-
 				child.style.color = '#ffffff';
 				child.style.backgroundColor = 'transparent';
 			}
 		});
 
 		if (process.platform === 'darwin') {
-			app.dock.setBadge('' + badge);
+			app.dock.setBadge('' + (parseInt(app.dock.getBadge(), 10) - parseInt(me.children[2].textContent, 10)));
 		}
 
 		var url = 'http://reader.livedoor.com/api/unread',
