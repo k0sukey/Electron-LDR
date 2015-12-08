@@ -1,9 +1,9 @@
 var _ = require('lodash'),
 	moment = require('moment'),
 	mousetrap = require('mousetrap'),
-	opener = require('opener'),
 	remote = require('electron').remote,
 	request = require('request'),
+	shell = require('electron').shell,
 	dialog = remote.require('dialog'),
 	React = require('react'),
 	Modal = require('react-modal'),
@@ -225,7 +225,7 @@ module.exports = React.createClass({
 	doBrowser: function(){
 		var index = _.isNull(this.state.active) ? 0 : this.state.active;
 
-		opener(this.props.items[index].link);
+		shell.openExternal(this.props.items[index].link);
 	},
 	doUnsubscribe: function(){
 		dialog.showMessageBox(remote.getCurrentWindow(), {

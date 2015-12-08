@@ -24,7 +24,6 @@
     "lodash": "^3.10.1",
     "moment": "^2.10.6",
     "mousetrap": "^1.5.3",
-    "opener": "^1.4.1",
     "react": "^0.13.3",
     "react-dnd": "^1.1.8",
     "react-modal": "^0.5.0",

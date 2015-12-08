@@ -2,9 +2,9 @@ var _ = require('lodash'),
 	app = require('electron').app,
 	fs = require('fs'),
 	ipc = require('electron').ipcMain,
-	opener = require('opener'),
 	path = require('path'),
 	request = require('request'),
+	shell = require('electron').shell,
 	BrowserWindow = require('electron').BrowserWindow,
 	Menu = require('menu'),
 	Cookie = require('./app/cookie'),
@@ -223,7 +223,7 @@ var window = null,
 					{
 						label: '問題の報告...',
 						click: function(){
-							opener('https://github.com/k0sukey/Electron-LDR/issues');
+							shell.openExternal('https://github.com/k0sukey/Electron-LDR/issues');
 						}
 					},
 					{
