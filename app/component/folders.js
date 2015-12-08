@@ -1,11 +1,11 @@
 'use strict';
 
 var _ = require('lodash'),
+    ipc = require('electron').ipcRenderer,
     mousetrap = require('mousetrap'),
-    remote = require('remote'),
+    remote = require('electron').remote,
     request = require('request'),
     dialog = remote.require('dialog'),
-    ipc = remote.require('ipc'),
     React = require('react'),
     Cookie = require('../cookie'),
     State = require('../state'),

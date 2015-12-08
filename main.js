@@ -1,11 +1,11 @@
 var _ = require('lodash'),
-	app = require('app'),
+	app = require('electron').app,
 	fs = require('fs'),
-	ipc = require('ipc'),
+	ipc = require('electron').ipcMain,
 	opener = require('opener'),
 	path = require('path'),
 	request = require('request'),
-	BrowserWindow = require('browser-window'),
+	BrowserWindow = require('electron').BrowserWindow,
 	Menu = require('menu'),
 	Cookie = require('./app/cookie'),
 	State = require('./app/state');
@@ -42,7 +42,7 @@ var window = null,
 								about = null;
 							});
 
-							about.loadUrl('file://' + path.join(__dirname, 'app', 'html', 'about.html'));
+							about.loadURL('file://' + path.join(__dirname, 'app', 'html', 'about.html'));
 						}
 					},
 					{
@@ -68,7 +68,7 @@ var window = null,
 								setting = null;
 							});
 
-							setting.loadUrl('file://' + path.join(__dirname, 'app', 'html', 'setting.html'));
+							setting.loadURL('file://' + path.join(__dirname, 'app', 'html', 'setting.html'));
 						}
 					},
 					{
@@ -277,7 +277,7 @@ app.on('ready', function(){
 			window = null;
 		});
 
-		window.loadUrl('file://' + path.join(__dirname, 'app', 'html', 'index.html'));
+		window.loadURL('file://' + path.join(__dirname, 'app', 'html', 'index.html'));
 	});
 
 	splash.webContents.once('did-finish-load', function(){
@@ -286,5 +286,5 @@ app.on('ready', function(){
 		}
 	});
 
-	splash.loadUrl('file://' + path.join(__dirname, 'app', 'html', 'authorize.html'));
+	splash.loadURL('file://' + path.join(__dirname, 'app', 'html', 'authorize.html'));
 });

@@ -34,8 +34,8 @@
     "request-progress": "^0.3.1"
   },
   "devDependencies": {
-    "electron-packager": "^5.1.0",
-    "electron-prebuilt": "^0.33.6",
+    "electron-packager": "^5.1.1",
+    "electron-prebuilt": "^0.35.4",
     "gulp": "^3.9.0",
     "gulp-babel": "^5.2.1",
     "gulp-load-plugins": "^0.10.0"

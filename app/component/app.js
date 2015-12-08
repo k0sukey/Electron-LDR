@@ -1,12 +1,12 @@
 'use strict';
 
 var _ = require('lodash'),
+    ipc = require('electron').ipcRenderer,
     mousetrap = require('mousetrap'),
     progress = require('request-progress'),
-    remote = require('remote'),
+    remote = require('electron').remote,
     request = require('request'),
     app = remote.require('app'),
-    ipc = remote.require('ipc'),
     React = require('react'),
     ReactDnD = require('react-dnd'),
     ReactTooltip = require('react-tooltip'),

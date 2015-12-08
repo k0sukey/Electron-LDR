@@ -1,6 +1,5 @@
 var _ = require('lodash'),
-	remote = require('remote'),
-	ipc = remote.require('ipc'),
+	ipc = require('electron').ipcRenderer,
 	React = require('react'),
 	ReactDnD = require('react-dnd'),
 	State = require('../state');

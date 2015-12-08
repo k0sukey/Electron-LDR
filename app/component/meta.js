@@ -1,9 +1,9 @@
 'use strict';
 
 var _ = require('lodash'),
-    remote = require('remote'),
+    ipc = require('electron').ipcRenderer,
+    remote = require('electron').remote,
     request = require('request'),
-    ipc = remote.require('ipc'),
     React = require('react'),
     ReactRater = require('react-rater'),
     Cookie = require('../cookie');
