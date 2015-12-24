@@ -1,13 +1,16 @@
 var _ = require('lodash'),
-	ipc = require('electron').ipcRenderer,
+	electron = require('electron'),
 	mousetrap = require('mousetrap'),
-	remote = require('electron').remote,
 	request = require('request'),
-	dialog = remote.require('dialog'),
 	React = require('react'),
 	Cookie = require('../cookie'),
 	State = require('../state'),
 	Folder = require('./folder');
+
+var ipc = electron.ipcRenderer,
+	remote = electron.remote;
+
+var dialog = remote.dialog;
 
 module.exports = React.createClass({
 	displayName: 'folders',
@@ -56,7 +59,7 @@ module.exports = React.createClass({
 
 			request.post('http://reader.livedoor.com/api/folders', {
 				headers: {
-					'User-Agent': remote.getCurrentWindow().useragent,
+					'User-Agent': remote.getCurrentWindow().webContents.getUserAgent(),
 					Cookie: Cookie.get()
 				}
 			}, function(error, response, body){
@@ -78,7 +81,7 @@ module.exports = React.createClass({
 
 				request.post('http://reader.livedoor.com/api/folder/delete', {
 					headers: {
-						'User-Agent': remote.getCurrentWindow().useragent,
+						'User-Agent': remote.getCurrentWindow().webContents.getUserAgent(),
 						Cookie: Cookie.get() + '; reader_sid=' + Cookie.parseApiKey(response.headers['set-cookie'])
 					},
 					form: {

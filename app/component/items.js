@@ -1,18 +1,21 @@
 'use strict';
 
 var _ = require('lodash'),
+    electron = require('electron'),
     moment = require('moment'),
     mousetrap = require('mousetrap'),
-    remote = require('electron').remote,
     request = require('request'),
-    shell = require('electron').shell,
-    dialog = remote.require('dialog'),
     React = require('react'),
     Modal = require('react-modal'),
     Setting = require('../setting'),
     State = require('../state'),
     Cookie = require('../cookie'),
     Meta = require('../component/meta');
+
+var remote = electron.remote,
+    shell = electron.shell;
+
+var dialog = remote.dialog;
 
 moment.locale('ja');
 
@@ -140,7 +143,7 @@ module.exports = React.createClass({
 
 		request.post('http://reader.livedoor.com/api/pin/all', {
 			headers: {
-				'User-Agent': remote.getCurrentWindow().useragent,
+				'User-Agent': remote.getCurrentWindow().webContents.getUserAgent(),
 				Cookie: Cookie.get()
 			}
 		}, (function (error, response, body) {
@@ -176,7 +179,7 @@ module.exports = React.createClass({
 
 			request.post(url, {
 				headers: {
-					'User-Agent': remote.getCurrentWindow().useragent,
+					'User-Agent': remote.getCurrentWindow().webContents.getUserAgent(),
 					Cookie: Cookie.get() + '; reader_sid=' + Cookie.parseApiKey(response.headers['set-cookie'])
 				},
 				form: form
@@ -242,7 +245,7 @@ module.exports = React.createClass({
 
 			request.post('http://reader.livedoor.com/api/all', {
 				headers: {
-					'User-Agent': remote.getCurrentWindow().useragent,
+					'User-Agent': remote.getCurrentWindow().webContents.getUserAgent(),
 					Cookie: Cookie.get()
 				},
 				form: {
@@ -257,7 +260,7 @@ module.exports = React.createClass({
 
 				request.post('http://reader.livedoor.com/api/feed/unsubscribe', {
 					headers: {
-						'User-Agent': remote.getCurrentWindow().useragent,
+						'User-Agent': remote.getCurrentWindow().webContents.getUserAgent(),
 						Cookie: Cookie.get() + '; reader_sid=' + Cookie.parseApiKey(response.headers['set-cookie'])
 					},
 					form: {

@@ -1,10 +1,8 @@
 var _ = require('lodash'),
-	ipc = require('electron').ipcRenderer,
+	electron = require('electron'),
 	mousetrap = require('mousetrap'),
 	progress = require('request-progress'),
-	remote = require('electron').remote,
 	request = require('request'),
-	app = remote.require('app'),
 	React = require('react'),
 	ReactDnD = require('react-dnd'),
 	Cookie = require('../cookie'),
@@ -12,6 +10,11 @@ var _ = require('lodash'),
 	State = require('../state'),
 	Feed = require('./feed'),
 	Items = require('./items');
+
+var ipc = electron.ipcRenderer,
+	remote = electron.remote;
+
+var app = remote.app;
 
 module.exports = React.createClass({
 	displayName: 'feeds',
@@ -76,7 +79,7 @@ module.exports = React.createClass({
 
 		progress(request.post(url, {
 			headers: {
-				'User-Agent': remote.getCurrentWindow().useragent,
+				'User-Agent': remote.getCurrentWindow().webContents.getUserAgent(),
 				Cookie: Cookie.get()
 			},
 			form: {
@@ -103,7 +106,7 @@ module.exports = React.createClass({
 
 			request.post('http://reader.livedoor.com/api/pin/all', {
 				headers: {
-					'User-Agent': remote.getCurrentWindow().useragent,
+					'User-Agent': remote.getCurrentWindow().webContents.getUserAgent(),
 					Cookie: Cookie.get()
 				}
 			}, function(error, response, body){
@@ -147,7 +150,7 @@ module.exports = React.createClass({
 
 			request.post('http://reader.livedoor.com/api/touch_all', {
 				headers: {
-					'User-Agent': remote.getCurrentWindow().useragent,
+					'User-Agent': remote.getCurrentWindow().webContents.getUserAgent(),
 					Cookie: Cookie.get() + '; reader_sid=' + Cookie.parseApiKey(response.headers['set-cookie'])
 				},
 				form: {

@@ -1,10 +1,8 @@
 var _ = require('lodash'),
-	ipc = require('electron').ipcRenderer,
+	electron = require('electron'),
 	mousetrap = require('mousetrap'),
 	progress = require('request-progress'),
-	remote = require('electron').remote,
 	request = require('request'),
-	app = remote.require('app'),
 	React = require('react'),
 	ReactDnD = require('react-dnd'),
 	ReactTooltip = require('react-tooltip'),
@@ -14,6 +12,11 @@ var _ = require('lodash'),
 	State = require('../state'),
 	Feeds = require('../component/feeds'),
 	Folders = require('../component/folders');
+
+var ipc = electron.ipcRenderer,
+	remote = electron.remote;
+
+var app = remote.app;
 
 if (!State.exists({ category: 'meta'})) {
 	State.save({
@@ -166,7 +169,7 @@ var App = React.createClass({
 
 		progress(request.post('http://reader.livedoor.com/api/subs', {
 			headers: {
-				'User-Agent': remote.getCurrentWindow().useragent,
+				'User-Agent': remote.getCurrentWindow().webContents.getUserAgent(),
 				Cookie: Cookie.get()
 			},
 			form: {
@@ -194,7 +197,7 @@ var App = React.createClass({
 
 			progress(request.post('http://reader.livedoor.com/api/folders', {
 				headers: {
-					'User-Agent': remote.getCurrentWindow().useragent,
+					'User-Agent': remote.getCurrentWindow().webContents.getUserAgent(),
 					Cookie: Cookie.get()
 				}
 			}, function(error, response, body){

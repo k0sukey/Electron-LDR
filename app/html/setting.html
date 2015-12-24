@@ -67,9 +67,9 @@ select {
 		</style>
 		<script type="text/javascript">
 var _ = require('lodash'),
+	ipc = require('electron').ipcRenderer,
 	remote = require('remote'),
 	request = require('request'),
-	ipc = remote.require('ipc'),
 	dialog = remote.require('dialog'),
 	Cookie = require('../cookie'),
 	Setting = require('../setting');
@@ -116,7 +116,7 @@ function doSubscribe() {
 
 	request.post('http://reader.livedoor.com/api/feed/discover', {
 		headers: {
-			'User-Agent': remote.getCurrentWindow().useragent,
+			'User-Agent': remote.getCurrentWindow().webContents.getUserAgent(),
 			Cookie: Cookie.get()
 		},
 		form: {
@@ -152,7 +152,7 @@ function doSubscribe() {
 
 				request.post('http://reader.livedoor.com/api/feed/subscribe', {
 					headers: {
-						'User-Agent': remote.getCurrentWindow().useragent,
+						'User-Agent': remote.getCurrentWindow().webContents.getUserAgent(),
 						Cookie: Cookie.get() + '; reader_sid=' + Cookie.parseApiKey(response.headers['set-cookie'])
 					},
 					form: {
@@ -188,7 +188,7 @@ function doCreate() {
 
 	request.post('http://reader.livedoor.com/api/folders', {
 		headers: {
-			'User-Agent': remote.getCurrentWindow().useragent,
+			'User-Agent': remote.getCurrentWindow().webContents.getUserAgent(),
 			Cookie: Cookie.get()
 		}
 	}, function(error, response, body){
@@ -208,7 +208,7 @@ function doCreate() {
 
 			request.post('http://reader.livedoor.com/api/folder/create', {
 				headers: {
-					'User-Agent': remote.getCurrentWindow().useragent,
+					'User-Agent': remote.getCurrentWindow().webContents.getUserAgent(),
 					Cookie: Cookie.get() + '; reader_sid=' + Cookie.parseApiKey(response.headers['set-cookie'])
 				},
 				form: {

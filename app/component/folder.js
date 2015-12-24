@@ -1,12 +1,14 @@
 'use strict';
 
 var _ = require('lodash'),
-    ipc = require('electron').ipcRenderer,
-    remote = require('electron').remote,
+    electron = require('electron'),
     request = require('request'),
     React = require('react'),
     ReactDnD = require('react-dnd'),
     Cookie = require('../cookie');
+
+var ipc = electron.ipcRenderer,
+    remote = electron.remote;
 
 var Folder = React.createClass({
 	displayName: 'folder',
@@ -62,7 +64,7 @@ Folder = ReactDnD.DropTarget('feed', {
 
 		request.post('http://reader.livedoor.com/api/folders', {
 			headers: {
-				'User-Agent': remote.getCurrentWindow().useragent,
+				'User-Agent': remote.getCurrentWindow().webContents.getUserAgent(),
 				Cookie: Cookie.get()
 			}
 		}, function (error, response, body) {
@@ -84,7 +86,7 @@ Folder = ReactDnD.DropTarget('feed', {
 
 			request.post('http://reader.livedoor.com/api/feed/move', {
 				headers: {
-					'User-Agent': remote.getCurrentWindow().useragent,
+					'User-Agent': remote.getCurrentWindow().webContents.getUserAgent(),
 					Cookie: Cookie.get() + '; reader_sid=' + Cookie.parseApiKey(response.headers['set-cookie'])
 				},
 				form: {

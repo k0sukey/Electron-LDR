@@ -1,12 +1,14 @@
 'use strict';
 
 var _ = require('lodash'),
-    ipc = require('electron').ipcRenderer,
-    remote = require('electron').remote,
+    electron = require('electron'),
     request = require('request'),
     React = require('react'),
     ReactRater = require('react-rater'),
     Cookie = require('../cookie');
+
+var ipc = electron.ipcRenderer,
+    remote = electron.remote;
 
 var style = {
 	wrapper: {
@@ -30,7 +32,7 @@ module.exports = React.createClass({
 	doRating: function doRating(rating) {
 		request.post('http://reader.livedoor.com/api/subs', {
 			headers: {
-				'User-Agent': remote.getCurrentWindow().useragent,
+				'User-Agent': remote.getCurrentWindow().webContents.getUserAgent(),
 				Cookie: Cookie.get()
 			}
 		}, (function (error, response, body) {
@@ -56,7 +58,7 @@ module.exports = React.createClass({
 
 			request.post('http://reader.livedoor.com/api/feed/set_rate', {
 				headers: {
-					'User-Agent': remote.getCurrentWindow().useragent,
+					'User-Agent': remote.getCurrentWindow().webContents.getUserAgent(),
 					Cookie: Cookie.get() + '; reader_sid=' + Cookie.parseApiKey(response.headers['set-cookie'])
 				},
 				form: {

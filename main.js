@@ -1,14 +1,16 @@
 var _ = require('lodash'),
-	app = require('electron').app,
+	electron = require('electron'),
 	fs = require('fs'),
-	ipc = require('electron').ipcMain,
 	path = require('path'),
 	request = require('request'),
-	shell = require('electron').shell,
-	BrowserWindow = require('electron').BrowserWindow,
 	Menu = require('menu'),
 	Cookie = require('./app/cookie'),
 	State = require('./app/state');
+
+var app = electron.app,
+	ipc = electron.ipcMain,
+	shell = electron.shell,
+	BrowserWindow = electron.BrowserWindow;
 
 require('crash-reporter').start();
 
@@ -83,7 +85,7 @@ var window = null,
 
 							request.post('http://reader.livedoor.com/api/pin/all', {
 								headers: {
-									'User-Agent': window.useragent,
+									'User-Agent': window.webContents.getUserAgent(),
 									Cookie: Cookie.get()
 								}
 							}, function(error, response, body){
@@ -93,7 +95,7 @@ var window = null,
 
 								request.post('http://reader.livedoor.com/api/pin/clear', {
 									headers: {
-										'User-Agent': window.useragent,
+										'User-Agent': window.webContents.getUserAgent(),
 										Cookie: Cookie.get() + '; reader_sid=' + Cookie.parseApiKey(response.headers['set-cookie'])
 									}
 								}, function(error, response, body){
@@ -266,8 +268,6 @@ app.on('ready', function(){
 			height: 768,
 			'title-bar-style': 'hidden-inset'
 		});
-
-		window.useragent = app.getName() + '@' + app.getVersion();
 
 		window.webContents.once('did-finish-load', function(){
 			splash.close();

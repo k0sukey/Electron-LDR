@@ -1,10 +1,12 @@
 'use strict';
 
 var _ = require('lodash'),
-    ipc = require('electron').ipcRenderer,
+    electron = require('electron'),
     React = require('react'),
     ReactDnD = require('react-dnd'),
     State = require('../state');
+
+var ipc = electron.ipcRenderer;
 
 var Feed = React.createClass({
 	displayName: 'feed',
