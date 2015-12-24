@@ -33,7 +33,8 @@ var Feed = React.createClass({
 	},
 	render: function(){
 		return this.props.connectDragSource(
-			<li style={this.props.font}
+			<li id={this.props.subscribe_id}
+				style={this.props.font}
 				onMouseEnter={this.doMouseEnter}
 				onMouseLeave={this.doMouseLeave}
 				onClick={this.doClick}>

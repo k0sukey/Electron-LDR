@@ -174,6 +174,8 @@ module.exports = React.createClass({
 			index = 0;
 		}
 
+		document.getElementById(this.props.feeds[index].subscribe_id).scrollIntoView();
+
 		this.doClick(index);
 	},
 	doNext: function(){
@@ -181,6 +183,8 @@ module.exports = React.createClass({
 		if (index >= this.props.feeds.length) {
 			index = this.props.feeds.length - 1;
 		}
+
+		document.getElementById(this.props.feeds[index].subscribe_id).scrollIntoView();
 
 		this.doClick(index);
 	},
